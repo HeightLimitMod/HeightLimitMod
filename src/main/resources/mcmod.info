@@ -1,0 +1,16 @@
+[
+{
+  "modid": "HeightLimitMod",
+  "name": "HeightLimitMod",
+  "description": "Shows The Build Limit Of Hypixel Maps",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["pinkulu"],
+  "credits": "pinkulu",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["modcore"]
+}
+]
