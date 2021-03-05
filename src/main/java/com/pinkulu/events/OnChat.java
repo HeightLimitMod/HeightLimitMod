@@ -1,15 +1,10 @@
 package com.pinkulu.events;
 
 import com.google.gson.Gson;
-import com.pinkulu.HeightLimitMod;
-import com.pinkulu.gui.renderHightLimit.DelayedTask;
-import com.pinkulu.gui.renderHightLimit.guiTexts.MaxHeight;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.Replace;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.event.CommandEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class OnChat {

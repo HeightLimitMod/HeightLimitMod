@@ -12,7 +12,7 @@ public class Config extends Vigilant {
             name = "Height Limit Mod",
             category = "General",
             subcategory = "General",
-            description = "Enable Height Limit Mod."
+            description = "Enables the Height Limit Mod."
     )
     public boolean heightLimitMod = true;
     @Property(
@@ -20,7 +20,7 @@ public class Config extends Vigilant {
             name = "Update Notify",
             category = "General",
             subcategory = "General",
-            description = "Notifys you when theres an update."
+            description = "Notifies you when there's an update."
     )
     public boolean shouldNotifyUpdate = true;
 
@@ -29,7 +29,7 @@ public class Config extends Vigilant {
             name = "Colour",
             category = "General",
             subcategory = "General",
-            description = "Choose What Text Colour You Want",
+            description = "Selects the color for all HUD elements.",
             options = {"White", "Red", "Green", "Blue", "Pink", "Purple", "Yellow", "Orange", "Chrome(Switching colours)"}
     )
     public int heightLimitModColour = 0;
@@ -39,7 +39,7 @@ public class Config extends Vigilant {
             name = "Height Limit Mod BedWars",
             category = "BedWars",
             subcategory = "BedWars",
-            description = "Enabled Height Limit Mod For BedWars."
+            description = "Toggles the mod."
     )
     public boolean heightLimitModBedWars = true;
 
@@ -48,7 +48,7 @@ public class Config extends Vigilant {
             name = "Max Height",
             category = "BedWars",
             subcategory = "BedWars",
-            description = "Shows The Max Height Of the Map"
+            description = "Shows the maximum height of the map."
     )
     public boolean showMaxHeight = true;
 
@@ -57,7 +57,7 @@ public class Config extends Vigilant {
             name = "Height Left",
             category = "BedWars",
             subcategory = "BedWars",
-            description = "Shows The Height Left Till Max Height."
+            description = "Shows the amount of blocks you need to place upwards before you reach the built height limit."
     )
     public boolean showHeightLeft = true;
     @Property(
@@ -73,7 +73,7 @@ public class Config extends Vigilant {
             name = "Map",
             category = "BedWars",
             subcategory = "BedWars",
-            description = "Shows The Map You Are On."
+            description = "Shows the map you are on."
     )
     public boolean showMap = true;
     @Property(
@@ -81,7 +81,7 @@ public class Config extends Vigilant {
             name = "Play A Sound",
             category = "BedWars",
             subcategory = "Sound",
-            description = "Should A Sound Be Played When You`re Near The Block Limit."
+            description = "Toggles the function to play a sound when you are near height limit."
     )
     public boolean shouldPlaySound = false;
 
@@ -90,7 +90,7 @@ public class Config extends Vigilant {
             name = "Sound",
             category = "BedWars",
             subcategory = "Sound",
-            description = "Choose What Sound You Want To Play",
+            description = "Chooses what sound you want to play.",
             options = {"Hypixel DING", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"}
     )
     public int soundToPlay = 0;
@@ -100,7 +100,7 @@ public class Config extends Vigilant {
             name = "Notify Blocks",
             category = "BedWars",
             subcategory = "Sound",
-            description = "How many blocks left until the sound is played",
+            description = "Allows you to customize how many blocks are left until the sound is played",
             max = 15
     )
     public int blocksWhenPlay = 10;
@@ -109,14 +109,17 @@ public class Config extends Vigilant {
             name = "Spam The Sound",
             category = "BedWars",
             subcategory = "Sound",
-            description = "WARNING: This Will Spam The Sound, Making It Supper Loud, And Play A lot Of Time."
+            description = "Makes the 'play a sound' feature spam the sound."
     )
     public boolean shouldSpamSound = false;
+
     public boolean toggle() {
+
         heightLimitMod = !heightLimitMod;
         markDirty(); // required since directly writing to vars
         writeData();
         return heightLimitMod;
+
     }
     public Config() {
         super(new File("./HeightLimitMod/config.toml"));
