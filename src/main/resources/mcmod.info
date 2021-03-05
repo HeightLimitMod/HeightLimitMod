@@ -2,7 +2,7 @@
 {
   "modid": "HeightLimitMod",
   "name": "HeightLimitMod",
-  "description": "Shows The Build Limit Of Hypixel Maps",
+  "description": "A mod that shows the height limit of Hypixel Bedwars maps, and other related features.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
@@ -11,6 +11,6 @@
   "credits": "pinkulu",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["modcore"]
+  "dependencies": []
 }
 ]

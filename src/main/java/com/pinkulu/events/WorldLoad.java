@@ -1,26 +1,16 @@
 package com.pinkulu.events;
 
-import com.google.gson.Gson;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.renderHightLimit.DelayedTask;
-import com.pinkulu.gui.renderHightLimit.guiTexts.BlocksTillMax;
 import com.pinkulu.util.APICaller;
-import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.isHypixel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import okhttp3.*;
-
-import java.io.IOException;
 
 public class WorldLoad {
     private int ticks;
@@ -95,8 +85,6 @@ public class WorldLoad {
                     shouldPlaySound = true;
                 }
             }
-        if(OnChat.shouldRender && HeightLimitMod.instance.getConfig().onlyWhilePlaying){
-        }
             //make it check if thres a bed in the inventory
         }
         if(ticks <= 0 && checked){
