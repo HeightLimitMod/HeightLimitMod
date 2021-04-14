@@ -16,7 +16,7 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "0.7"
+version = "1.1"
 group= "com.pinkulu.HeightLimitMod"
 archivesBaseName = "HeightLimitMod"
 sourceCompatibility = targetCompatibility = 1.8

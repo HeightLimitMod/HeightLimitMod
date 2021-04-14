@@ -23,7 +23,6 @@ public class Config extends Vigilant {
             description = "Notifys you when theres an update."
     )
     public boolean shouldNotifyUpdate = true;
-
     @Property(
             type = PropertyType.SELECTOR,
             name = "Colour",
@@ -60,14 +59,6 @@ public class Config extends Vigilant {
             description = "Shows The Height Left Till Max Height."
     )
     public boolean showHeightLeft = true;
-    @Property(
-            type = PropertyType.SWITCH,
-            name = "Only While Playing",
-            category = "BedWars",
-            subcategory = "BedWars",
-            description = "Hides the HUD if you are in pre game lobby or final killed."
-    )
-    public boolean onlyWhilePlaying = false;
     @Property(
             type = PropertyType.SWITCH,
             name = "Map",
