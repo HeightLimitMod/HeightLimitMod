@@ -4,9 +4,6 @@ import club.sk1er.mods.core.util.MinecraftUtils;
 import club.sk1er.mods.core.util.Multithreading;
 import com.google.gson.Gson;
 import com.pinkulu.HeightLimitMod;
-import com.pinkulu.gui.renderHightLimit.guiTexts.BlocksTillMax;
-import com.pinkulu.gui.renderHightLimit.guiTexts.CurrentMap;
-import com.pinkulu.gui.renderHightLimit.guiTexts.MaxHeight;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.Replace;
@@ -73,14 +70,6 @@ public class HeightLimitListener {
     }
 
     @SubscribeEvent
-    public void onRender(TickEvent.RenderTickEvent event) {
-        if (HeightLimitMod.instance.getConfig().heightLimitMod && event.phase.equals(TickEvent.Phase.END) && Minecraft.getMinecraft().currentScreen == null) {
-            if (HeightLimitMod.instance.getConfig().showMaxHeight) MaxHeight.drawMaxHeight();
-            if (HeightLimitMod.instance.getConfig().showHeightLeft) BlocksTillMax.drawBlocksTillMax();
-            if (HeightLimitMod.instance.getConfig().showMap) CurrentMap.drawCurrentMap();
-        }
-    }
-    @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent event){
         if (!(event.phase == TickEvent.Phase.START)) return;
         if(shouldRender && HeightLimitMod.instance.getConfig().shouldPlaySound &&
@@ -141,7 +130,7 @@ public class HeightLimitListener {
         if(ticks <= 0 && checked){
             return;
         }
-        if(ticks <= 0 && !checked){
+        if(ticks <= 0){
             checked = true;
             shouldCheck = true;
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");

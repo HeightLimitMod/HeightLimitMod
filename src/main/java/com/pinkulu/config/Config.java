@@ -74,11 +74,11 @@ public class Config extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            name = "Enable Padding",
+            name = "Show in GUIs",
             category = "Render",
-            description = "Make the HUD a bit thicker. Requires Enable Background to be on."
+            description = "Make the HUD render in GUIs"
     )
-    public boolean hasPadding;
+    public boolean showInGui;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -113,24 +113,6 @@ public class Config extends Vigilant {
             description = "Makes the 'play a sound' feature spam the sound."
     )
     public boolean shouldSpamSound = false;
-
-    @Property(type = PropertyType.NUMBER, name = "Blocks Till Max X", category = "Render", hidden = true)
-    public static int blocksTillMaxX;
-
-    @Property(type = PropertyType.NUMBER, name = "Blocks Till Max Y", category = "Render", hidden = true)
-    public static int blocksTillMaxY;
-
-    @Property(type = PropertyType.NUMBER, name = "Current Map X", category = "Render", hidden = true)
-    public static int currentMapX;
-
-    @Property(type = PropertyType.NUMBER, name = "Current Map Y", category = "Render", hidden = true)
-    public static int currentMapY;
-
-    @Property(type = PropertyType.NUMBER, name = "Max Height X", category = "Render", hidden = true)
-    public static int maxHeightX;
-
-    @Property(type = PropertyType.NUMBER, name = "Max Height Y", category = "Render", hidden = true)
-    public static int maxHeightY;
 
     public Config() {
         super(new File("./HeightLimitMod/config.toml"));
