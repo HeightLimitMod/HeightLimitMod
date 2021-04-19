@@ -3,21 +3,38 @@ package com.pinkulu.gui;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.util.ScreenPosition;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class PropertyScreen extends GuiScreen {
-
-	private final GuiScreen parent;
 	private boolean dragging;
 	private Optional<IRenderer> selectedElement = Optional.empty();
 	private final HashMap<IRenderer, ScreenPosition> renderers = new HashMap<>();
 	private int prevX, prevY;
 
-	public PropertyScreen(GuiScreen parent) {
-		this.parent = parent;
+	public PropertyScreen(HudPropertyApi api){
+		Collection<IRenderer> registeredRenderers = api.getHandlers();
+
+		for(IRenderer ren : registeredRenderers){
+			if(!ren.isEnabled()){
+				continue;
+			}
+
+			ScreenPosition pos = ren.load();
+
+			if(pos == null){
+				pos = ScreenPosition.fromRelativePosition(0.5, 0.5);
+			}
+
+			adjustBounds(ren, pos);
+
+			this.renderers.put(ren, pos);
+		}
+
 	}
 
 	@Override
@@ -58,6 +75,18 @@ public class PropertyScreen extends GuiScreen {
 		}
 		this.prevX = x;
 		this.prevY = y;
+	}
+
+	private void adjustBounds(IRenderer renderer, ScreenPosition pos){
+		ScaledResolution res = new ScaledResolution(mc);
+
+		int screenWidth = res.getScaledWidth();
+		int screenHeight = res.getScaledHeight();
+
+		int absoluteX = Math.max(0, Math.min(pos.getAbsoluteX(), Math.max(screenWidth-renderer.getWidth(), 0)));
+		int absoluteY = Math.max(0, Math.min(pos.getAbsoluteY(), Math.max(screenHeight-renderer.getHeight(), 0)));
+
+		pos.setAbsolute(absoluteX, absoluteY);
 	}
 
 	@Override
