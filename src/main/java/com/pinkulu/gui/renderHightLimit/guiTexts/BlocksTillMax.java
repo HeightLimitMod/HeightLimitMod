@@ -30,12 +30,12 @@ public class BlocksTillMax implements IRenderer {
             if (HeightLimitMod.instance.getConfig().displayBackground) {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(1.0, 1.0, -100);
-                Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+                Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
                 GlStateManager.translate(1.0, 1.0, 0);
                 GlStateManager.popMatrix();
             }
             if(!APICaller.isInvalid && HeightLimitListener.shouldRender) {
-                Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+                Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + /*/(APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()) /*/ "100", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
             }
         }
     }
@@ -55,7 +55,7 @@ public class BlocksTillMax implements IRenderer {
             if (HeightLimitMod.instance.getConfig().displayBackground) {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(1.0, 1.0, -100);
-                Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+                Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 2, position.getAbsoluteX() + getWidth(), position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
                 GlStateManager.translate(1.0, 1.0, 0);
                 GlStateManager.popMatrix();
             }

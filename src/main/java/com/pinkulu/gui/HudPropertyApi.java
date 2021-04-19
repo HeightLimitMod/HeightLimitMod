@@ -21,7 +21,7 @@ public final class HudPropertyApi {
 		return api;
 	}
 
-	private final Set<IRenderer> registeredRenderers = Sets.newHashSet();
+	public final Set<IRenderer> registeredRenderers = Sets.newHashSet();
 
 	private HudPropertyApi(){}
 
