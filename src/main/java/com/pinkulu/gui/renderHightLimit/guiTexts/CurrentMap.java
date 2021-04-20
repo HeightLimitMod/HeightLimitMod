@@ -28,16 +28,17 @@ public class CurrentMap implements IRenderer {
     public void render(ScreenPosition position) {
         if(HeightLimitMod.instance.getConfig().heightLimitMod && HeightLimitMod.instance.getConfig().showMap){
             if (HeightLimitMod.instance.getConfig().displayBackground) {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(1.0, 1.0, -100);
-                Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
-                GlStateManager.translate(1.0, 1.0, 0);
-                GlStateManager.popMatrix();
-            }
-            if(!APICaller.isInvalid && HeightLimitListener.shouldRender) {
-                Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), 0xFFFFFF, HeightLimitMod.instance.getConfig().renderShadow);
-            }else if (HeightLimitListener.shouldRender) {
-                Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), 0xFF0000, HeightLimitMod.instance.getConfig().renderShadow);
+                if (!APICaller.isInvalid && HeightLimitListener.shouldRender) {
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(1.0, 1.0, -100);
+                    Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+                    GlStateManager.translate(1.0, 1.0, 0);
+                    GlStateManager.popMatrix();
+
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+                } else if (HeightLimitListener.shouldRender) {
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+                }
             }
         }
     }
