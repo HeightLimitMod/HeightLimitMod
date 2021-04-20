@@ -7,8 +7,8 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["pinkulu"],
-  "credits": "pinkulu",
+  "authorList": ["pinkulu, Wyvest"],
+  "credits": "pinkulu, Wyvest",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

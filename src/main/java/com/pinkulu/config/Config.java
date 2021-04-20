@@ -11,42 +11,31 @@ public class Config extends Vigilant {
             type = PropertyType.SWITCH,
             name = "Height Limit Mod",
             category = "General",
-            subcategory = "General",
             description = "Enables the Height Limit Mod."
     )
     public boolean heightLimitMod = true;
+
     @Property(
             type = PropertyType.SWITCH,
             name = "Update Notify",
             category = "General",
-            subcategory = "General",
             description = "Notifies you when there's an update."
     )
     public boolean shouldNotifyUpdate = true;
+
     @Property(
             type = PropertyType.SELECTOR,
             name = "Colour",
-            category = "General",
-            subcategory = "General",
+            category = "Render",
             description = "Selects the color for all HUD elements.",
-            options = {"White", "Red", "Green", "Blue", "Pink", "Purple", "Yellow", "Orange", "Chrome(Switching colours)"}
+            options = {"White", "Light Gray", "Gray", "Dark Gray", "Black", "Red", "Pink", "Orange", "Yellow", "Green", "Magenta", "Cyan", "Blue", "Chroma"}
     )
     public int heightLimitModColour = 0;
 
     @Property(
             type = PropertyType.SWITCH,
-            name = "Height Limit Mod BedWars",
-            category = "BedWars",
-            subcategory = "BedWars",
-            description = "Toggles the mod."
-    )
-    public boolean heightLimitModBedWars = true;
-
-    @Property(
-            type = PropertyType.SWITCH,
             name = "Max Height",
-            category = "BedWars",
-            subcategory = "BedWars",
+            category = "Render",
             description = "Shows the maximum height of the map."
     )
     public boolean showMaxHeight = true;
@@ -54,24 +43,47 @@ public class Config extends Vigilant {
     @Property(
             type = PropertyType.SWITCH,
             name = "Height Left",
-            category = "BedWars",
-            subcategory = "BedWars",
+            category = "Render",
             description = "Shows the amount of blocks you need to place upwards before you reach the built height limit."
     )
     public boolean showHeightLeft = true;
+
     @Property(
             type = PropertyType.SWITCH,
             name = "Map",
-            category = "BedWars",
-            subcategory = "BedWars",
+            category = "Render",
             description = "Shows the map you are on."
     )
     public boolean showMap = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Enable Shadow",
+            category = "Render",
+            description = "Make the HUD have a text shadow."
+    )
+    public boolean renderShadow;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Enable Background",
+            category = "Render",
+            description = "Make the HUD have a background."
+    )
+    public boolean displayBackground;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show in GUIs",
+            category = "Render",
+            description = "Make the HUD render in GUIs"
+    )
+    public boolean showInGui;
+
     @Property(
             type = PropertyType.SWITCH,
             name = "Play A Sound",
-            category = "BedWars",
-            subcategory = "Sound",
+            category = "Sound",
             description = "Toggles the function to play a sound when you are near height limit."
     )
     public boolean shouldPlaySound = false;
@@ -79,8 +91,7 @@ public class Config extends Vigilant {
     @Property(
             type = PropertyType.SELECTOR,
             name = "Sound",
-            category = "BedWars",
-            subcategory = "Sound",
+            category = "Sound",
             description = "Chooses what sound you want to play.",
             options = {"Hypixel DING", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"}
     )
@@ -89,29 +100,20 @@ public class Config extends Vigilant {
     @Property(
             type = PropertyType.SLIDER,
             name = "Notify Blocks",
-            category = "BedWars",
-            subcategory = "Sound",
+            category = "Sound",
             description = "Allows you to customize how many blocks are left until the sound is played",
             max = 15
     )
     public int blocksWhenPlay = 10;
+
     @Property(
             type = PropertyType.SWITCH,
             name = "Spam The Sound",
-            category = "BedWars",
-            subcategory = "Sound",
+            category = "Sound",
             description = "Makes the 'play a sound' feature spam the sound."
     )
     public boolean shouldSpamSound = false;
 
-    public boolean toggle() {
-
-        heightLimitMod = !heightLimitMod;
-        markDirty(); // required since directly writing to vars
-        writeData();
-        return heightLimitMod;
-
-    }
     public Config() {
         super(new File("./HeightLimitMod/config.toml"));
         initialize();

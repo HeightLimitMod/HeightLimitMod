@@ -1,20 +1,17 @@
 package com.pinkulu.config;
 
 import club.sk1er.mods.core.ModCore;
+import club.sk1er.mods.core.gui.notification.Notifications;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.gui.renderHightLimit.DelayedTask;
+import com.pinkulu.util.APICaller;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 
 public class ConfigCommand extends CommandBase {
-    private HudPropertyApi api;
 
-    public ConfigCommand(HudPropertyApi api) {
-        this.api = api;
-    }
     @Override
     public String getCommandName() {
         return "heightlimitmod";
@@ -30,10 +27,25 @@ public class ConfigCommand extends CommandBase {
         if(args.length == 0) {
             Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
         }
-        else if (args[0].equals("config")){
+        if (args.length <= 0) {
             ModCore.getInstance().getGuiHandler().open(HeightLimitMod.instance.getConfig().gui());
-        }else if (args[0].equals("hud")){
-            new DelayedTask(() -> api.openConfigScreen(), 1);
+            return;
+        }
+        switch (args[0].toLowerCase()) {
+            default:
+                Notifications.INSTANCE.pushNotification("Height Limit Mod", "Unrecognized argument.");
+                break;
+            case "config":
+                ModCore.getInstance().getGuiHandler().open(HeightLimitMod.instance.getConfig().gui());
+                break;
+            case "checkver":
+                APICaller.getVersion();
+                Notifications.INSTANCE.pushNotification("Height Limit Mod", "The version that is installed is " + HeightLimitMod.VERSION + " and the latest is " + APICaller.Version + ".");
+                break;
+            case "hud":
+            case "gui":
+                HudPropertyApi.getNewInstance().openConfigScreen();
+                break;
         }
     }
 
