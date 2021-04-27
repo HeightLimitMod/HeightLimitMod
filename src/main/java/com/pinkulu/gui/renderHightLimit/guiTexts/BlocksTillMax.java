@@ -52,9 +52,7 @@ public class BlocksTillMax implements IRenderer {
 
     @Override
     public void renderDummy(ScreenPosition position) {
-        if(HeightLimitMod.instance.getConfig().heightLimitMod &&  HeightLimitMod.instance.getConfig().showHeightLeft) {
             Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
-        }
     }
 
 }

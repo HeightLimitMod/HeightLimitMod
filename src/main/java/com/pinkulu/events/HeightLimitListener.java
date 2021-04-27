@@ -126,7 +126,7 @@ public class HeightLimitListener {
             shouldCheck = true;
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
             if(!firstJoin && HeightLimitMod.instance.getConfig().shouldNotifyUpdate){
-                if (Integer.parseInt(APICaller.Version) > Integer.parseInt(HeightLimitMod.VERSION)) {
+                if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
                     ChatStyle style = new ChatStyle();
                     style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Height Limit Mod~~~~~~~~").setChatStyle(style));

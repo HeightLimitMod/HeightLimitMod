@@ -43,7 +43,7 @@ dependencies {
 jar {
     archiveName = "$baseName.$extension"
     manifest {
-        attributes "FMLCorePlugin": "net.wyvest.timer.forge.FMLLoadingPlugin",
+        attributes "FMLCorePlugin": "com.pinkulu.forge.FMLLoadingPlugin",
                 "ModSide": "CLIENT",
                 "FMLCorePluginContainsFMLMod": "Yes, yes it does"
     }
