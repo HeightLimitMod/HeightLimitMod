@@ -2,6 +2,7 @@ package com.pinkulu.gui;
 
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.util.ScreenPosition;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -11,70 +12,95 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class PropertyScreen extends GuiScreen {
-	private boolean dragging;
-	private Optional<IRenderer> selectedElement = Optional.empty();
+
+	private final Minecraft mc = Minecraft.getMinecraft();
+
 	private final HashMap<IRenderer, ScreenPosition> renderers = new HashMap<>();
+	private Optional<IRenderer> selectedRenderer = Optional.empty();
+
 	private int prevX, prevY;
 
 	public PropertyScreen(HudPropertyApi api){
 		Collection<IRenderer> registeredRenderers = api.getHandlers();
 
-		for(IRenderer ren : registeredRenderers){
+		for(IRenderer ren : registeredRenderers){ 
 			if(!ren.isEnabled()){
 				continue;
 			}
-
+			
 			ScreenPosition pos = ren.load();
 
 			if(pos == null){
 				pos = ScreenPosition.fromRelativePosition(0.5, 0.5);
 			}
 
-			adjustBounds(ren, pos);
+			adjustBounds(ren, pos);	
 
 			this.renderers.put(ren, pos);
 		}
 
+		boolean renderOutlines = api.getRenderOutlines();
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void drawScreen(int x, int y, float partialTicks) {
 		super.drawDefaultBackground();
-		this.updateElementPosition(mouseX, mouseY);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+
+		float zBackup = this.zLevel;
+		this.zLevel = 200;	
+
+		renderers.forEach(IRenderer::renderDummy);
+
+		this.zLevel = zBackup;
+	}
+
+
+	@Override
+	protected void keyTyped(char c, int key) {
+		if (key == 1) {
+			// Save all entries
+			renderers.forEach(IConfigExchange::save);
+			this.mc.displayGuiScreen(null);
+		}
+	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int button) {
+		prevX = x;
+		prevY = y;
+
+		loadMouseOver(x, y);
+	}
+
+	@Override
+	protected void mouseClickMove(int x, int y, int button, long time) {
+		if(selectedRenderer.isPresent()){
+			moveSelectedRendererBy(x - prevX, y - prevY);
+		}
+
+		this.prevX = x;
+		this.prevY = y;
+	}
+
+	private void moveSelectedRendererBy(int offsetX, int offsetY){
+		IRenderer renderer = selectedRenderer.get();
+		ScreenPosition position = renderers.get(renderer);
+
+		position.setAbsolute(position.getAbsoluteX() + offsetX, position.getAbsoluteY() + offsetY);
+
+		adjustBounds(renderer, position);
 	}
 
 	@Override
 	public void onGuiClosed() {
+		super.onGuiClosed();
 		renderers.forEach(IRenderer::save);
 		HeightLimitMod.saveConfig();
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		this.prevX = mouseX;
-		this.prevY = mouseY;
-		this.selectedElement = renderers.keySet().stream().filter(new MouseHoveringElement(mouseX, mouseY)).findFirst();
-
-		if (selectedElement.isPresent()) {
-			if (!selectedElement.get().isEnabled()) return;
-			this.dragging = true;
-		}
-	}
-
-	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		super.mouseReleased(mouseX, mouseY, state);
-		this.dragging = false;
-	}
-
-	protected void updateElementPosition(int x, int y) {
-		if (selectedElement.isPresent() && this.dragging) {
-			IRenderer renderer = selectedElement.get();
-			renderer.load().setAbsolute(renderer.load().getAbsoluteX() + x - this.prevX, renderer.load().getAbsoluteY() + y - this.prevY);
-		}
-		this.prevX = x;
-		this.prevY = y;
+	public boolean doesGuiPauseGame() {
+		return false;
 	}
 
 	private void adjustBounds(IRenderer renderer, ScreenPosition pos){
@@ -89,32 +115,34 @@ public class PropertyScreen extends GuiScreen {
 		pos.setAbsolute(absoluteX, absoluteY);
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
+	private void loadMouseOver(int x, int y){
+		this.selectedRenderer = renderers.keySet().stream()
+				.filter(new MouseOverFinder(x, y))
+				.findFirst();
 	}
 
-	private static class MouseHoveringElement implements Predicate<IRenderer> {
+	private class MouseOverFinder implements Predicate<IRenderer>{
 
-		private final int x, y;
+		private int mouseX, mouseY;
 
-		public MouseHoveringElement(int x, int y) {
-			this.x = x;
-			this.y = y;
+		public MouseOverFinder(int mouseX, int mouseY) {
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
 		}
-
 
 		@Override
 		public boolean test(IRenderer renderer) {
-			int posX = renderer.load().getAbsoluteX();
-			int posY = renderer.load().getAbsoluteY();
-			if (x >= posX && x <= posX + renderer.getWidth()) {
-				if (y >= posY && y <= posY + renderer.getHeight()) {
-					return renderer.isEnabled();
-				}
+			ScreenPosition pos = renderers.get(renderer);
+
+			int absoluteX = pos.getAbsoluteX();
+			int absoluteY = pos.getAbsoluteY();
+
+			if(mouseX >= absoluteX && mouseX <= absoluteX + renderer.getWidth()){
+				return mouseY >= absoluteY && mouseY <= absoluteY + renderer.getHeight();
 			}
+
 			return false;
 		}
-	}
 
+	}
 }

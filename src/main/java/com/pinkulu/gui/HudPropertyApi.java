@@ -15,13 +15,16 @@ import java.util.Set;
 
 public final class HudPropertyApi {
 
-	public static HudPropertyApi getNewInstance(){
+	public static HudPropertyApi newInstance(){
 		HudPropertyApi api = new HudPropertyApi();
 		MinecraftForge.EVENT_BUS.register(api);
 		return api;
 	}
 
-	public final Set<IRenderer> registeredRenderers = Sets.newHashSet();
+	private final Set<IRenderer> registeredRenderers = Sets.newHashSet();
+	private final Minecraft mc = Minecraft.getMinecraft();
+
+	private boolean renderOutlines = true;
 
 	private HudPropertyApi(){}
 
@@ -29,21 +32,35 @@ public final class HudPropertyApi {
 		this.registeredRenderers.addAll(Arrays.asList(renderers));
 	}
 
+	public void unregister(IRenderer... renderers){
+		for(IRenderer renderer : renderers){
+			this.registeredRenderers.remove(renderer);
+		}
+	}
+
 	public Collection<IRenderer> getHandlers(){
 		return Sets.newHashSet(registeredRenderers);
 	}
 
+	public boolean getRenderOutlines(){
+		return renderOutlines;
+	}
+
+	public void setRenderOutlines(boolean renderOutlines){
+		this.renderOutlines = renderOutlines;
+	}
+
 	public void openConfigScreen(){
-		ModCore.getInstance().getGuiHandler().open((new PropertyScreen(this)));
+		ModCore.getInstance().getGuiHandler().open(new PropertyScreen(this));
 	}
 
 	@SubscribeEvent
 	protected void onGameOverlayRendered(RenderGameOverlayEvent.Post event) {
 		if (event.type == RenderGameOverlayEvent.ElementType.ALL) {
-			for (IRenderer element : this.registeredRenderers) {
-				if (HeightLimitMod.instance.getConfig().heightLimitMod && (Minecraft.getMinecraft().currentScreen == null || HeightLimitMod.instance.getConfig().showInGui) && Minecraft.getMinecraft().thePlayer != null)
-					callRenderer(element);
-			}
+			if (HeightLimitMod.instance.getConfig().heightLimitMod && (Minecraft.getMinecraft().currentScreen == null || HeightLimitMod.instance.getConfig().showInGui) && Minecraft.getMinecraft().thePlayer != null)
+				if(!(mc.currentScreen instanceof PropertyScreen)){
+					registeredRenderers.forEach(this::callRenderer);
+				}
 		}
 	}
 

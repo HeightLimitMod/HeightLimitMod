@@ -3,33 +3,50 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
-
-        // search through the 'libs' folder
+        maven {
+            name = "JitPack"
+            url = "https://jitpack.io/"
+        }
         flatDir dirs: 'libs'
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath "com.github.asbyth:ForgeGradle:7f4bab690a"
     }
 }
-
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.0"
-group= "com.pinkulu.HeightLimitMod"
-archivesBaseName = "HeightLimitMod"
+version = modVersion
+group = modGroup
+archivesBaseName = modBaseName
+
 sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
 
 minecraft {
-    version = "1.8.9-11.15.1.2318-1.8.9"
+    version = project.forgeVersion
     runDir = "run"
-    mappings = "stable_22"
+    replace("@VER@", project.version)
+    mappings = project.mcpVersion
     makeObfSourceJar = false
+}
+
+repositories {
+    jcenter()
 }
 
 dependencies {
     provided files("libs/modcore.jar")
+}
+
+jar {
+    archiveName = "$baseName.$extension"
+    manifest {
+        attributes "FMLCorePlugin": "net.wyvest.timer.forge.FMLLoadingPlugin",
+                "ModSide": "CLIENT",
+                "FMLCorePluginContainsFMLMod": "Yes, yes it does"
+    }
 }
 
 processResources {
@@ -39,26 +56,16 @@ processResources {
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+        include "mcmod.info", "LICENSE.txt"
 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand "version": project.version, "mcversion": project.minecraft.version
     }
 
-    // copy everything else, that's not the mcmod.info
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude "mcmod.info"
     }
-}
 
-dependencies {
-    implementation("com.squareup.okhttp3:okhttp:4.5.0")
-}
-
-jar {
-    manifest {
-        attributes "FMLCorePlugin": "com.pinkulu.forge.FMLLoadingPlugin",
-                "ModSide": "CLIENT",
-                "FMLCorePluginContainsFMLMod": "Yes, yes it does"
-    }
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }

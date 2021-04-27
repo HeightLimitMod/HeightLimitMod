@@ -11,15 +11,16 @@ public class Config extends Vigilant {
             type = PropertyType.SWITCH,
             name = "Height Limit Mod",
             category = "General",
-            description = "Enables the Height Limit Mod."
+            subcategory = "General",
+            description = "Enable Height Limit Mod."
     )
     public boolean heightLimitMod = true;
-
     @Property(
             type = PropertyType.SWITCH,
             name = "Update Notify",
             category = "General",
-            description = "Notifies you when there's an update."
+            subcategory = "General",
+            description = "Notifys you when theres an update."
     )
     public boolean shouldNotifyUpdate = true;
 
@@ -36,7 +37,7 @@ public class Config extends Vigilant {
             type = PropertyType.SWITCH,
             name = "Max Height",
             category = "Render",
-            description = "Shows the maximum height of the map."
+            description = "Shows The Max Height Of the Map"
     )
     public boolean showMaxHeight = true;
 
@@ -44,47 +45,21 @@ public class Config extends Vigilant {
             type = PropertyType.SWITCH,
             name = "Height Left",
             category = "Render",
-            description = "Shows the amount of blocks you need to place upwards before you reach the built height limit."
+            description = "Shows The Height Left Till Max Height."
     )
     public boolean showHeightLeft = true;
-
     @Property(
             type = PropertyType.SWITCH,
             name = "Map",
             category = "Render",
-            description = "Shows the map you are on."
+            description = "Shows The Map You Are On."
     )
     public boolean showMap = true;
-
-    @Property(
-            type = PropertyType.SWITCH,
-            name = "Enable Shadow",
-            category = "Render",
-            description = "Make the HUD have a text shadow."
-    )
-    public boolean renderShadow;
-
-    @Property(
-            type = PropertyType.SWITCH,
-            name = "Enable Background",
-            category = "Render",
-            description = "Make the HUD have a background."
-    )
-    public boolean displayBackground;
-
-    @Property(
-            type = PropertyType.SWITCH,
-            name = "Show in GUIs",
-            category = "Render",
-            description = "Make the HUD render in GUIs"
-    )
-    public boolean showInGui;
-
     @Property(
             type = PropertyType.SWITCH,
             name = "Play A Sound",
             category = "Sound",
-            description = "Toggles the function to play a sound when you are near height limit."
+            description = "Should A Sound Be Played When You`re Near The Block Limit."
     )
     public boolean shouldPlaySound = false;
 
@@ -92,7 +67,7 @@ public class Config extends Vigilant {
             type = PropertyType.SELECTOR,
             name = "Sound",
             category = "Sound",
-            description = "Chooses what sound you want to play.",
+            description = "Choose What Sound You Want To Play",
             options = {"Hypixel DING", "Golem Hit", "Blaze Hit", "Anvil Land", "Horse Death", "Ghast Scream", "Guardian Floop", "Cat Meow", "Dog Bark"}
     )
     public int soundToPlay = 0;
@@ -101,18 +76,41 @@ public class Config extends Vigilant {
             type = PropertyType.SLIDER,
             name = "Notify Blocks",
             category = "Sound",
-            description = "Allows you to customize how many blocks are left until the sound is played",
+            description = "How many blocks left until the sound is played",
             max = 15
     )
     public int blocksWhenPlay = 10;
-
     @Property(
             type = PropertyType.SWITCH,
             name = "Spam The Sound",
             category = "Sound",
-            description = "Makes the 'play a sound' feature spam the sound."
+            description = "WARNING: This Will Spam The Sound, Making It Supper Loud, And Play A lot Of Time."
     )
     public boolean shouldSpamSound = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Display Background",
+            category = "Render",
+            description = "Display the background, what else."
+    )
+    public boolean displayBackground;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Render Shadow",
+            category = "Render",
+            description = "Render the shadow."
+    )
+    public boolean renderShadow;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show in GUIs",
+            category = "Render",
+            description = "Show in GUIS."
+    )
+    public boolean showInGui;
 
     public Config() {
         super(new File("./HeightLimitMod/config.toml"));

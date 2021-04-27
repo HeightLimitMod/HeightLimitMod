@@ -3,13 +3,12 @@ package com.pinkulu.util;
 import club.sk1er.mods.core.util.Multithreading;
 import com.google.gson.Gson;
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 public class APICaller {
     public static int limit;
-    public static double Version;
+    public static String Version;
     public static String Info;
     public static boolean isInvalid;
     public static void get(String Mode, String MapName) {
@@ -20,14 +19,13 @@ public class APICaller {
                     .build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
                 }
 
                 @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
-                        assert response.body() != null;
                         String myRespones = response.body().string();
                         if (myRespones.contains("Invalid map name")) {
                             isInvalid = true;
@@ -49,14 +47,13 @@ public class APICaller {
                     .build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
                 }
 
                 @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
-                        assert response.body() != null;
                         String myRespones = response.body().string();
                         if (!myRespones.contains("error")) {
                             JsonResponse Jresponse = new Gson().fromJson(myRespones, JsonResponse.class);

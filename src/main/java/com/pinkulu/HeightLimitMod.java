@@ -4,8 +4,8 @@ import club.sk1er.mods.core.ModCoreInstaller;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
-import com.pinkulu.config.Config;
 import com.pinkulu.config.ConfigCommand;
+import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.HudPropertyApi;
 import com.pinkulu.gui.renderHightLimit.PositionConfig;
@@ -31,20 +31,22 @@ public class HeightLimitMod {
     static final String MODID = "HeightLimitMod";
     public static final String VERSION = "2.0";
     public static final String NAME = "heightLimitMod";
-    public static final double version = 2.0;
-    public final Config config = new Config();
+    private Config config;
 
-    @Mod.Instance(HeightLimitMod.MODID)
+    @Mod.Instance("HeightLimitMod")
     public static HeightLimitMod instance;
 
     @Mod.EventHandler
     public void onInitialization(FMLInitializationEvent event) {
         ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
+        config = new Config();
         config.preload();
-        HudPropertyApi api = HudPropertyApi.getNewInstance();
+
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new HeightLimitListener());
-        ClientCommandHandler.instance.registerCommand(new ConfigCommand());
+        HudPropertyApi api = HudPropertyApi.newInstance();
+        ClientCommandHandler.instance.registerCommand(new ConfigCommand(api));
+
         api.register(new MaxHeight());
         api.register(new CurrentMap());
         api.register(new BlocksTillMax());
@@ -55,6 +57,7 @@ public class HeightLimitMod {
     public Config getConfig() {
         return config;
     }
+
 
     public static void saveConfig() {
         try {
