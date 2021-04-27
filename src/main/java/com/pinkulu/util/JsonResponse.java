@@ -5,7 +5,7 @@ public class JsonResponse {
     public int Limit;
     public String MapName;
     public String Mode;
-    public Double Version;
+    public String Version;
     public String Info;
 
     //hypixel

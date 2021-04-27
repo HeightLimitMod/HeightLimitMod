@@ -13,6 +13,9 @@ import net.minecraft.client.renderer.GlStateManager;
 
 public class CurrentMap implements IRenderer {
 
+    public CurrentMap() {
+    }
+
     @Override
     public void save(ScreenPosition position) {
         PositionConfig.CurrentMapX = position.getRelativeX();
@@ -42,6 +45,7 @@ public class CurrentMap implements IRenderer {
             }
         }
     }
+
     @Override
     public int getHeight() {
         return Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
@@ -55,13 +59,6 @@ public class CurrentMap implements IRenderer {
     @Override
     public void renderDummy(ScreenPosition position) {
         if(HeightLimitMod.instance.getConfig().heightLimitMod &&  HeightLimitMod.instance.getConfig().showHeightLeft) {
-            if (HeightLimitMod.instance.getConfig().displayBackground) {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(1.0, 1.0, -100);
-                Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
-                GlStateManager.translate(1.0, 1.0, 0);
-                GlStateManager.popMatrix();
-            }
             Minecraft.getMinecraft().fontRendererObj.drawString("Map: Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
         }
     }

@@ -39,6 +39,7 @@ public class BlocksTillMax implements IRenderer {
             }
         }
     }
+
     @Override
     public int getHeight() {
         return Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
@@ -52,17 +53,8 @@ public class BlocksTillMax implements IRenderer {
     @Override
     public void renderDummy(ScreenPosition position) {
         if(HeightLimitMod.instance.getConfig().heightLimitMod &&  HeightLimitMod.instance.getConfig().showHeightLeft) {
-            if (HeightLimitMod.instance.getConfig().displayBackground) {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(1.0, 1.0, -100);
-                Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 2, position.getAbsoluteX() + getWidth(), position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
-                GlStateManager.translate(1.0, 1.0, 0);
-                GlStateManager.popMatrix();
-            }
             Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
         }
     }
-
-
 
 }
