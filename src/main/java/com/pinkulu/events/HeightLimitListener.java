@@ -1,11 +1,14 @@
 package com.pinkulu.events;
 
+import club.sk1er.mods.core.gui.notification.Notifications;
 import club.sk1er.mods.core.util.MinecraftUtils;
+import club.sk1er.mods.core.util.ModCoreDesktop;
 import com.google.gson.Gson;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.Replace;
+import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
@@ -15,13 +18,15 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.net.URI;
+
 public class HeightLimitListener {
     private int ticks;
     private boolean checked = true;
     private boolean firstJoin;
     private boolean shouldPlaySound;
     public static boolean shouldCheck;
-    public static String map;
+    public static String map = null;
     public static boolean shouldRender;
 
     @SubscribeEvent
@@ -54,9 +59,6 @@ public class HeightLimitListener {
     @SubscribeEvent
     public void loadWorld(WorldEvent.Load event) {
             if (MinecraftUtils.isHypixel()) {
-                if (!firstJoin && HeightLimitMod.instance.getConfig().shouldNotifyUpdate) {
-                    APICaller.getVersion();
-                }
                 ticks = 60;
                 checked = false;
                 shouldPlaySound = false;
@@ -126,14 +128,20 @@ public class HeightLimitListener {
             shouldCheck = true;
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
             if(!firstJoin && HeightLimitMod.instance.getConfig().shouldNotifyUpdate){
+                firstJoin = true;
                 if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
+                    Notifications.INSTANCE.pushNotification("Height Limit Mod", "Version: " +
+                            APICaller.Version + " is available\nYour Version: "
+                            + HeightLimitMod.VERSION + "\nClick Here", () -> {
+                        ModCoreDesktop.INSTANCE.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
+                        return Unit.INSTANCE;
+                    });
                     ChatStyle style = new ChatStyle();
                     style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Height Limit Mod~~~~~~~~").setChatStyle(style));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~V" + APICaller.Version + " is now available~~~~~~~~").setChatStyle(style));
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Message: " + APICaller.Info ).setChatStyle(style));
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Change Log: " + APICaller.Info ).setChatStyle(style));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Click Here to download the new version~~~~~~~~").setChatStyle(style));
-                    firstJoin = true;
                 }
             }
             return;

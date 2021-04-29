@@ -1,22 +1,26 @@
 package com.pinkulu.gui;
 
-import com.pinkulu.HeightLimitMod;
-import com.pinkulu.gui.util.ScreenPosition;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import com.pinkulu.HeightLimitMod;
+import com.pinkulu.gui.util.ScreenPosition;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+
 public class PropertyScreen extends GuiScreen {
 
-	private final Minecraft mc = Minecraft.getMinecraft();
+	private Minecraft mc = Minecraft.getMinecraft();
 
 	private final HashMap<IRenderer, ScreenPosition> renderers = new HashMap<>();
-	private Optional<IRenderer> selectedRenderer = Optional.empty();
+	private Optional<IRenderer> selectedRenderer = Optional.empty(); 
+
+	private boolean renderOutlines;
 
 	private int prevX, prevY;
 
@@ -39,7 +43,7 @@ public class PropertyScreen extends GuiScreen {
 			this.renderers.put(ren, pos);
 		}
 
-		boolean renderOutlines = api.getRenderOutlines();
+		this.renderOutlines = api.getRenderOutlines();
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class PropertyScreen extends GuiScreen {
 		float zBackup = this.zLevel;
 		this.zLevel = 200;	
 
-		renderers.forEach(IRenderer::renderDummy);
+		renderers.forEach((renderer, position) -> renderer.renderDummy(position));
 
 		this.zLevel = zBackup;
 	}
@@ -58,14 +62,15 @@ public class PropertyScreen extends GuiScreen {
 	@Override
 	protected void keyTyped(char c, int key) {
 		if (key == 1) {
-			// Save all entries
-			renderers.forEach(IConfigExchange::save);
+			renderers.entrySet().forEach((entry) -> { // Save all entries
+				entry.getKey().save(entry.getValue());	
+			});
 			this.mc.displayGuiScreen(null);
 		}
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int button) {
+	protected void mouseClicked(int x, int y, int button) throws IOException {
 		prevX = x;
 		prevY = y;
 
@@ -93,7 +98,6 @@ public class PropertyScreen extends GuiScreen {
 
 	@Override
 	public void onGuiClosed() {
-		super.onGuiClosed();
 		renderers.forEach(IRenderer::save);
 		HeightLimitMod.saveConfig();
 	}
@@ -138,7 +142,9 @@ public class PropertyScreen extends GuiScreen {
 			int absoluteY = pos.getAbsoluteY();
 
 			if(mouseX >= absoluteX && mouseX <= absoluteX + renderer.getWidth()){
-				return mouseY >= absoluteY && mouseY <= absoluteY + renderer.getHeight();
+				if(mouseY >= absoluteY && mouseY <= absoluteY + renderer.getHeight()){
+					return true;
+				}
 			}
 
 			return false;

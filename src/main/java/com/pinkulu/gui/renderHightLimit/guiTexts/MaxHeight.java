@@ -15,7 +15,7 @@ public class MaxHeight implements IRenderer{
 
 	public MaxHeight() {
 	}
-	
+
 	@Override
 	public void save(ScreenPosition position) {
 		PositionConfig.MaxHeightX = position.getRelativeX();
@@ -34,7 +34,7 @@ public class MaxHeight implements IRenderer{
 				if (HeightLimitMod.instance.getConfig().displayBackground) {
 					GlStateManager.pushMatrix();
 					GlStateManager.translate(1.0, 1.0, -100);
-					Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+					Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
 					GlStateManager.translate(1.0, 1.0, 0);
 					GlStateManager.popMatrix();
 				}
@@ -45,7 +45,7 @@ public class MaxHeight implements IRenderer{
 
 	@Override
 	public int getHeight() {
-			return Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
+		return Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
 	}
 
 	@Override

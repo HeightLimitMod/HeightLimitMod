@@ -5,7 +5,7 @@ import club.sk1er.mods.core.universal.ChatColor;
 import club.sk1er.mods.core.util.MinecraftUtils;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.util.DelayedTask;
+import com.pinkulu.gui.renderHightLimit.DelayedTask;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConfigCommand extends CommandBase {
-    private final HudPropertyApi api;
+    private HudPropertyApi api;
 
     public ConfigCommand(HudPropertyApi api) {
         this.api = api;
@@ -46,16 +46,23 @@ public class ConfigCommand extends CommandBase {
                 break;
             case "gui":
             case "hud":
-                new DelayedTask(() -> HudPropertyApi.newInstance().openConfigScreen(), 1);
+                new DelayedTask(() -> api.openConfigScreen(), 1);
                 break;
             case "help":
-                MinecraftUtils.sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ", ChatColor.LIGHT_PURPLE + "Command Help\n" + "/heightlimitmod - Open Config Menu\n" + "/heightlimitmod help - Shows help for command usage\n" + "/heightlimitmod hud or /heightlimitmod gui - Opens a GUI to configure where the hud is rendered.\n" + "/heightlimitmod config - Open Config Menu. \n" + "/heightlimitmod aliases - Shows the aliases of the command.");
+                MinecraftUtils.sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",
+                        ChatColor.LIGHT_PURPLE + "Command Help\n" +
+                                "/heightlimitmod - Open Config Menu\n" +
+                                "/heightlimitmod help - Shows help for command usage\n" +
+                                "/heightlimitmod hud or /heightlimitmod gui - Opens a GUI to configure where the hud is rendered.\n" +
+                                "/heightlimitmod config - Open Config Menu. \n" + "/heightlimitmod aliases - Shows the aliases of the command.");
                 break;
             case "aliases":
                 MinecraftUtils.sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",ChatColor.LIGHT_PURPLE + "/heightlimitmod, /hlm, /heightlimit, /heightmod");
                 break;
+            case "update":
+
             case "config":
-                HeightLimitMod.instance.getConfig().gui();
+                ModCore.getInstance().getGuiHandler().open(HeightLimitMod.instance.getConfig().gui());
         }
     }
 

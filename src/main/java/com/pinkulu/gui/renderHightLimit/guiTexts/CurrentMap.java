@@ -34,10 +34,9 @@ public class CurrentMap implements IRenderer {
                 if (!APICaller.isInvalid && HeightLimitListener.shouldRender) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(1.0, 1.0, -100);
-                    Gui.drawRect(position.getAbsoluteX() - 1, position.getAbsoluteY() - 1, position.getAbsoluteX() + getWidth() + 10, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+                    Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
                     GlStateManager.translate(1.0, 1.0, 0);
                     GlStateManager.popMatrix();
-
                     Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
                 } else if (HeightLimitListener.shouldRender) {
                     Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
@@ -53,7 +52,12 @@ public class CurrentMap implements IRenderer {
 
     @Override
     public int getWidth() {
-        return Minecraft.getMinecraft().fontRendererObj.getStringWidth("Map: Cool Map");
+        if(HeightLimitListener.map != null) {
+            return Minecraft.getMinecraft().fontRendererObj.getStringWidth("Map: " + HeightLimitListener.map);
+        }
+        else{
+            return Minecraft.getMinecraft().fontRendererObj.getStringWidth("Map: Cool Map");
+        }
     }
 
     @Override

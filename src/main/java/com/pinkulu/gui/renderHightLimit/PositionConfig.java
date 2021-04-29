@@ -2,12 +2,12 @@ package com.pinkulu.gui.renderHightLimit;
 
 public class PositionConfig {
 
-	public static double BlocksTillMaxX = 0.5;
-	public static double BlocksTillMaxY = 0.7;
+	public static Double BlocksTillMaxX = 0.5;
+	public static Double BlocksTillMaxY = 0.7;
 
-	public static double MaxHeightX = 0.5;
-	public static double MaxHeightY = 0.5;
+	public static Double MaxHeightX = 0.5;
+	public static Double MaxHeightY = 0.5;
 
-	public static double CurrentMapX = 0.5;
-	public static double CurrentMapY = 0.3;
+	public static Double CurrentMapX = 0.5;
+	public static Double CurrentMapY = 0.3;
 }
