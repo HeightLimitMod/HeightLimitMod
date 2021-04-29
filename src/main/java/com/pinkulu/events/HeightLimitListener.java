@@ -35,12 +35,12 @@ public class HeightLimitListener {
             final String msg = event.message.getUnformattedText();
             if (msg.startsWith("{")) {
                 JsonResponse Jresponse = new Gson().fromJson(msg, JsonResponse.class);
-                if (msg.contains("map") && msg.contains("BEDWARS")) {
-                    if (msg.contains("BEDWARS_EIGHT_ONE") || msg.contains("BEDWARS_EIGHT_TWO")) {
+                if (msg.contains("map") && msg.contains("BEDWARS") && !msg.contains("VOIDLESS")) {
+                    if (Jresponse.mode.equals("BEDWARS_EIGHT_ONE") || Jresponse.mode.equals("BEDWARS_EIGHT_TWO")) {
                         APICaller.get("8team", Replace.space(Jresponse.map.toLowerCase()));
                         map = Jresponse.map;
                         shouldRender = true;
-                    } else if (msg.contains("BEDWARS_FOUR_THREE") || msg.contains("BEDWARS_FOUR_FOUR")) {
+                    } else if (Jresponse.mode.equals("BEDWARS_FOUR_THREE") || Jresponse.mode.equals("BEDWARS_FOUR_FOUR")) {
                         APICaller.get("4team", Replace.space(Jresponse.map.toLowerCase()));
                         map = Jresponse.map;
                         shouldRender = true;

@@ -29,17 +29,20 @@ public class CurrentMap implements IRenderer {
 
     @Override
     public void render(ScreenPosition position) {
-        if(HeightLimitMod.instance.getConfig().heightLimitMod && HeightLimitMod.instance.getConfig().showMap){
-            if (HeightLimitMod.instance.getConfig().displayBackground) {
-                if (!APICaller.isInvalid && HeightLimitListener.shouldRender) {
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate(1.0, 1.0, -100);
-                    Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
-                    GlStateManager.translate(1.0, 1.0, 0);
-                    GlStateManager.popMatrix();
+        if (HeightLimitMod.instance.getConfig().heightLimitMod && HeightLimitMod.instance.getConfig().showMap) {
+            if (HeightLimitListener.shouldRender) {
+                if (!(APICaller.isInvalid)) {
+                    if (HeightLimitMod.instance.getConfig().displayBackground) {
+                        GlStateManager.pushMatrix();
+                        GlStateManager.translate(1.0, 1.0, -100);
+                        Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+                        GlStateManager.translate(1.0, 1.0, 0);
+                        GlStateManager.popMatrix();
+                    }
                     Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
-                } else if (HeightLimitListener.shouldRender) {
+                } else {
                     Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+
                 }
             }
         }
