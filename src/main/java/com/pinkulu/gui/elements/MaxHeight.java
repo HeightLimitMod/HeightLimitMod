@@ -56,7 +56,7 @@ public class MaxHeight implements IRenderer{
 	@Override
 	public void renderDummy(ScreenPosition position) {
 		if(Config.heightLimitMod && Config.showMaxHeight) {
-			Minecraft.getMinecraft().fontRendererObj.drawString("MaxHeight: 150", position.getAbsoluteX(), position.getAbsoluteY(), 0xFFFFFF);
+			Minecraft.getMinecraft().fontRendererObj.drawString("MaxHeight: 150", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor());
 		}
 	}
 

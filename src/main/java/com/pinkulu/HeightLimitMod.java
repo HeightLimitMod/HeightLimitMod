@@ -31,7 +31,7 @@ import java.io.IOException;
 public class HeightLimitMod {
 
     static final String MODID = "HeightLimitMod";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "2.0";
     public static final String NAME = "heightLimitMod";
     private Config config;
 
