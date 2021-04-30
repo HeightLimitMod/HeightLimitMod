@@ -1,9 +1,9 @@
-package com.pinkulu.gui.renderHightLimit.guiTexts;
+package com.pinkulu.gui.elements;
 
-import com.pinkulu.HeightLimitMod;
+import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.IRenderer;
-import com.pinkulu.gui.renderHightLimit.PositionConfig;
+import com.pinkulu.gui.util.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.Color;
@@ -26,16 +26,16 @@ public class BlocksTillMax implements IRenderer {
 
     @Override
     public void render(ScreenPosition position) {
-        if(HeightLimitMod.instance.getConfig().heightLimitMod && HeightLimitMod.instance.getConfig().showHeightLeft){
+        if(Config.heightLimitMod && Config.showHeightLeft){
             if(!APICaller.isInvalid && HeightLimitListener.shouldRender) {
-                if (HeightLimitMod.instance.getConfig().displayBackground) {
+                if (Config.displayBackground) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(1.0, 1.0, -100);
                     Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 1, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
                     GlStateManager.translate(1.0, 1.0, 0);
                     GlStateManager.popMatrix();
                 }
-                Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+                Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), Config.renderShadow);
             }
         }
     }
@@ -52,7 +52,7 @@ public class BlocksTillMax implements IRenderer {
 
     @Override
     public void renderDummy(ScreenPosition position) {
-        Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: 100", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+        Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: 100", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), Config.renderShadow);
     }
 
 }

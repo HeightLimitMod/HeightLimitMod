@@ -3,15 +3,15 @@ package com.pinkulu.config;
 import club.sk1er.mods.core.ModCore;
 import club.sk1er.mods.core.universal.ChatColor;
 import club.sk1er.mods.core.util.MinecraftUtils;
+import club.sk1er.mods.core.util.Multithreading;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.gui.renderHightLimit.DelayedTask;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ConfigCommand extends CommandBase {
     private HudPropertyApi api;
@@ -46,7 +46,7 @@ public class ConfigCommand extends CommandBase {
                 break;
             case "gui":
             case "hud":
-                new DelayedTask(() -> api.openConfigScreen(), 1);
+                Multithreading.schedule(() -> api.openConfigScreen(), 5, TimeUnit.MILLISECONDS);
                 break;
             case "help":
                 MinecraftUtils.sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",
