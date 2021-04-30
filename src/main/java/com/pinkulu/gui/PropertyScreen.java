@@ -15,7 +15,7 @@ import net.minecraft.client.gui.ScaledResolution;
 
 public class PropertyScreen extends GuiScreen {
 
-	private Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.getMinecraft();
 
 	private final HashMap<IRenderer, ScreenPosition> renderers = new HashMap<>();
 	private Optional<IRenderer> selectedRenderer = Optional.empty(); 
@@ -53,7 +53,7 @@ public class PropertyScreen extends GuiScreen {
 		float zBackup = this.zLevel;
 		this.zLevel = 200;	
 
-		renderers.forEach((renderer, position) -> renderer.renderDummy(position));
+		renderers.forEach(IRenderer::renderDummy);
 
 		this.zLevel = zBackup;
 	}
@@ -62,9 +62,8 @@ public class PropertyScreen extends GuiScreen {
 	@Override
 	protected void keyTyped(char c, int key) {
 		if (key == 1) {
-			renderers.entrySet().forEach((entry) -> { // Save all entries
-				entry.getKey().save(entry.getValue());	
-			});
+			// Save all entries
+			renderers.forEach(IConfigExchange::save);
 			this.mc.displayGuiScreen(null);
 		}
 	}
@@ -142,9 +141,7 @@ public class PropertyScreen extends GuiScreen {
 			int absoluteY = pos.getAbsoluteY();
 
 			if(mouseX >= absoluteX && mouseX <= absoluteX + renderer.getWidth()){
-				if(mouseY >= absoluteY && mouseY <= absoluteY + renderer.getHeight()){
-					return true;
-				}
+				return mouseY >= absoluteY && mouseY <= absoluteY + renderer.getHeight();
 			}
 
 			return false;

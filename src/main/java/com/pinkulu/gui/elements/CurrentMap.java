@@ -1,9 +1,9 @@
-package com.pinkulu.gui.renderHightLimit.guiTexts;
+package com.pinkulu.gui.elements;
 
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.IRenderer;
-import com.pinkulu.gui.renderHightLimit.PositionConfig;
+import com.pinkulu.gui.util.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.Color;

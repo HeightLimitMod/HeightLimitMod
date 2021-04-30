@@ -1,9 +1,9 @@
-package com.pinkulu.gui.renderHightLimit.guiTexts;
+package com.pinkulu.gui.elements;
 
-import com.pinkulu.HeightLimitMod;
+import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.IRenderer;
-import com.pinkulu.gui.renderHightLimit.PositionConfig;
+import com.pinkulu.gui.util.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.Color;
@@ -29,16 +29,16 @@ public class MaxHeight implements IRenderer{
 
 	@Override
 	public void render(ScreenPosition position) {
-		if(HeightLimitMod.instance.getConfig().heightLimitMod && HeightLimitMod.instance.getConfig().showMaxHeight){
+		if(Config.heightLimitMod && Config.showMaxHeight){
 			if(!APICaller.isInvalid && HeightLimitListener.shouldRender) {
-				if (HeightLimitMod.instance.getConfig().displayBackground) {
+				if (Config.displayBackground) {
 					GlStateManager.pushMatrix();
 					GlStateManager.translate(1.0, 1.0, -100);
 					Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
 					GlStateManager.translate(1.0, 1.0, 0);
 					GlStateManager.popMatrix();
 				}
-				Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+				Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), Config.renderShadow);
 			}
 		}
 	}
@@ -55,7 +55,7 @@ public class MaxHeight implements IRenderer{
 
 	@Override
 	public void renderDummy(ScreenPosition position) {
-		if(HeightLimitMod.instance.getConfig().heightLimitMod  && HeightLimitMod.instance.getConfig().showMaxHeight) {
+		if(Config.heightLimitMod && Config.showMaxHeight) {
 			Minecraft.getMinecraft().fontRendererObj.drawString("MaxHeight: 150", position.getAbsoluteX(), position.getAbsoluteY(), 0xFFFFFF);
 		}
 	}

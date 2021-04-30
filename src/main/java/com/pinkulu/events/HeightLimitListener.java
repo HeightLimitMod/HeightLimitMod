@@ -5,6 +5,7 @@ import club.sk1er.mods.core.util.MinecraftUtils;
 import club.sk1er.mods.core.util.ModCoreDesktop;
 import com.google.gson.Gson;
 import com.pinkulu.HeightLimitMod;
+import com.pinkulu.config.Config;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.Replace;
@@ -67,55 +68,56 @@ public class HeightLimitListener {
     @SubscribeEvent
     public void frame(TickEvent.PlayerTickEvent event){
 
-        if(shouldRender && HeightLimitMod.instance.getConfig().shouldPlaySound &&
+        if(shouldRender && Config.shouldPlaySound &&
                 (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        == HeightLimitMod.instance.getConfig().blocksWhenPlay && shouldPlaySound && !APICaller.isInvalid){
-            if(HeightLimitMod.instance.getConfig().soundToPlay == 0){
-                Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
+                        == Config.blocksWhenPlay && shouldPlaySound && !APICaller.isInvalid){
+            switch (Config.soundToPlay) {
+                case 0:
+                    Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
                     shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 1){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.irongolem.hit", 1f, 1f);
+                    break;
+                case 1:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.irongolem.hit", 1f, 1f);
                     shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 2){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.blaze.hit", 1f, 1f);
+                    break;
+                case 2:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.blaze.hit", 1f, 1f);
                     shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 3){
-                Minecraft.getMinecraft().thePlayer.playSound("random.anvil_land", 1f, 1f);
+                    break;
+                case 3:
+                    Minecraft.getMinecraft().thePlayer.playSound("random.anvil_land", 1f, 1f);
                     shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 4){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.horse.death", 1f, 1f);
-                shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 5){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.ghast.scream", 1f, 1f);
-                shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 6){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.guardian.land.hit", 1f, 1f);
-                shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 7){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.cat.meow", 1f, 1f);
-                shouldPlaySound = false;
-            }
-            else if(HeightLimitMod.instance.getConfig().soundToPlay == 8){
-                Minecraft.getMinecraft().thePlayer.playSound("mob.wolf.bark", 1f, 1f);
-                shouldPlaySound = false;
+                    break;
+                case 4:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.horse.death", 1f, 1f);
+                    shouldPlaySound = false;
+                    break;
+                case 5:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.ghast.scream", 1f, 1f);
+                    shouldPlaySound = false;
+                    break;
+                case 6:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.guardian.land.hit", 1f, 1f);
+                    shouldPlaySound = false;
+                    break;
+                case 7:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.cat.meow", 1f, 1f);
+                    shouldPlaySound = false;
+                    break;
+                case 8:
+                    Minecraft.getMinecraft().thePlayer.playSound("mob.wolf.bark", 1f, 1f);
+                    shouldPlaySound = false;
             }
         }
-        if(shouldRender && HeightLimitMod.instance.getConfig().shouldPlaySound) {
-            if (!HeightLimitMod.instance.getConfig().shouldSpamSound) {
+        if(shouldRender && Config.shouldPlaySound) {
+            if (!Config.shouldSpamSound) {
                 if ((APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        > HeightLimitMod.instance.getConfig().blocksWhenPlay) {
+                        > Config.blocksWhenPlay) {
                     shouldPlaySound = true;
                 }
             }else{
                 if ((APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        >= HeightLimitMod.instance.getConfig().blocksWhenPlay) {
+                        >= Config.blocksWhenPlay) {
                     shouldPlaySound = true;
                 }
             }
@@ -127,7 +129,7 @@ public class HeightLimitListener {
             checked = true;
             shouldCheck = true;
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
-            if(!firstJoin && HeightLimitMod.instance.getConfig().shouldNotifyUpdate){
+            if(!firstJoin && Config.shouldNotifyUpdate){
                 firstJoin = true;
                 if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
                     Notifications.INSTANCE.pushNotification("Height Limit Mod", "Version: " +

@@ -1,10 +1,10 @@
 package com.pinkulu.util;
 
-import com.pinkulu.HeightLimitMod;
+import com.pinkulu.config.Config;
 
 public class Color {
     public static int getColor() {
-        switch (HeightLimitMod.instance.getConfig().heightLimitModColour) {
+        switch (Config.heightLimitModColour) {
             case 0:
                 return ColorEnum.WHITE;
             case 1:

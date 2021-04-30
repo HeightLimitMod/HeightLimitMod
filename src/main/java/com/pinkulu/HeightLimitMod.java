@@ -8,10 +8,10 @@ import com.pinkulu.config.ConfigCommand;
 import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.gui.renderHightLimit.PositionConfig;
-import com.pinkulu.gui.renderHightLimit.guiTexts.BlocksTillMax;
-import com.pinkulu.gui.renderHightLimit.guiTexts.CurrentMap;
-import com.pinkulu.gui.renderHightLimit.guiTexts.MaxHeight;
+import com.pinkulu.gui.util.PositionConfig;
+import com.pinkulu.gui.elements.BlocksTillMax;
+import com.pinkulu.gui.elements.CurrentMap;
+import com.pinkulu.gui.elements.MaxHeight;
 import com.pinkulu.util.APICaller;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -43,8 +43,6 @@ public class HeightLimitMod {
         ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
         config = new Config();
         config.preload();
-
-        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new HeightLimitListener());
         HudPropertyApi api = HudPropertyApi.newInstance();
         ClientCommandHandler.instance.registerCommand(new ConfigCommand(api));
