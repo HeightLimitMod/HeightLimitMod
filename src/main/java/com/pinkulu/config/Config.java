@@ -113,7 +113,7 @@ public class Config extends Vigilant {
     public static boolean showInGui;
 
     public Config() {
-        super(new File("./HeightLimitMod/config.toml"));
+        super(new File("./config/HeightLimitMod/config.toml"));
         initialize();
     }
 }

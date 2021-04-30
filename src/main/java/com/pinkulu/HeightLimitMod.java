@@ -51,6 +51,7 @@ public class HeightLimitMod {
         api.register(new CurrentMap());
         api.register(new BlocksTillMax());
         loadConfig();
+        saveConfig();
         APICaller.getVersion();
     }
 
@@ -62,7 +63,7 @@ public class HeightLimitMod {
 
     public static void saveConfig() {
         try {
-            File file = new File("HeightLimitMod", "POSconfig.json");
+            File file = new File("config/HeightLimitMod", "POSconfig.json");
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
@@ -77,7 +78,7 @@ public class HeightLimitMod {
 
     private void loadConfig() {
         try {
-            File file = new File("HeightLimitMod", "POSconfig.json");
+            File file = new File("config/HeightLimitMod", "POSconfig.json");
             if (file.exists())
                 readJson(file);
         } catch (Throwable e) {
