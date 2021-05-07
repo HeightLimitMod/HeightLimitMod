@@ -1,3 +1,4 @@
+
 package com.pinkulu.config;
 
 import club.sk1er.mods.core.ModCore;
@@ -9,6 +10,7 @@ import club.sk1er.mods.core.util.Multithreading;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.gui.HudPropertyApi;
 import com.pinkulu.util.APICaller;
+import com.pinkulu.util.DelayedTask;
 import kotlin.Unit;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -51,7 +53,7 @@ public class ConfigCommand extends CommandBase {
                 break;
             case "gui":
             case "hud":
-                Multithreading.schedule(() -> api.openConfigScreen(), 5, TimeUnit.MILLISECONDS);
+                new DelayedTask(() -> api.openConfigScreen(), 1);
                 break;
             case "help":
                 MinecraftUtils.sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",

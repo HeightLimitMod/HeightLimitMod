@@ -59,11 +59,11 @@ public class HeightLimitListener {
 
     @SubscribeEvent
     public void loadWorld(WorldEvent.Load event) {
-            if (MinecraftUtils.isHypixel()) {
-                ticks = 60;
-                checked = false;
-                shouldPlaySound = false;
-            }
+        if (MinecraftUtils.isHypixel()) {
+            ticks = 60;
+            checked = false;
+            shouldPlaySound = false;
+        }
     }
     @SubscribeEvent
     public void frame(TickEvent.PlayerTickEvent event){
@@ -148,7 +148,7 @@ public class HeightLimitListener {
             }
             return;
         }
-    ticks--;
+        ticks--;
     }
 
 }

@@ -8,10 +8,10 @@ import com.pinkulu.config.ConfigCommand;
 import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.gui.util.PositionConfig;
-import com.pinkulu.gui.elements.BlocksTillMax;
-import com.pinkulu.gui.elements.CurrentMap;
-import com.pinkulu.gui.elements.MaxHeight;
+import com.pinkulu.gui.renderHightLimit.PositionConfig;
+import com.pinkulu.gui.renderHightLimit.guiTexts.BlocksTillMax;
+import com.pinkulu.gui.renderHightLimit.guiTexts.CurrentMap;
+import com.pinkulu.gui.renderHightLimit.guiTexts.MaxHeight;
 import com.pinkulu.util.APICaller;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -31,7 +31,7 @@ import java.io.IOException;
 public class HeightLimitMod {
 
     static final String MODID = "HeightLimitMod";
-    public static final String VERSION = "2.0";
+    public static final String VERSION = "2.1";
     public static final String NAME = "heightLimitMod";
     private Config config;
 

@@ -1,9 +1,10 @@
-package com.pinkulu.gui.elements;
+package com.pinkulu.gui.renderHightLimit.guiTexts;
 
 import com.pinkulu.HeightLimitMod;
+import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.IRenderer;
-import com.pinkulu.gui.util.PositionConfig;
+import com.pinkulu.gui.renderHightLimit.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.Color;
@@ -29,10 +30,10 @@ public class CurrentMap implements IRenderer {
 
     @Override
     public void render(ScreenPosition position) {
-        if (HeightLimitMod.instance.getConfig().heightLimitMod && HeightLimitMod.instance.getConfig().showMap) {
+        if (Config.heightLimitMod && Config.showMap) {
             if (HeightLimitListener.shouldRender) {
                 if (!(APICaller.isInvalid)) {
-                    if (HeightLimitMod.instance.getConfig().displayBackground) {
+                    if (Config.displayBackground) {
                         GlStateManager.pushMatrix();
                         GlStateManager.translate(1.0, 1.0, -100);
                         Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
@@ -65,7 +66,7 @@ public class CurrentMap implements IRenderer {
 
     @Override
     public void renderDummy(ScreenPosition position) {
-        if(HeightLimitMod.instance.getConfig().heightLimitMod &&  HeightLimitMod.instance.getConfig().showHeightLeft) {
+        if(Config.heightLimitMod &&  Config.showHeightLeft) {
             Minecraft.getMinecraft().fontRendererObj.drawString("Map: Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
         }
     }
