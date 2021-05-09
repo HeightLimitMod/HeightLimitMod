@@ -45,5 +45,5 @@ processResources {
 }
 
 jar {
-    archiveName "[v$version] HLM-Evergreen.jar"
+    archiveName "HLM-Evergreen-v${version}.jar"
 }
