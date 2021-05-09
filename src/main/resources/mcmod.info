@@ -1,14 +1,14 @@
 [
 {
-  "modid": "HeightLimitMod",
-  "name": "HeightLimitMod",
-  "description": "Shows The Build Limit Of Hypixel Maps",
+  "modid": "hlmevergreen",
+  "name": "Height Limit Mod (EvergreenHUD)",
+  "description": "Displays information about the height limit of your bedwars map.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["pinkulu, Wyvest"],
-  "credits": "pinkulu, Wyvest",
+  "authorList": ["isXander"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
