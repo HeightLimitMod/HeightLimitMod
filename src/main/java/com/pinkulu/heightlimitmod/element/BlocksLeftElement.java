@@ -27,12 +27,8 @@ public class BlocksLeftElement extends Element {
         if (limit == -1 || mc.thePlayer == null) {
             return notInGame.get();
         }
-        int diff = limit - new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ).getY();
-        if (diff < 0) {
-            return notInGame.get();
-        }
 
-        return Integer.toString(diff);
+        return Integer.toString(Math.max(limit - new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ).getY(), 0));
     }
 
     @Override
