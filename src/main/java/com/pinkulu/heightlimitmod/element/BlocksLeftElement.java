@@ -1,12 +1,12 @@
 package com.pinkulu.heightlimitmod.element;
 
-import co.uk.isxander.evergreenhud.elements.Element;
 import co.uk.isxander.evergreenhud.elements.ElementData;
+import co.uk.isxander.evergreenhud.elements.type.SimpleTextElement;
 import co.uk.isxander.evergreenhud.settings.impl.StringSetting;
 import com.pinkulu.heightlimitmod.api.ApiManager;
 import net.minecraft.util.BlockPos;
 
-public class BlocksLeftElement extends Element {
+public class BlocksLeftElement extends SimpleTextElement {
 
     public StringSetting notInGame;
 
@@ -17,7 +17,7 @@ public class BlocksLeftElement extends Element {
 
     @Override
     protected ElementData metadata() {
-        return new ElementData("HLM: Blocks Left", "Shows how many blocks remaining before you reach the height limit.");
+        return new ElementData("HLM: Blocks Left", "Shows how many blocks remaining before you reach the height limit.", "Hypixel");
     }
 
     @Override
@@ -32,7 +32,7 @@ public class BlocksLeftElement extends Element {
     }
 
     @Override
-    public String getDisplayTitle() {
+    public String getDefaultDisplayTitle() {
         return "Remaining";
     }
 
