@@ -1,18 +1,13 @@
 package com.pinkulu.heightlimitmod.element;
 
 import co.uk.isxander.evergreenhud.elements.ElementData;
+import co.uk.isxander.evergreenhud.elements.RenderOrigin;
 import co.uk.isxander.evergreenhud.elements.type.SimpleTextElement;
-import co.uk.isxander.evergreenhud.settings.impl.StringSetting;
 import com.pinkulu.heightlimitmod.api.ApiManager;
 
 public class BlocksTotalElement extends SimpleTextElement {
 
-    public StringSetting notInGame;
-
-    @Override
-    public void initialise() {
-        addSettings(notInGame = new StringSetting("Not In Game Text", "Text that is displayed when you are not in a bedwars game.", "0"));
-    }
+    private boolean render = true;
 
     @Override
     protected ElementData metadata() {
@@ -24,7 +19,8 @@ public class BlocksTotalElement extends SimpleTextElement {
         int limit = ApiManager.instance.getHeightLimit();
 
         if (limit == -1 || mc.thePlayer == null) {
-            return notInGame.get();
+            render = false;
+            return "0";
         }
 
         return Integer.toString(limit);
@@ -35,4 +31,13 @@ public class BlocksTotalElement extends SimpleTextElement {
         return "Limit";
     }
 
+    @Override
+    public void render(float partialTicks, RenderOrigin origin) {
+        if (origin == RenderOrigin.HUD) {
+            if (!render)
+                return;
+        }
+
+        super.render(partialTicks, origin);
+    }
 }
