@@ -7,7 +7,6 @@ import com.pinkulu.heightlimitmod.api.ApiManager;
 import net.minecraft.util.BlockPos;
 
 public class BlocksLeftElement extends SimpleTextElement {
-    private boolean render = true;
     @Override
     protected ElementData metadata() {
         return new ElementData("HLM: Blocks Left", "Shows how many blocks remaining before you reach the height limit.", "Hypixel");
@@ -18,7 +17,6 @@ public class BlocksLeftElement extends SimpleTextElement {
         int limit = ApiManager.instance.getHeightLimit();
 
         if (limit == -1 || mc.thePlayer == null) {
-            render = false;
             return "0";
         }
 
@@ -33,8 +31,9 @@ public class BlocksLeftElement extends SimpleTextElement {
     @Override
     public void render(float partialTicks, RenderOrigin origin) {
         if (origin == RenderOrigin.HUD) {
-            if (!render)
+            if (ApiManager.instance.getHeightLimit() == -1 || mc.thePlayer == null) {
                 return;
+            }
         }
 
         super.render(partialTicks, origin);

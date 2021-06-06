@@ -7,8 +7,6 @@ import com.pinkulu.heightlimitmod.api.ApiManager;
 
 public class BlocksTotalElement extends SimpleTextElement {
 
-    private boolean render = true;
-
     @Override
     protected ElementData metadata() {
         return new ElementData("HLM: Total Height", "Shows how many blocks remaining before you reach the height limit.", "Hypixel");
@@ -17,12 +15,9 @@ public class BlocksTotalElement extends SimpleTextElement {
     @Override
     protected String getValue() {
         int limit = ApiManager.instance.getHeightLimit();
-
         if (limit == -1 || mc.thePlayer == null) {
-            render = false;
             return "0";
         }
-
         return Integer.toString(limit);
     }
 
@@ -34,8 +29,9 @@ public class BlocksTotalElement extends SimpleTextElement {
     @Override
     public void render(float partialTicks, RenderOrigin origin) {
         if (origin == RenderOrigin.HUD) {
-            if (!render)
+            if (ApiManager.instance.getHeightLimit() == -1 || mc.thePlayer == null) {
                 return;
+            }
         }
 
         super.render(partialTicks, origin);
