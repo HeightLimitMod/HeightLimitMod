@@ -1,7 +1,6 @@
 package com.pinkulu.heightlimitmod.element;
 
 import co.uk.isxander.evergreenhud.elements.ElementData;
-import co.uk.isxander.evergreenhud.elements.RenderOrigin;
 import co.uk.isxander.evergreenhud.elements.type.SimpleTextElement;
 import com.pinkulu.heightlimitmod.api.ApiManager;
 import net.minecraft.util.BlockPos;
@@ -29,8 +28,8 @@ public class BlocksLeftElement extends SimpleTextElement {
     }
 
     @Override
-    public void render(float partialTicks, RenderOrigin origin) {
-        if (origin == RenderOrigin.HUD) {
+    public void render(float partialTicks, int origin) {
+        if (origin == 0) {
             if (ApiManager.instance.getHeightLimit() == -1 || mc.thePlayer == null) {
                 return;
             }
