@@ -1,14 +1,13 @@
 package com.pinkulu.events;
 
-import club.sk1er.mods.core.gui.notification.Notifications;
-import club.sk1er.mods.core.util.MinecraftUtils;
-import club.sk1er.mods.core.util.ModCoreDesktop;
 import com.google.gson.Gson;
 import com.pinkulu.HeightLimitMod;
 import com.pinkulu.config.Config;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.Replace;
+import gg.essential.api.EssentialAPI;
+import gg.essential.universal.UDesktop;
 import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
@@ -18,6 +17,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import scala.collection.parallel.ParIterableLike;
 
 import java.net.URI;
 
@@ -59,7 +59,7 @@ public class HeightLimitListener {
 
     @SubscribeEvent
     public void loadWorld(WorldEvent.Load event) {
-        if (MinecraftUtils.isHypixel()) {
+        if (!Minecraft.getMinecraft().isSingleplayer() && EssentialAPI.getMinecraftUtil().isHypixel()) {
             ticks = 60;
             checked = false;
             shouldPlaySound = false;
@@ -67,7 +67,7 @@ public class HeightLimitListener {
     }
     @SubscribeEvent
     public void frame(TickEvent.PlayerTickEvent event){
-
+        System.out.println(Config.heightLimitModTextColour);
         if(shouldRender && Config.shouldPlaySound &&
                 (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                         == Config.blocksWhenPlay && shouldPlaySound && !APICaller.isInvalid){
@@ -132,10 +132,10 @@ public class HeightLimitListener {
             if(!firstJoin && Config.shouldNotifyUpdate){
                 firstJoin = true;
                 if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
-                    Notifications.INSTANCE.pushNotification("Height Limit Mod", "Version: " +
+                    EssentialAPI.getNotifications().push("Height Limit Mod", "Version: " +
                             APICaller.Version + " is available\nYour Version: "
                             + HeightLimitMod.VERSION + "\nClick Here", () -> {
-                        ModCoreDesktop.INSTANCE.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
+                        UDesktop.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
                         return Unit.INSTANCE;
                     });
                     ChatStyle style = new ChatStyle();

@@ -39,7 +39,13 @@ public class MaxHeight implements IRenderer{
 					GlStateManager.translate(1.0, 1.0, 0);
 					GlStateManager.popMatrix();
 				}
-				Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), Config.renderShadow);
+				if(Config.rgb) {
+					Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), java.awt.Color.HSBtoRGB(System.currentTimeMillis() % 2000L / 2000.0F, 0.8F, 0.8F), Config.renderShadow);
+				}
+				else {
+					Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
+
+				}
 			}
 		}
 	}
@@ -57,7 +63,7 @@ public class MaxHeight implements IRenderer{
 	@Override
 	public void renderDummy(ScreenPosition position) {
 		if(Config.heightLimitMod && Config.showMaxHeight) {
-			Minecraft.getMinecraft().fontRendererObj.drawString("MaxHeight: 150", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor());
+			Minecraft.getMinecraft().fontRendererObj.drawString("MaxHeight: 150", position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB());
 		}
 	}
 

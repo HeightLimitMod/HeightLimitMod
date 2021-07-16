@@ -21,7 +21,7 @@ public final class HudPropertyApi {
 	}
 
 	private Set<IRenderer> registeredRenderers = Sets.newHashSet();
-	private Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.getMinecraft();
 
 	private boolean renderOutlines = true;
 

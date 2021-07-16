@@ -1,71 +1,99 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
         maven {
             name = "forge"
             url = "https://maven.minecraftforge.net/"
         }
         maven {
-            name = "JitPack"
+            name = "jitpack"
             url = "https://jitpack.io/"
         }
-        flatDir dirs: 'libs'
     }
     dependencies {
-        classpath "com.github.asbyth:ForgeGradle:7f4bab690a"
+        classpath "com.github.asbyth:ForgeGradle:b13624b272"
+        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = modVersion
-group = modGroup
-archivesBaseName = modBaseName
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "com.github.johnrengelman.shadow"
 
-sourceCompatibility = targetCompatibility = 1.8
+version = "2.2"
+group = "com.pinkulu"
+archivesBaseName = "HeightLimitMod"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 compileJava.options.encoding = 'UTF-8'
 
+sourceSets {
+    main {
+        output.resourcesDir = java.outputDir
+    }
+}
+
 minecraft {
-    version = project.forgeVersion
+    version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
-    replace("@VER@", project.version)
-    mappings = project.mcpVersion
-    makeObfSourceJar = false
+    mappings = "stable_22"
+}
+
+configurations {
+    embed
+    include
+    implementation.extendsFrom(embed)
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    maven { url = "https://repo.sk1er.club/repository/maven-public/" }
+    maven { url = "https://jitpack.io/" }
+    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
 }
 
 dependencies {
-    provided files("libs/modcore.jar")
+    embed "gg.essential:loader-launchwrapper:1.0.2"
+
+    implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
 }
 
+
+shadowJar {
+    archiveClassifier.set("")
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    configurations = [project.configurations.embed]
+}
 jar {
     archiveName = "$baseName.$extension"
-    manifest {
-        attributes "FMLCorePlugin": "com.pinkulu.forge.FMLLoadingPlugin",
-                "ModSide": "CLIENT",
-                "FMLCorePluginContainsFMLMod": "Yes, yes it does"
-    }
+    manifest.attributes(
+            "ForceLoadAsMod": true,
+            'ModSide': 'CLIENT',
+            "TweakClass": "gg.essential.loader.stage0.EssentialSetupTweaker"
+    )
 }
+reobfJar.dependsOn tasks.shadowJar
 
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include "mcmod.info", "LICENSE.txt"
+processResources
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-        // replace version and mcversion
-        expand "version": project.version, "mcversion": project.minecraft.version
-    }
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
 
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "mcmod.info"
-    }
+                // replace version and mcversion
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
 
-    rename '(.+_at.cfg)', 'META-INF/$1'
-}
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }

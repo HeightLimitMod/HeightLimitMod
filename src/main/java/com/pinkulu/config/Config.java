@@ -1,11 +1,12 @@
 package com.pinkulu.config;
 
-import club.sk1er.vigilance.Vigilant;
-import club.sk1er.vigilance.data.Property;
-import club.sk1er.vigilance.data.PropertyType;
+import gg.essential.vigilance.Vigilant;
+import gg.essential.vigilance.data.Property;
+import gg.essential.vigilance.data.PropertyType;
+import java.awt.Color;
 
 import java.io.File;
-@SuppressWarnings("FieldMayBeFinal")
+
 public class Config extends Vigilant {
     @Property(
             type = PropertyType.SWITCH,
@@ -25,13 +26,19 @@ public class Config extends Vigilant {
     public static boolean shouldNotifyUpdate = true;
 
     @Property(
-            type = PropertyType.SELECTOR,
+            type = PropertyType.CHECKBOX,
+            name = "rgb",
+            category = "Render",
+            description = "Renders the text rgb(if checked, color selector is useless)"
+    )
+    public static boolean rgb;
+    @Property(
+            type = PropertyType.COLOR,
             name = "Colour",
             category = "Render",
-            description = "Selects the color for all HUD elements.",
-            options = {"White", "Light Gray", "Gray", "Dark Gray", "Black", "Red", "Pink", "Orange", "Yellow", "Green", "Magenta", "Cyan", "Blue", "Chroma"}
+            description = "Selects the color for all HUD elements."
     )
-    public static int heightLimitModColour = 0;
+    public static Color heightLimitModTextColour = Color.WHITE;
 
     @Property(
             type = PropertyType.SWITCH,

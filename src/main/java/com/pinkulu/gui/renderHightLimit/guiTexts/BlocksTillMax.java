@@ -36,7 +36,11 @@ public class BlocksTillMax implements IRenderer {
                     GlStateManager.translate(1.0, 1.0, 0);
                     GlStateManager.popMatrix();
                 }
-                Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), Config.renderShadow);
+                if(Config.rgb){
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), java.awt.Color.HSBtoRGB(System.currentTimeMillis() % 2000L / 2000.0F, 0.8F, 0.8F), Config.renderShadow);
+                }else {
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
+                }
             }
         }
     }
@@ -53,7 +57,7 @@ public class BlocksTillMax implements IRenderer {
 
     @Override
     public void renderDummy(ScreenPosition position) {
-        Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: 100", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), Config.renderShadow);
+        Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: 100", position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
     }
 
 }

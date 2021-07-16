@@ -1,6 +1,5 @@
 package com.pinkulu;
 
-import club.sk1er.mods.core.ModCoreInstaller;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
@@ -13,6 +12,9 @@ import com.pinkulu.gui.renderHightLimit.guiTexts.BlocksTillMax;
 import com.pinkulu.gui.renderHightLimit.guiTexts.CurrentMap;
 import com.pinkulu.gui.renderHightLimit.guiTexts.MaxHeight;
 import com.pinkulu.util.APICaller;
+import gg.essential.api.EssentialAPI;
+import gg.essential.api.config.EssentialConfig;
+import gg.essential.api.tweaker.EssentialTweaker;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,15 +35,12 @@ public class HeightLimitMod {
     static final String MODID = "HeightLimitMod";
     public static final String VERSION = "2.1";
     public static final String NAME = "heightLimitMod";
-    private Config config;
-
+    public final Config config = new Config();
     @Mod.Instance("HeightLimitMod")
     public static HeightLimitMod instance;
 
     @Mod.EventHandler
     public void onInitialization(FMLInitializationEvent event) {
-        ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
-        config = new Config();
         config.preload();
         MinecraftForge.EVENT_BUS.register(new HeightLimitListener());
         HudPropertyApi api = HudPropertyApi.newInstance();

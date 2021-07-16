@@ -1,7 +1,7 @@
 package com.pinkulu.util;
 
-import club.sk1er.mods.core.util.Multithreading;
 import com.google.gson.Gson;
+import gg.essential.api.utils.Multithreading;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 

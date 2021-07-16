@@ -7,10 +7,11 @@ import com.pinkulu.gui.IRenderer;
 import com.pinkulu.gui.renderHightLimit.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
-import com.pinkulu.util.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+
+import java.awt.*;
 
 public class CurrentMap implements IRenderer {
 
@@ -40,10 +41,15 @@ public class CurrentMap implements IRenderer {
                         GlStateManager.translate(1.0, 1.0, 0);
                         GlStateManager.popMatrix();
                     }
-                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
-                } else {
-                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+                    if(Config.rgb) {
+                        Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), java.awt.Color.HSBtoRGB(System.currentTimeMillis() % 2000L / 2000.0F, 0.8F, 0.8F), HeightLimitMod.instance.getConfig().renderShadow);
+                    }
+                    else {
+                        Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), HeightLimitMod.instance.getConfig().renderShadow);
 
+                    }
+                    } else {
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.RED.getRed(), HeightLimitMod.instance.getConfig().renderShadow);
                 }
             }
         }
@@ -57,7 +63,7 @@ public class CurrentMap implements IRenderer {
     @Override
     public int getWidth() {
         if(HeightLimitListener.map != null) {
-            return Minecraft.getMinecraft().fontRendererObj.getStringWidth("Map: " + HeightLimitListener.map);
+                return Minecraft.getMinecraft().fontRendererObj.getStringWidth("Map: " + HeightLimitListener.map);
         }
         else{
             return Minecraft.getMinecraft().fontRendererObj.getStringWidth("Map: Cool Map");
@@ -67,7 +73,7 @@ public class CurrentMap implements IRenderer {
     @Override
     public void renderDummy(ScreenPosition position) {
         if(Config.heightLimitMod &&  Config.showHeightLeft) {
-            Minecraft.getMinecraft().fontRendererObj.drawString("Map: Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Color.getColor(), HeightLimitMod.instance.getConfig().renderShadow);
+            Minecraft.getMinecraft().fontRendererObj.drawString("Map: Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), HeightLimitMod.instance.getConfig().renderShadow);
         }
     }
 }
