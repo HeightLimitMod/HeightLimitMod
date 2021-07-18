@@ -2,6 +2,7 @@
 package com.pinkulu.config;
 
 import com.pinkulu.HeightLimitMod;
+import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.HudPropertyApi;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.DelayedTask;
@@ -10,8 +11,10 @@ import gg.essential.api.gui.Notifications;
 import gg.essential.universal.ChatColor;
 import gg.essential.universal.UDesktop;
 import kotlin.Unit;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import tv.twitch.chat.Chat;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -41,7 +44,16 @@ public class ConfigCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length <= 0) {
-            EssentialAPI.getInstance().guiUtil().openScreen(HeightLimitMod.instance.getConfig().gui());
+            EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",
+                    ChatColor.LIGHT_PURPLE + "Command Help\n" +
+                            ChatColor.AQUA + "/heightlimitmod config"+ ChatColor.WHITE +" - Open Config Menu. \n" +
+                            ChatColor.AQUA + "/heightlimitmod hud or /heightlimitmod gui" + ChatColor.WHITE + " - Opens a GUI to configure where the hud is rendered.\n" +
+                            ChatColor.AQUA + "/heightlimitmod help" + ChatColor.WHITE +" - Shows help for command usage\n" +
+                            ChatColor.AQUA + "/heightlimitmod aliases"+ ChatColor.WHITE +" - Shows the aliases of the command.\n" +
+                            ChatColor.AQUA + "/heightlimitmod update"+ ChatColor.WHITE +" - Check if you are on the newest version \n" +
+                            ChatColor.AQUA + "/heightlimitmod load"+ ChatColor.WHITE +" - If a map doesn't show up when you join a game, or if a map gets " +
+                            "added while you are in game, you can use this command to recall the api \n"
+            );
             return;
         }
         switch (args[0].toLowerCase()) {
@@ -55,11 +67,14 @@ public class ConfigCommand extends CommandBase {
             case "help":
                 EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",
                         ChatColor.LIGHT_PURPLE + "Command Help\n" +
-                                "/heightlimitmod - Open Config Menu\n" +
-                                "/heightlimitmod help - Shows help for command usage\n" +
-                                "/heightlimitmod hud or /heightlimitmod gui - Opens a GUI to configure where the hud is rendered.\n" +
-                                "/heightlimitmod config - Open Config Menu. \n" + "/heightlimitmod aliases - Shows the aliases of the command.\n" +
-                                "/heightlimitmod update - Check if you are on the newest version");
+                                ChatColor.AQUA + "/heightlimitmod config"+ ChatColor.WHITE +" - Open Config Menu. \n" +
+                                ChatColor.AQUA + "/heightlimitmod hud or /heightlimitmod gui" + ChatColor.WHITE + " - Opens a GUI to configure where the hud is rendered.\n" +
+                                ChatColor.AQUA + "/heightlimitmod help" + ChatColor.WHITE +" - Shows help for command usage\n" +
+                                ChatColor.AQUA + "/heightlimitmod aliases"+ ChatColor.WHITE +" - Shows the aliases of the command.\n" +
+                                ChatColor.AQUA + "/heightlimitmod update"+ ChatColor.WHITE +" - Check if you are on the newest version \n" +
+                                ChatColor.AQUA + "/heightlimitmod load"+ ChatColor.WHITE +" - If a map doesn't show up when you join a game, or if a map gets " +
+                                "added while you are in game, you can use this command to recall the api \n"
+                );
                 break;
             case "aliases":
                 EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",ChatColor.LIGHT_PURPLE + "/heightlimitmod, /hlm, /heightlimit, /heightmod");
@@ -77,6 +92,12 @@ public class ConfigCommand extends CommandBase {
                 break;
             case "config":
                 EssentialAPI.getInstance().guiUtil().openScreen(HeightLimitMod.instance.getConfig().gui());
+                break;
+            case "load":
+                if(Minecraft.getMinecraft().isSingleplayer() && EssentialAPI.getMinecraftUtil().isHypixel()){
+                    HeightLimitListener.shouldRender = false;
+                    HeightLimitListener.checked = false;
+                }
         }
     }
 

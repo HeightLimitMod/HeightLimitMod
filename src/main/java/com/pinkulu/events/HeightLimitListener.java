@@ -23,7 +23,7 @@ import java.net.URI;
 
 public class HeightLimitListener {
     private int ticks;
-    private boolean checked = true;
+    public static boolean checked = true;
     private boolean firstJoin;
     private boolean shouldPlaySound;
     public static boolean shouldCheck;
@@ -67,7 +67,6 @@ public class HeightLimitListener {
     }
     @SubscribeEvent
     public void frame(TickEvent.PlayerTickEvent event){
-        System.out.println(Config.heightLimitModTextColour);
         if(shouldRender && Config.shouldPlaySound &&
                 (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                         == Config.blocksWhenPlay && shouldPlaySound && !APICaller.isInvalid){
