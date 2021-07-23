@@ -1,13 +1,29 @@
 package com.pinkulu.config;
 
+import com.pinkulu.HeightLimitMod;
+import com.pinkulu.events.HeightLimitListener;
+import com.pinkulu.gui.HudPropertyApi;
+import com.pinkulu.util.DelayedTask;
+import gg.essential.api.EssentialAPI;
+import gg.essential.universal.UDesktop;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
+import gg.essential.vigilance.data.Category;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.ClientCommandHandler;
+
 import java.awt.Color;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.List;
 
 public class Config extends Vigilant {
+    private HudPropertyApi api;
     @Property(
             type = PropertyType.SWITCH,
             name = "Height Limit Mod",
@@ -24,7 +40,17 @@ public class Config extends Vigilant {
             description = "Notifys you when theres an update."
     )
     public static boolean shouldNotifyUpdate = true;
-
+    @Property(
+            type = PropertyType.BUTTON,
+            name = "GUI Location",
+            category = "General",
+            subcategory = "General",
+            description = "Opens a screen that lets you drag where you want to put the gui elements"
+    )
+    public static void OpenGUIDragScreen(){
+        Minecraft.getMinecraft().thePlayer.closeScreen();
+        ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, "/hlm gui");
+    }
     @Property(
             type = PropertyType.CHECKBOX,
             name = "rgb",
@@ -118,6 +144,45 @@ public class Config extends Vigilant {
             description = "Show in GUIS."
     )
     public static boolean showInGui;
+
+    @Property(
+            type = PropertyType.BUTTON,
+            name = "My website",
+            category = "Information",
+            description = "The coolest website on the planet"
+    )
+    public static void OpenPinkuluDotCom() throws URISyntaxException {
+        UDesktop.browse(new URI("https://pinkulu.com"));
+    }
+    @Property(
+            type = PropertyType.BUTTON,
+            name = "Support Discord Server",
+            category = "Information",
+            description = "Are you having any issues with the mod? Join the support discord server :)"
+    )
+    public static void OpenPinkuluDiscordServer() throws URISyntaxException {
+        UDesktop.browse(new URI("https://discord.gg/Fykpshg"));
+    }
+    @Property(
+            type = PropertyType.BUTTON,
+            name = "GUI Location",
+            category = "Information",
+            description = "Opens a screen that lets you drag where you want to put the gui elements"
+    )
+    public static void OpenGUIDragScreenINFO(){
+        Minecraft.getMinecraft().thePlayer.closeScreen();
+        ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, "/hlm gui");
+    }
+    @Property(
+            type = PropertyType.BUTTON,
+            name = "Height Limit Web",
+            category = "Information",
+            description = "Need to use height limit mod on a client like lunar or badlion? well fear no more, as HLW " +
+                    "gots you, search all the bedwars maps in your browser"
+    )
+    public static void OpenPinkuluHLW() throws URISyntaxException {
+        UDesktop.browse(new URI("https://pinkulu.com/HeightLimitWeb"));
+    }
 
     public Config() {
         super(new File("./config/HeightLimitMod/config.toml"));

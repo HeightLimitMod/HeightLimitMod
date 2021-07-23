@@ -44,16 +44,7 @@ public class ConfigCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length <= 0) {
-            EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",
-                    ChatColor.LIGHT_PURPLE + "Command Help\n" +
-                            ChatColor.AQUA + "/heightlimitmod config"+ ChatColor.WHITE +" - Open Config Menu. \n" +
-                            ChatColor.AQUA + "/heightlimitmod hud or /heightlimitmod gui" + ChatColor.WHITE + " - Opens a GUI to configure where the hud is rendered.\n" +
-                            ChatColor.AQUA + "/heightlimitmod help" + ChatColor.WHITE +" - Shows help for command usage\n" +
-                            ChatColor.AQUA + "/heightlimitmod aliases"+ ChatColor.WHITE +" - Shows the aliases of the command.\n" +
-                            ChatColor.AQUA + "/heightlimitmod update"+ ChatColor.WHITE +" - Check if you are on the newest version \n" +
-                            ChatColor.AQUA + "/heightlimitmod load"+ ChatColor.WHITE +" - If a map doesn't show up when you join a game, or if a map gets " +
-                            "added while you are in game, you can use this command to recall the api \n"
-            );
+            EssentialAPI.getInstance().guiUtil().openScreen(HeightLimitMod.instance.getConfig().gui());
             return;
         }
         switch (args[0].toLowerCase()) {
