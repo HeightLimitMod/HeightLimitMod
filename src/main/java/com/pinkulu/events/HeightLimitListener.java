@@ -133,11 +133,11 @@ public class HeightLimitListener {
                     EssentialAPI.getNotifications().push("Height Limit Mod", "Version: " +
                             APICaller.Version + " is available\nYour Version: "
                             + HeightLimitMod.VERSION + "\nClick Here", () -> {
-                        UDesktop.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
+                        UDesktop.browse(URI.create("https://modrinth.com/mod/hlm"));
                         return Unit.INSTANCE;
                     });
                     ChatStyle style = new ChatStyle();
-                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
+                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://modrinth.com/mod/hlm"));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Height Limit Mod~~~~~~~~").setChatStyle(style));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~V" + APICaller.Version + " is now available~~~~~~~~").setChatStyle(style));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Change Log: " + APICaller.Info ).setChatStyle(style));
