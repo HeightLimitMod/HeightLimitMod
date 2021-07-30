@@ -29,7 +29,7 @@ import java.io.IOException;
 public class HeightLimitMod {
 
     static final String MODID = "HeightLimitMod";
-    public static final String VERSION = "2.1";
+    public static final String VERSION = "2.2";
     public static final String NAME = "heightLimitMod";
     public final Config config = new Config();
     @Mod.Instance("HeightLimitMod")

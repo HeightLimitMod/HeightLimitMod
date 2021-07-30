@@ -38,6 +38,8 @@ minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
     mappings = "stable_22"
+    makeObfSourceJar = false
+    clientRunArgs += '--tweakClass gg.essential.loader.stage0.EssentialSetupTweaker'
 }
 
 configurations {
@@ -56,7 +58,8 @@ repositories {
 dependencies {
     embed "gg.essential:loader-launchwrapper:1.0.2"
 
-    implementation "gg.essential:Essential:1193-10809-SNAPSHOT"
+    implementation 'gg.essential:essential-1.8.9-forge:1265'
+    embed ('com.squareup.okhttp3:okhttp:3.9.1')
 }
 
 
@@ -68,7 +71,6 @@ shadowJar {
     configurations = [project.configurations.embed]
 }
 jar {
-    archiveName = "$baseName.$extension"
     manifest.attributes(
             "ForceLoadAsMod": true,
             'ModSide': 'CLIENT',

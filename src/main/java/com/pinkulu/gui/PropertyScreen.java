@@ -1,21 +1,19 @@
 package com.pinkulu.gui;
 
-import java.io.IOException;
+import com.pinkulu.HeightLimitMod;
+import com.pinkulu.gui.util.ScreenPosition;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import com.pinkulu.HeightLimitMod;
-import com.pinkulu.gui.util.ScreenPosition;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-
 public class PropertyScreen extends GuiScreen {
 
-	private Minecraft mc = Minecraft.getMinecraft();
+	private final Minecraft mc = Minecraft.getMinecraft();
 
 	private final HashMap<IRenderer, ScreenPosition> renderers = new HashMap<>();
 	private Optional<IRenderer> selectedRenderer = Optional.empty(); 
@@ -48,12 +46,11 @@ public class PropertyScreen extends GuiScreen {
 
 	@Override
 	public void drawScreen(int x, int y, float partialTicks) {
-		super.drawDefaultBackground();
 
 		float zBackup = this.zLevel;
 		this.zLevel = 200;	
 
-		renderers.forEach((renderer, position) -> renderer.renderDummy(position));
+		renderers.forEach(IRenderer::renderDummy);
 
 		this.zLevel = zBackup;
 	}
@@ -62,15 +59,14 @@ public class PropertyScreen extends GuiScreen {
 	@Override
 	protected void keyTyped(char c, int key) {
 		if (key == 1) {
-			renderers.entrySet().forEach((entry) -> { // Save all entries
-				entry.getKey().save(entry.getValue());	
-			});
+			// Save all entries
+			renderers.forEach(IConfigExchange::save);
 			this.mc.displayGuiScreen(null);
 		}
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int button) throws IOException {
+	protected void mouseClicked(int x, int y, int button) {
 		prevX = x;
 		prevY = y;
 
@@ -127,7 +123,8 @@ public class PropertyScreen extends GuiScreen {
 
 	private class MouseOverFinder implements Predicate<IRenderer>{
 
-		private int mouseX, mouseY;
+		private final int mouseX;
+		private final int mouseY;
 
 		public MouseOverFinder(int mouseX, int mouseY) {
 			this.mouseX = mouseX;

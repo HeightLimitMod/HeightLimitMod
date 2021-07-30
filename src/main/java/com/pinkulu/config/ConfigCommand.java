@@ -7,21 +7,19 @@ import com.pinkulu.gui.HudPropertyApi;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.DelayedTask;
 import gg.essential.api.EssentialAPI;
-import gg.essential.api.gui.Notifications;
 import gg.essential.universal.ChatColor;
 import gg.essential.universal.UDesktop;
 import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import tv.twitch.chat.Chat;
 
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
 public class ConfigCommand extends CommandBase {
-    private HudPropertyApi api;
+    private final HudPropertyApi api;
 
     public ConfigCommand(HudPropertyApi api) {
         this.api = api;
@@ -53,7 +51,7 @@ public class ConfigCommand extends CommandBase {
                 break;
             case "gui":
             case "hud":
-                new DelayedTask(() -> api.openConfigScreen(), 1);
+                new DelayedTask(api::openConfigScreen, 1);
                 break;
             case "help":
                 EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",
@@ -74,7 +72,7 @@ public class ConfigCommand extends CommandBase {
                 if(Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)){
                     EssentialAPI.getNotifications().push("Height Limit Mod", "A new version is available: V"+APICaller.Version
                             + "\nClick Here", () -> {
-                        UDesktop.INSTANCE.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
+                        UDesktop.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
                         return Unit.INSTANCE;
                     });
                 }else{
