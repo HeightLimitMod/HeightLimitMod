@@ -1,9 +1,11 @@
 package com.pinkulu.gui;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import com.pinkulu.config.Config;
 import com.pinkulu.gui.util.ScreenPosition;
 
 import net.minecraft.client.Minecraft;
@@ -20,7 +22,7 @@ public final class HudPropertyApi {
 		return api;
 	}
 
-	private Set<IRenderer> registeredRenderers = Sets.newHashSet();
+	private final Set<IRenderer> registeredRenderers = Sets.newHashSet();
 	private final Minecraft mc = Minecraft.getMinecraft();
 
 	private boolean renderOutlines = true;
@@ -28,9 +30,7 @@ public final class HudPropertyApi {
 	private HudPropertyApi(){}
 
 	public void register(IRenderer... renderers){
-		for(IRenderer renderer : renderers){
-			this.registeredRenderers.add(renderer);
-		}
+		Collections.addAll(this.registeredRenderers, renderers);
 	}
 
 	public void unregister(IRenderer... renderers){
@@ -56,10 +56,12 @@ public final class HudPropertyApi {
 	}
 
 	@SubscribeEvent
-	public void onRender(RenderGameOverlayEvent event){
-		if(event.type == ElementType.TEXT){
+	public void onRender(RenderGameOverlayEvent.Post event){
+		if(event.type == ElementType.ALL){
 			if(!(mc.currentScreen instanceof PropertyScreen)){
-				registeredRenderers.forEach(this::callRenderer);
+				if (Config.showInGui || mc.currentScreen == null) {
+					registeredRenderers.forEach(this::callRenderer);
+				}
 			}
 		}
 	}

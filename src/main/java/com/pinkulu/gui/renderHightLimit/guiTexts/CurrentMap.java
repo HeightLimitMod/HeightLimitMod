@@ -1,12 +1,12 @@
 package com.pinkulu.gui.renderHightLimit.guiTexts;
 
-import com.pinkulu.HeightLimitMod;
 import com.pinkulu.config.Config;
 import com.pinkulu.events.HeightLimitListener;
 import com.pinkulu.gui.IRenderer;
 import com.pinkulu.gui.renderHightLimit.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
+import com.pinkulu.util.ChromaStringRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -37,19 +37,19 @@ public class CurrentMap implements IRenderer {
                     if (Config.displayBackground) {
                         GlStateManager.pushMatrix();
                         GlStateManager.translate(1.0, 1.0, -100);
-                        Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Integer.MIN_VALUE);
+                        Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 4, position.getAbsoluteY() + getHeight(), Config.backgroundColor.getRGB());
                         GlStateManager.translate(1.0, 1.0, 0);
                         GlStateManager.popMatrix();
                     }
                     if(Config.rgb) {
-                        Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), java.awt.Color.HSBtoRGB(System.currentTimeMillis() % 2000L / 2000.0F, 0.8F, 0.8F), HeightLimitMod.instance.getConfig().renderShadow);
+                        ChromaStringRenderer.drawChromaText("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
                     }
                     else {
-                        Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), HeightLimitMod.instance.getConfig().renderShadow);
+                        Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
 
                     }
                     } else {
-                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.RED.getRed(), HeightLimitMod.instance.getConfig().renderShadow);
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.RED.getRed(), Config.renderShadow);
                 }
             }
         }
@@ -73,7 +73,20 @@ public class CurrentMap implements IRenderer {
     @Override
     public void renderDummy(ScreenPosition position) {
         if(Config.heightLimitMod &&  Config.showHeightLeft) {
-            Minecraft.getMinecraft().fontRendererObj.drawString("Map: Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), HeightLimitMod.instance.getConfig().renderShadow);
-        }
+            if (Config.displayBackground) {
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(1.0, 1.0, -100);
+                Gui.drawRect(position.getAbsoluteX() - 2, position.getAbsoluteY() - 3, position.getAbsoluteX() + getWidth() + 5, position.getAbsoluteY() + getHeight(), Config.backgroundColor.getRGB());
+                GlStateManager.translate(1.0, 1.0, 0);
+                GlStateManager.popMatrix();
+            }
+            if(Config.rgb) {
+                ChromaStringRenderer.drawChromaText("Map: " + "Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
+            }
+            else {
+                Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + "Cool Map", position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
+
+            }
+            }
     }
 }

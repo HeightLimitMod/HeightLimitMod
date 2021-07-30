@@ -1,29 +1,19 @@
 package com.pinkulu.config;
 
-import com.pinkulu.HeightLimitMod;
-import com.pinkulu.events.HeightLimitListener;
-import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.util.DelayedTask;
-import gg.essential.api.EssentialAPI;
 import gg.essential.universal.UDesktop;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
-import gg.essential.vigilance.data.Category;
+import kotlin.jvm.functions.Function0;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
 
-import java.awt.Color;
-
+import java.awt.*;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.List;
 
 public class Config extends Vigilant {
-    private HudPropertyApi api;
     @Property(
             type = PropertyType.SWITCH,
             name = "Height Limit Mod",
@@ -37,7 +27,7 @@ public class Config extends Vigilant {
             name = "Update Notify",
             category = "General",
             subcategory = "General",
-            description = "Notifys you when theres an update."
+            description = "Notifies you when theres an update."
     )
     public static boolean shouldNotifyUpdate = true;
     @Property(
@@ -45,24 +35,26 @@ public class Config extends Vigilant {
             name = "GUI Location",
             category = "General",
             subcategory = "General",
-            description = "Opens a screen that lets you drag where you want to put the gui elements"
+            description = "Opens a screen that lets you drag where you want to put the gui elements."
     )
     public static void OpenGUIDragScreen(){
         Minecraft.getMinecraft().thePlayer.closeScreen();
         ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, "/hlm gui");
     }
     @Property(
-            type = PropertyType.CHECKBOX,
-            name = "rgb",
+            type = PropertyType.SWITCH,
+            name = "Chroma",
             category = "Render",
-            description = "Renders the text rgb(if checked, color selector is useless)"
+            description = "Renders the text with a rainbow effect"
     )
     public static boolean rgb;
+
     @Property(
             type = PropertyType.COLOR,
             name = "Colour",
             category = "Render",
-            description = "Selects the color for all HUD elements."
+            description = "Selects the color for all HUD elements.",
+            allowAlpha = false
     )
     public static Color heightLimitModTextColour = Color.WHITE;
 
@@ -128,6 +120,14 @@ public class Config extends Vigilant {
             description = "Display the background, what else."
     )
     public static boolean displayBackground;
+
+    @Property(
+            type = PropertyType.COLOR,
+            name = "Display Background Color",
+            category = "Render",
+            description = "Choose the color for the display background."
+    )
+    public static Color backgroundColor = new Color(0, 0, 0, 128);
 
     @Property(
             type = PropertyType.SWITCH,
