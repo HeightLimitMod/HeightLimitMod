@@ -14,6 +14,7 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -29,7 +30,7 @@ public class HeightLimitListener {
     public static String map = null;
     public static boolean shouldRender;
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void chat(ClientChatReceivedEvent event) {
         if (shouldCheck) {
             final String msg = event.message.getUnformattedText();
