@@ -130,7 +130,8 @@ public class HeightLimitListener {
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
             if(!firstJoin && Config.shouldNotifyUpdate){
                 firstJoin = true;
-                if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
+                try {
+                    if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
                     EssentialAPI.getNotifications().push("Height Limit Mod", "Version: " +
                             APICaller.Version + " is available\nYour Version: "
                             + HeightLimitMod.VERSION + "\nClick Here", () -> {
@@ -143,6 +144,9 @@ public class HeightLimitListener {
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~V" + APICaller.Version + " is now available~~~~~~~~").setChatStyle(style));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Change Log: " + APICaller.Info ).setChatStyle(style));
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Click Here to download the new version~~~~~~~~").setChatStyle(style));
+                }}
+                catch (Exception e) {
+                    System.out.println("something went wrong when calling the api on start D:");
                 }
             }
             return;
