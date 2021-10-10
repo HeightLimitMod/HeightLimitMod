@@ -87,6 +87,9 @@ public class ConfigCommand extends CommandBase {
                     HeightLimitListener.shouldRender = false;
                     HeightLimitListener.checked = false;
                 }
+            case "reload":
+                APICaller.get();
+                EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_PURPLE + "[HeightLimitMod] ",ChatColor.LIGHT_PURPLE + "API has been called and the file has been reloaded");
         }
     }
 
