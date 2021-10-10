@@ -7,6 +7,7 @@ import com.pinkulu.gui.renderHightLimit.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.ChromaStringRenderer;
+import com.pinkulu.util.readFile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,7 +31,7 @@ public class MaxHeight implements IRenderer{
 	@Override
 	public void render(ScreenPosition position) {
 		if(Config.heightLimitMod && Config.showMaxHeight){
-			if(!APICaller.isInvalid && HeightLimitListener.shouldRender) {
+			if(!readFile.isInvalid && HeightLimitListener.shouldRender) {
 				if (Config.displayBackground) {
 					GlStateManager.pushMatrix();
 					GlStateManager.translate(1.0, 1.0, -100);
@@ -39,10 +40,10 @@ public class MaxHeight implements IRenderer{
 					GlStateManager.popMatrix();
 				}
 				if(Config.rgb) {
-					ChromaStringRenderer.drawChromaText("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
+					ChromaStringRenderer.drawChromaText("Max Height: " + readFile.limit, position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
 				}
 				else {
-					Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + APICaller.limit, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
+					Minecraft.getMinecraft().fontRendererObj.drawString("Max Height: " + readFile.limit, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
 
 				}
 			}

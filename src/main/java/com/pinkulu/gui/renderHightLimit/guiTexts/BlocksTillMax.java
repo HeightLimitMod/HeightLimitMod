@@ -7,6 +7,7 @@ import com.pinkulu.gui.renderHightLimit.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.ChromaStringRenderer;
+import com.pinkulu.util.readFile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,7 +28,7 @@ public class BlocksTillMax implements IRenderer {
     @Override
     public void render(ScreenPosition position) {
         if(Config.heightLimitMod && Config.showHeightLeft){
-            if(!APICaller.isInvalid && HeightLimitListener.shouldRender) {
+            if(!readFile.isInvalid && HeightLimitListener.shouldRender) {
                 if (Config.displayBackground) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(1.0, 1.0, -100);
@@ -36,9 +37,9 @@ public class BlocksTillMax implements IRenderer {
                     GlStateManager.popMatrix();
                 }
                 if(Config.rgb){
-                    ChromaStringRenderer.drawChromaText("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
+                    ChromaStringRenderer.drawChromaText("Blocks Left: " + (readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
                 }else {
-                    Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
                 }
             }
         }

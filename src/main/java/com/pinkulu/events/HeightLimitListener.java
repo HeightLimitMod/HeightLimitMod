@@ -6,6 +6,7 @@ import com.pinkulu.config.Config;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.JsonResponse;
 import com.pinkulu.util.Replace;
+import com.pinkulu.util.readFile;
 import gg.essential.api.EssentialAPI;
 import gg.essential.universal.UDesktop;
 import kotlin.Unit;
@@ -27,32 +28,31 @@ public class HeightLimitListener {
     private boolean firstJoin;
     private boolean shouldPlaySound;
     public static boolean shouldCheck;
-    public static String map = null;
     public static boolean shouldRender;
-
+    public static String map = null;
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void chat(ClientChatReceivedEvent event) {
         if (shouldCheck) {
             final String msg = event.message.getUnformattedText();
             if (msg.startsWith("{")) {
                 JsonResponse Jresponse = new Gson().fromJson(msg, JsonResponse.class);
-                if (msg.contains("map") && msg.contains("BEDWARS") && !msg.contains("VOIDLESS")) {
-                    if (Jresponse.mode.equals("BEDWARS_EIGHT_ONE") || Jresponse.mode.equals("BEDWARS_EIGHT_TWO")) {
-                        APICaller.get("8team", Replace.space(Jresponse.map.toLowerCase()));
+                shouldRender = false;
+                try{
+                    if (Jresponse.map != null && !Jresponse.map.equals("?")){
                         map = Jresponse.map;
+                        readFile.read(Replace.space(Jresponse.gametype.toLowerCase()), Replace.space(Jresponse.map.toLowerCase()));
                         shouldRender = true;
-                    } else if (Jresponse.mode.equals("BEDWARS_FOUR_THREE") || Jresponse.mode.equals("BEDWARS_FOUR_FOUR")) {
-                        APICaller.get("4team", Replace.space(Jresponse.map.toLowerCase()));
-                        map = Jresponse.map;
-                        shouldRender = true;
-                    } else {
-                        shouldRender = false;
                     }
-                } else {
+                    else{
+                        map = Jresponse.mode;
+                        readFile.read(Replace.space(Jresponse.gametype.toLowerCase()), Replace.space(Jresponse.mode.toLowerCase()));
+                        shouldRender = true;
+                    }
+                }catch(Exception e){
                     shouldRender = false;
                 }
                 shouldCheck = false;
-                event.setCanceled(true);
+                event.setCanceled(false);
             }
         }
     }
@@ -68,8 +68,8 @@ public class HeightLimitListener {
     @SubscribeEvent
     public void frame(TickEvent.PlayerTickEvent event){
         if(shouldRender && Config.shouldPlaySound &&
-                (APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        == Config.blocksWhenPlay && shouldPlaySound && !APICaller.isInvalid){
+                (readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                        == Config.blocksWhenPlay && shouldPlaySound && !readFile.isInvalid){
             switch (Config.soundToPlay) {
                 case 0:
                     Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
@@ -110,12 +110,12 @@ public class HeightLimitListener {
         }
         if(shouldRender && Config.shouldPlaySound) {
             if (!Config.shouldSpamSound) {
-                if ((APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                if ((readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                         > Config.blocksWhenPlay) {
                     shouldPlaySound = true;
                 }
             }else{
-                if ((APICaller.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                if ((readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                         >= Config.blocksWhenPlay) {
                     shouldPlaySound = true;
                 }

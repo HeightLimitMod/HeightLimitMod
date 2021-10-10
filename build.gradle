@@ -20,7 +20,7 @@ buildscript {
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "com.github.johnrengelman.shadow"
 
-version = "2.2"
+version = "3.0"
 group = "com.pinkulu"
 archivesBaseName = "HeightLimitMod"
 
@@ -60,6 +60,7 @@ dependencies {
 
     implementation 'gg.essential:essential-1.8.9-forge:1265'
     embed ('com.squareup.okhttp3:okhttp:3.9.1')
+    implementation group: 'org.json', name: 'json', version: '20210307'
 }
 
 

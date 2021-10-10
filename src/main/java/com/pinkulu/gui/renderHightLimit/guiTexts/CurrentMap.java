@@ -7,6 +7,7 @@ import com.pinkulu.gui.renderHightLimit.PositionConfig;
 import com.pinkulu.gui.util.ScreenPosition;
 import com.pinkulu.util.APICaller;
 import com.pinkulu.util.ChromaStringRenderer;
+import com.pinkulu.util.readFile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,7 +34,7 @@ public class CurrentMap implements IRenderer {
     public void render(ScreenPosition position) {
         if (Config.heightLimitMod && Config.showMap) {
             if (HeightLimitListener.shouldRender) {
-                if (!(APICaller.isInvalid)) {
+                if (!(readFile.isInvalid)) {
                     if (Config.displayBackground) {
                         GlStateManager.pushMatrix();
                         GlStateManager.translate(1.0, 1.0, -100);
@@ -41,15 +42,12 @@ public class CurrentMap implements IRenderer {
                         GlStateManager.translate(1.0, 1.0, 0);
                         GlStateManager.popMatrix();
                     }
-                    if(Config.rgb) {
+                    if (Config.rgb) {
                         ChromaStringRenderer.drawChromaText("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
-                    }
-                    else {
+                    } else {
                         Minecraft.getMinecraft().fontRendererObj.drawString("Map: " + HeightLimitListener.map, position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
 
                     }
-                    } else {
-                    Minecraft.getMinecraft().fontRendererObj.drawString("Map: MAP_NOT_FOUND", position.getAbsoluteX(), position.getAbsoluteY(), Color.RED.getRed(), Config.renderShadow);
                 }
             }
         }

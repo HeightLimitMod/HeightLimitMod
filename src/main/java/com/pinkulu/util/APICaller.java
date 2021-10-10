@@ -6,18 +6,19 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.Sys;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class APICaller {
-    public static int limit;
     public static String Version;
     public static String Info;
-    public static boolean isInvalid;
-    public static void get(String Mode, String MapName) {
+    public static void get() {
         OkHttpClient client = new OkHttpClient();
         Multithreading.runAsync(() -> {
             Request request = new Request.Builder()
-                    .url("https://api.pinkulu.com/HeightLimitMod/BedWars/" + Mode + "/" + MapName)
+                    .url("http://localhost/HeightLimitMod/Limits")
                     .build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
@@ -30,13 +31,11 @@ public class APICaller {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         String myRespones = response.body().string();
-                        if (myRespones.contains("Invalid map name")) {
-                            isInvalid = true;
-                        } else {
-                            JsonResponse Jresponse = new Gson().fromJson(myRespones, JsonResponse.class);
-                            isInvalid = false;
-                            limit = Jresponse.Limit;
-                        }
+                        BufferedWriter writer = new BufferedWriter(new FileWriter("./config/HeightLimitMod/limits.json"));
+                        writer.write(myRespones);
+
+                        writer.close();
+                        System.out.println("thingy: " + writer);
                     }
                 }
             });
