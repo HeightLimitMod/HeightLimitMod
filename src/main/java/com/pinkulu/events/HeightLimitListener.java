@@ -52,7 +52,7 @@ public class HeightLimitListener {
                     shouldRender = false;
                 }
                 shouldCheck = false;
-                event.setCanceled(false);
+                event.setCanceled(true);
             }
         }
     }

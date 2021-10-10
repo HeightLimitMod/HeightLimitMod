@@ -18,7 +18,7 @@ public class APICaller {
         OkHttpClient client = new OkHttpClient();
         Multithreading.runAsync(() -> {
             Request request = new Request.Builder()
-                    .url("http://localhost/HeightLimitMod/Limits")
+                    .url("https://api.pinkulu.com/HeightLimitMod/Limits")
                     .build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
