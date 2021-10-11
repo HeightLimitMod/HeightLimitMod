@@ -41,7 +41,6 @@ public class APICaller {
                         writer.write(myRespones);
 
                         writer.close();
-                        System.out.println("thingy: " + writer);
                     }
                 }
             });
