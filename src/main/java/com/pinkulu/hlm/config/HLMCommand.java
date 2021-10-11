@@ -49,7 +49,7 @@ public class HLMCommand extends Command {
         if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
             EssentialAPI.getNotifications().push("Height Limit Mod", "A new version is available: V" + APICaller.Version
                     + "\nClick Here", () -> {
-                UDesktop.browse(URI.create("https://www.curseforge.com/minecraft/mc-mods/height-limit-mod-1-8-9-forge"));
+                UDesktop.browse(URI.create("https://modrinth.com/mod/hlm"));
                 return Unit.INSTANCE;
             });
         } else {
