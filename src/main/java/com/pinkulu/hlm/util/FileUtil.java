@@ -1,5 +1,7 @@
 package com.pinkulu.hlm.util;
 
+import com.pinkulu.hlm.HeightLimitMod;
+import com.pinkulu.hlm.events.HeightLimitListener;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -28,9 +30,15 @@ public class FileUtil {
             } else isInvalid = true;
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            isInvalid = true;
-            e.printStackTrace();
+            try{
+                APICaller.get();
+                HeightLimitListener.shouldCheck = true;
+                HeightLimitListener.checked = false;
+            }catch (Exception ex){
+                System.out.println("An error occurred.");
+                isInvalid = true;
+                e.printStackTrace();
+            }
         }
     }
 }
