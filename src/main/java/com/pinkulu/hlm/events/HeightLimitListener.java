@@ -1,26 +1,17 @@
 package com.pinkulu.hlm.events;
 
 import com.google.gson.Gson;
-import com.pinkulu.hlm.HeightLimitMod;
 import com.pinkulu.hlm.config.Config;
+import com.pinkulu.hlm.util.FileUtil;
 import com.pinkulu.hlm.util.JsonResponse;
 import com.pinkulu.hlm.util.Replace;
-import com.pinkulu.hlm.util.APICaller;
-import com.pinkulu.hlm.util.FileUtil;
 import gg.essential.api.EssentialAPI;
-import gg.essential.universal.UDesktop;
-import kotlin.Unit;
 import net.minecraft.client.Minecraft;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import java.net.URI;
 
 public class HeightLimitListener {
     public static boolean checked = true;
@@ -28,7 +19,6 @@ public class HeightLimitListener {
     public static boolean shouldRender;
     public static String map = null;
     private int ticks;
-    private boolean firstJoin;
     private boolean shouldPlaySound;
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
@@ -59,99 +49,79 @@ public class HeightLimitListener {
     @SubscribeEvent
     public void loadWorld(WorldEvent.Load event) {
         if (!Minecraft.getMinecraft().isSingleplayer() && EssentialAPI.getMinecraftUtil().isHypixel()) {
-            ticks = 60;
+            ticks = 20;
             checked = false;
             shouldPlaySound = false;
         }
     }
 
     @SubscribeEvent
-    public void frame(TickEvent.PlayerTickEvent event) {
-        if (shouldRender && Config.shouldPlaySound &&
-                (FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        == Config.blocksWhenPlay && shouldPlaySound && !FileUtil.isInvalid) {
-            switch (Config.soundToPlay) {
-                case 0:
-                    Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 1:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.irongolem.hit", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 2:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.blaze.hit", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 3:
-                    Minecraft.getMinecraft().thePlayer.playSound("random.anvil_land", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 4:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.horse.death", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 5:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.ghast.scream", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 6:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.guardian.land.hit", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 7:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.cat.meow", 1f, 1f);
-                    shouldPlaySound = false;
-                    break;
-                case 8:
-                    Minecraft.getMinecraft().thePlayer.playSound("mob.wolf.bark", 1f, 1f);
-                    shouldPlaySound = false;
-            }
-        }
-        if (shouldRender && Config.shouldPlaySound) {
-            if (!Config.shouldSpamSound) {
-                if ((FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        > Config.blocksWhenPlay) {
-                    shouldPlaySound = true;
-                }
-            } else {
-                if ((FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        >= Config.blocksWhenPlay) {
-                    shouldPlaySound = true;
+    public void frame(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            if (shouldRender && Config.shouldPlaySound &&
+                    (FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                            == Config.blocksWhenPlay && shouldPlaySound && !FileUtil.isInvalid) {
+                switch (Config.soundToPlay) {
+                    case 0:
+                        Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 1:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.irongolem.hit", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 2:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.blaze.hit", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 3:
+                        Minecraft.getMinecraft().thePlayer.playSound("random.anvil_land", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 4:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.horse.death", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 5:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.ghast.scream", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 6:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.guardian.land.hit", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 7:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.cat.meow", 1f, 1f);
+                        shouldPlaySound = false;
+                        break;
+                    case 8:
+                        Minecraft.getMinecraft().thePlayer.playSound("mob.wolf.bark", 1f, 1f);
+                        shouldPlaySound = false;
                 }
             }
-        }
-        if (ticks <= 0 && checked) {
-            return;
-        }
-        if (ticks <= 0) {
-            checked = true;
-            shouldCheck = true;
-            Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
-            if (!firstJoin && Config.shouldNotifyUpdate) {
-                firstJoin = true;
-                try {
-                    if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
-                        EssentialAPI.getNotifications().push("Height Limit Mod", "Version: " +
-                                APICaller.Version + " is available\nYour Version: "
-                                + HeightLimitMod.VERSION + "\nClick Here", () -> {
-                            UDesktop.browse(URI.create("https://modrinth.com/mod/hlm"));
-                            return Unit.INSTANCE;
-                        });
-                        ChatStyle style = new ChatStyle();
-                        style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://modrinth.com/mod/hlm"));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Height Limit Mod~~~~~~~~").setChatStyle(style));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~V" + APICaller.Version + " is now available~~~~~~~~").setChatStyle(style));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Change Log: " + APICaller.Info).setChatStyle(style));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Click Here to download the new version~~~~~~~~").setChatStyle(style));
+            if (shouldRender && Config.shouldPlaySound) {
+                if (!Config.shouldSpamSound) {
+                    if ((FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                            > Config.blocksWhenPlay) {
+                        shouldPlaySound = true;
                     }
-                } catch (Exception e) {
-                    System.out.println("something went wrong when calling the api on start D:");
+                } else {
+                    if ((FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                            >= Config.blocksWhenPlay) {
+                        shouldPlaySound = true;
+                    }
                 }
             }
-            return;
+            if (ticks <= 0 && checked) {
+                return;
+            }
+            if (ticks <= 0) {
+                checked = true;
+                shouldCheck = true;
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
+            }
+            ticks--;
         }
-        ticks--;
     }
 
 }

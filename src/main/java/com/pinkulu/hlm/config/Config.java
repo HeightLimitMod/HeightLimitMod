@@ -1,5 +1,8 @@
 package com.pinkulu.hlm.config;
 
+import com.pinkulu.hlm.HeightLimitMod;
+import com.pinkulu.hlm.util.DelayedTask;
+import gg.essential.api.EssentialAPI;
 import gg.essential.universal.UDesktop;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
@@ -37,8 +40,8 @@ public class Config extends Vigilant {
             description = "Opens a screen that lets you drag where you want to put the gui elements."
     )
     public static void openGui(){
-        Minecraft.getMinecraft().thePlayer.closeScreen();
-        ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, "/hlm gui");
+        EssentialAPI.getGuiUtil().openScreen(null);
+        new DelayedTask(HeightLimitMod.api::openConfigScreen, 1);
     }
     @Property(
             type = PropertyType.SWITCH,

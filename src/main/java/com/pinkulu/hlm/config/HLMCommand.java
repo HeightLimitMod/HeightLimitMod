@@ -1,7 +1,6 @@
 package com.pinkulu.hlm.config;
 
 import com.pinkulu.hlm.HeightLimitMod;
-import com.pinkulu.hlm.gui.HudPropertyApi;
 import com.pinkulu.hlm.util.APICaller;
 import com.pinkulu.hlm.util.DelayedTask;
 import gg.essential.api.EssentialAPI;
@@ -18,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class HLMCommand extends Command {
-    private final HudPropertyApi api;
     private final Set<Alias> aliases = new HashSet<>();
 
     @Nullable
@@ -32,9 +30,8 @@ public class HLMCommand extends Command {
         return aliases;
     }
 
-    public HLMCommand(HudPropertyApi api) {
+    public HLMCommand() {
         super("heightlimitmod", true);
-        this.api = api;
     }
 
     @DefaultHandler
@@ -44,7 +41,7 @@ public class HLMCommand extends Command {
 
     @SubCommand(value = "gui", aliases = {"hud"}, description = "Opens a GUI to edit the HUD.")
     public void openGUI() {
-        new DelayedTask(api::openConfigScreen, 1);
+        new DelayedTask(HeightLimitMod.api::openConfigScreen, 1);
     }
 
     @SubCommand(value = "update", description = "Checks for an update.")
