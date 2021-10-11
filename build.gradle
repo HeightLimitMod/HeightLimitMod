@@ -44,7 +44,6 @@ minecraft {
 
 configurations {
     embed
-    include
     implementation.extendsFrom(embed)
 }
 
@@ -56,9 +55,9 @@ repositories {
 }
 
 dependencies {
-    embed "gg.essential:loader-launchwrapper:1.0.2"
+    embed "gg.essential:loader-launchwrapper:1.1.1"
 
-    implementation 'gg.essential:essential-1.8.9-forge:1265'
+    implementation 'gg.essential:essential-1.8.9-forge:1501+release-launch'
     embed ('com.squareup.okhttp3:okhttp:3.9.1')
     implementation group: 'org.json', name: 'json', version: '20210307'
 }
@@ -83,20 +82,21 @@ reobfJar.dependsOn tasks.shadowJar
 
 processResources
         {
-            // this will ensure that this task is redone when the versions change.
             inputs.property "version", project.version
             inputs.property "mcversion", project.minecraft.version
 
-            // replace stuff in mcmod.info, nothing else
             from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
+                include "mcmod.info"
+                include "bundle.project.json"
 
-                // replace version and mcversion
-                expand 'version':project.version, 'mcversion':project.minecraft.version
+                expand(
+                        "version": project.version,
+                        "mcversion": project.minecraft.version
+                )
             }
 
-            // copy everything else, thats not the mcmod.info
             from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
+                exclude "mcmod.info"
+                exclude "bundle.project.json"
             }
         }

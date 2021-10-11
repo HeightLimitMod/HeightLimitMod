@@ -1,4 +1,4 @@
-package com.pinkulu.util;
+package com.pinkulu.hlm.util;
 
 public class JsonResponse {
     //website

@@ -1,19 +1,18 @@
-package com.pinkulu.util;
+package com.pinkulu.hlm.util;
 
 import com.google.gson.Gson;
 import gg.essential.api.utils.Multithreading;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.Sys;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class APICaller {
     public static String Version;
     public static String Info;
+
     public static void get() {
         OkHttpClient client = new OkHttpClient();
         Multithreading.runAsync(() -> {
@@ -41,6 +40,7 @@ public class APICaller {
             });
         });
     }
+
     public static void getVersion() {
         OkHttpClient client = new OkHttpClient();
         Multithreading.runAsync(() -> {

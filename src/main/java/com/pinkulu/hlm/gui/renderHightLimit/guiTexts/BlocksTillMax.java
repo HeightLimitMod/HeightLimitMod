@@ -1,13 +1,12 @@
-package com.pinkulu.gui.renderHightLimit.guiTexts;
+package com.pinkulu.hlm.gui.renderHightLimit.guiTexts;
 
-import com.pinkulu.config.Config;
-import com.pinkulu.events.HeightLimitListener;
-import com.pinkulu.gui.IRenderer;
-import com.pinkulu.gui.renderHightLimit.PositionConfig;
-import com.pinkulu.gui.util.ScreenPosition;
-import com.pinkulu.util.APICaller;
-import com.pinkulu.util.ChromaStringRenderer;
-import com.pinkulu.util.readFile;
+import com.pinkulu.hlm.config.Config;
+import com.pinkulu.hlm.events.HeightLimitListener;
+import com.pinkulu.hlm.gui.IRenderer;
+import com.pinkulu.hlm.gui.renderHightLimit.PositionConfig;
+import com.pinkulu.hlm.gui.util.ScreenPosition;
+import com.pinkulu.hlm.util.ChromaStringRenderer;
+import com.pinkulu.hlm.util.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,8 +26,8 @@ public class BlocksTillMax implements IRenderer {
 
     @Override
     public void render(ScreenPosition position) {
-        if(Config.heightLimitMod && Config.showHeightLeft){
-            if(!readFile.isInvalid && HeightLimitListener.shouldRender) {
+        if (Config.heightLimitMod && Config.showHeightLeft) {
+            if (!FileUtil.isInvalid && HeightLimitListener.shouldRender) {
                 if (Config.displayBackground) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(1.0, 1.0, -100);
@@ -36,10 +35,10 @@ public class BlocksTillMax implements IRenderer {
                     GlStateManager.translate(1.0, 1.0, 0);
                     GlStateManager.popMatrix();
                 }
-                if(Config.rgb){
-                    ChromaStringRenderer.drawChromaText("Blocks Left: " + (readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
-                }else {
-                    Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
+                if (Config.rgb) {
+                    ChromaStringRenderer.drawChromaText("Blocks Left: " + (FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
+                } else {
+                    Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + (FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY()), position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
                 }
             }
         }
@@ -64,9 +63,9 @@ public class BlocksTillMax implements IRenderer {
             GlStateManager.translate(1.0, 1.0, 0);
             GlStateManager.popMatrix();
         }
-        if(Config.rgb){
+        if (Config.rgb) {
             ChromaStringRenderer.drawChromaText("Blocks Left: " + "100", position.getAbsoluteX(), position.getAbsoluteY(), Config.renderShadow);
-        }else {
+        } else {
             Minecraft.getMinecraft().fontRendererObj.drawString("Blocks Left: " + "100", position.getAbsoluteX(), position.getAbsoluteY(), Config.heightLimitModTextColour.getRGB(), Config.renderShadow);
         }
     }

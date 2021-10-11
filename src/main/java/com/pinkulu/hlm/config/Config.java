@@ -1,10 +1,9 @@
-package com.pinkulu.config;
+package com.pinkulu.hlm.config;
 
 import gg.essential.universal.UDesktop;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
-import kotlin.jvm.functions.Function0;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
 
@@ -37,7 +36,7 @@ public class Config extends Vigilant {
             subcategory = "General",
             description = "Opens a screen that lets you drag where you want to put the gui elements."
     )
-    public static void OpenGUIDragScreen(){
+    public static void openGui(){
         Minecraft.getMinecraft().thePlayer.closeScreen();
         ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, "/hlm gui");
     }
@@ -151,7 +150,7 @@ public class Config extends Vigilant {
             category = "Information",
             description = "The coolest website on the planet"
     )
-    public static void OpenPinkuluDotCom() throws URISyntaxException {
+    public static void openWebsite() throws URISyntaxException {
         UDesktop.browse(new URI("https://pinkulu.com"));
     }
     @Property(
@@ -160,7 +159,7 @@ public class Config extends Vigilant {
             category = "Information",
             description = "Are you having any issues with the mod? Join the support discord server :)"
     )
-    public static void OpenPinkuluDiscordServer() throws URISyntaxException {
+    public static void openDiscord() throws URISyntaxException {
         UDesktop.browse(new URI("https://discord.gg/Fykpshg"));
     }
     @Property(
@@ -169,7 +168,7 @@ public class Config extends Vigilant {
             category = "Information",
             description = "Opens a screen that lets you drag where you want to put the gui elements"
     )
-    public static void OpenGUIDragScreenINFO(){
+    public static void openGUIInfo(){
         Minecraft.getMinecraft().thePlayer.closeScreen();
         ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, "/hlm gui");
     }
@@ -180,7 +179,7 @@ public class Config extends Vigilant {
             description = "Need to use height limit mod on a client like lunar or badlion? well fear no more, as HLW " +
                     "gots you, search all the bedwars maps in your browser"
     )
-    public static void OpenPinkuluHLW() throws URISyntaxException {
+    public static void openPinkuluHLW() throws URISyntaxException {
         UDesktop.browse(new URI("https://pinkulu.com/HeightLimitWeb"));
     }
 

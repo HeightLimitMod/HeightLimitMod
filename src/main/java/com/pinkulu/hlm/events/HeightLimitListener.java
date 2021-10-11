@@ -1,12 +1,12 @@
-package com.pinkulu.events;
+package com.pinkulu.hlm.events;
 
 import com.google.gson.Gson;
-import com.pinkulu.HeightLimitMod;
-import com.pinkulu.config.Config;
-import com.pinkulu.util.APICaller;
-import com.pinkulu.util.JsonResponse;
-import com.pinkulu.util.Replace;
-import com.pinkulu.util.readFile;
+import com.pinkulu.hlm.HeightLimitMod;
+import com.pinkulu.hlm.config.Config;
+import com.pinkulu.hlm.util.JsonResponse;
+import com.pinkulu.hlm.util.Replace;
+import com.pinkulu.hlm.util.APICaller;
+import com.pinkulu.hlm.util.FileUtil;
 import gg.essential.api.EssentialAPI;
 import gg.essential.universal.UDesktop;
 import kotlin.Unit;
@@ -15,21 +15,22 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.net.URI;
 
 public class HeightLimitListener {
-    private int ticks;
     public static boolean checked = true;
-    private boolean firstJoin;
-    private boolean shouldPlaySound;
     public static boolean shouldCheck;
     public static boolean shouldRender;
     public static String map = null;
+    private int ticks;
+    private boolean firstJoin;
+    private boolean shouldPlaySound;
+
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void chat(ClientChatReceivedEvent event) {
         if (shouldCheck) {
@@ -37,18 +38,16 @@ public class HeightLimitListener {
             if (msg.startsWith("{")) {
                 JsonResponse Jresponse = new Gson().fromJson(msg, JsonResponse.class);
                 shouldRender = false;
-                try{
-                    if (Jresponse.map != null && !Jresponse.map.equals("?")){
+                try {
+                    if (Jresponse.map != null && !Jresponse.map.equals("?")) {
                         map = Jresponse.map;
-                        readFile.read(Replace.space(Jresponse.gametype.toLowerCase()), Replace.space(Jresponse.map.toLowerCase()));
-                        shouldRender = true;
-                    }
-                    else{
+                        FileUtil.read(Replace.space(Jresponse.gametype.toLowerCase()), Replace.space(Jresponse.map.toLowerCase()));
+                    } else {
                         map = Jresponse.mode;
-                        readFile.read(Replace.space(Jresponse.gametype.toLowerCase()), Replace.space(Jresponse.mode.toLowerCase()));
-                        shouldRender = true;
+                        FileUtil.read(Replace.space(Jresponse.gametype.toLowerCase()), Replace.space(Jresponse.mode.toLowerCase()));
                     }
-                }catch(Exception e){
+                    shouldRender = true;
+                } catch (Exception e) {
                     shouldRender = false;
                 }
                 shouldCheck = false;
@@ -65,11 +64,12 @@ public class HeightLimitListener {
             shouldPlaySound = false;
         }
     }
+
     @SubscribeEvent
-    public void frame(TickEvent.PlayerTickEvent event){
-        if(shouldRender && Config.shouldPlaySound &&
-                (readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
-                        == Config.blocksWhenPlay && shouldPlaySound && !readFile.isInvalid){
+    public void frame(TickEvent.PlayerTickEvent event) {
+        if (shouldRender && Config.shouldPlaySound &&
+                (FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                        == Config.blocksWhenPlay && shouldPlaySound && !FileUtil.isInvalid) {
             switch (Config.soundToPlay) {
                 case 0:
                     Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
@@ -108,44 +108,44 @@ public class HeightLimitListener {
                     shouldPlaySound = false;
             }
         }
-        if(shouldRender && Config.shouldPlaySound) {
+        if (shouldRender && Config.shouldPlaySound) {
             if (!Config.shouldSpamSound) {
-                if ((readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+                if ((FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                         > Config.blocksWhenPlay) {
                     shouldPlaySound = true;
                 }
-            }else{
-                if ((readFile.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
+            } else {
+                if ((FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                         >= Config.blocksWhenPlay) {
                     shouldPlaySound = true;
                 }
             }
         }
-        if(ticks <= 0 && checked){
+        if (ticks <= 0 && checked) {
             return;
         }
-        if(ticks <= 0){
+        if (ticks <= 0) {
             checked = true;
             shouldCheck = true;
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/locraw");
-            if(!firstJoin && Config.shouldNotifyUpdate){
+            if (!firstJoin && Config.shouldNotifyUpdate) {
                 firstJoin = true;
                 try {
                     if (Double.parseDouble(APICaller.Version) > Double.parseDouble(HeightLimitMod.VERSION)) {
-                    EssentialAPI.getNotifications().push("Height Limit Mod", "Version: " +
-                            APICaller.Version + " is available\nYour Version: "
-                            + HeightLimitMod.VERSION + "\nClick Here", () -> {
-                        UDesktop.browse(URI.create("https://modrinth.com/mod/hlm"));
-                        return Unit.INSTANCE;
-                    });
-                    ChatStyle style = new ChatStyle();
-                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://modrinth.com/mod/hlm"));
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Height Limit Mod~~~~~~~~").setChatStyle(style));
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~V" + APICaller.Version + " is now available~~~~~~~~").setChatStyle(style));
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Change Log: " + APICaller.Info ).setChatStyle(style));
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Click Here to download the new version~~~~~~~~").setChatStyle(style));
-                }}
-                catch (Exception e) {
+                        EssentialAPI.getNotifications().push("Height Limit Mod", "Version: " +
+                                APICaller.Version + " is available\nYour Version: "
+                                + HeightLimitMod.VERSION + "\nClick Here", () -> {
+                            UDesktop.browse(URI.create("https://modrinth.com/mod/hlm"));
+                            return Unit.INSTANCE;
+                        });
+                        ChatStyle style = new ChatStyle();
+                        style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://modrinth.com/mod/hlm"));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Height Limit Mod~~~~~~~~").setChatStyle(style));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~V" + APICaller.Version + " is now available~~~~~~~~").setChatStyle(style));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§b~~~~~~~~Change Log: " + APICaller.Info).setChatStyle(style));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("§d~~~~~~~~Click Here to download the new version~~~~~~~~").setChatStyle(style));
+                    }
+                } catch (Exception e) {
                     System.out.println("something went wrong when calling the api on start D:");
                 }
             }
