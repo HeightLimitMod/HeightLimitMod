@@ -1,24 +1,20 @@
-package com.pinkulu;
+package com.pinkulu.hlm;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
-import com.pinkulu.config.ConfigCommand;
-import com.pinkulu.config.Config;
-import com.pinkulu.events.HeightLimitListener;
-import com.pinkulu.gui.HudPropertyApi;
-import com.pinkulu.gui.renderHightLimit.PositionConfig;
-import com.pinkulu.gui.renderHightLimit.guiTexts.BlocksTillMax;
-import com.pinkulu.gui.renderHightLimit.guiTexts.CurrentMap;
-import com.pinkulu.gui.renderHightLimit.guiTexts.MaxHeight;
-import com.pinkulu.util.APICaller;
-import com.pinkulu.util.readFile;
-import net.minecraftforge.client.ClientCommandHandler;
+import com.pinkulu.hlm.config.Config;
+import com.pinkulu.hlm.config.HLMCommand;
+import com.pinkulu.hlm.events.HeightLimitListener;
+import com.pinkulu.hlm.gui.HudPropertyApi;
+import com.pinkulu.hlm.gui.renderHightLimit.PositionConfig;
+import com.pinkulu.hlm.gui.renderHightLimit.guiTexts.BlocksTillMax;
+import com.pinkulu.hlm.gui.renderHightLimit.guiTexts.CurrentMap;
+import com.pinkulu.hlm.gui.renderHightLimit.guiTexts.MaxHeight;
+import com.pinkulu.hlm.util.APICaller;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import org.jetbrains.annotations.NotNull;
-
 
 import java.io.File;
 import java.io.FileReader;
@@ -29,20 +25,20 @@ import java.io.IOException;
 @Mod(modid = HeightLimitMod.MODID, version = HeightLimitMod.VERSION, name = HeightLimitMod.NAME)
 public class HeightLimitMod {
 
-    static final String MODID = "HeightLimitMod";
     public static final String VERSION = "3.0";
-    public static final String NAME = "heightLimitMod";
-    public final Config config = new Config();
+    public static final String NAME = "HeightLimitMod";
+    static final String MODID = "heightlimitmod";
     @Mod.Instance("HeightLimitMod")
     public static HeightLimitMod instance;
+    public static Config config;
 
     @Mod.EventHandler
     public void onInitialization(FMLInitializationEvent event) {
+        config = new Config();
         config.preload();
         MinecraftForge.EVENT_BUS.register(new HeightLimitListener());
         HudPropertyApi api = HudPropertyApi.newInstance();
-        ClientCommandHandler.instance.registerCommand(new ConfigCommand(api));
-
+        new HLMCommand(api).register();
         api.register(new MaxHeight());
         api.register(new CurrentMap());
         api.register(new BlocksTillMax());
@@ -50,27 +46,6 @@ public class HeightLimitMod {
         saveConfig();
         APICaller.getVersion();
         APICaller.get();
-    }
-
-    @NotNull
-    public Config getConfig() {
-        return config;
-    }
-
-
-    public static void saveConfig() {
-        try {
-            File file = new File("config/HeightLimitMod", "POSconfig.json");
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
-            JsonWriter writer = new JsonWriter(new FileWriter(file, false));
-            writeJson(writer);
-            writer.close();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
     }
 
     private void loadConfig() {
@@ -96,6 +71,21 @@ public class HeightLimitMod {
 
         PositionConfig.BlocksTillMaxX = json.get("BlocksTillMaxX").getAsDouble();
         PositionConfig.BlocksTillMaxY = json.get("BlocksTillMaxY").getAsDouble();
+    }
+
+    public static void saveConfig() {
+        try {
+            File file = new File("config/HeightLimitMod", "POSconfig.json");
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            JsonWriter writer = new JsonWriter(new FileWriter(file, false));
+            writeJson(writer);
+            writer.close();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     public static void writeJson(JsonWriter writer) throws IOException {

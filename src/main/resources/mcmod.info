@@ -1,8 +1,8 @@
 [
 {
-  "modid": "HeightLimitMod",
+  "modid": "heightlimitmod",
   "name": "HeightLimitMod",
-  "description": "Shows The Build Limit Of Hypixel Maps",
+  "description": "Shows useful information about maps in Hypixel, such as the height limit.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
