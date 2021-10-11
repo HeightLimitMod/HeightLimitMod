@@ -1,4 +1,4 @@
-package com.pinkulu.hlm.gui.renderHightLimit;
+package com.pinkulu.hlm.hud.util;
 
 public class PositionConfig {
 

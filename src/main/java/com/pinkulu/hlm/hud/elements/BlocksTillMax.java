@@ -1,10 +1,10 @@
-package com.pinkulu.hlm.gui.renderHightLimit.guiTexts;
+package com.pinkulu.hlm.hud.elements;
 
 import com.pinkulu.hlm.config.Config;
 import com.pinkulu.hlm.events.HeightLimitListener;
-import com.pinkulu.hlm.gui.IRenderer;
-import com.pinkulu.hlm.gui.renderHightLimit.PositionConfig;
-import com.pinkulu.hlm.gui.util.ScreenPosition;
+import com.pinkulu.hlm.hud.IRenderer;
+import com.pinkulu.hlm.hud.util.PositionConfig;
+import com.pinkulu.hlm.hud.util.ScreenPosition;
 import com.pinkulu.hlm.util.ChromaStringRenderer;
 import com.pinkulu.hlm.util.FileUtil;
 import net.minecraft.client.Minecraft;

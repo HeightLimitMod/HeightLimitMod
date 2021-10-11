@@ -1,8 +1,8 @@
-package com.pinkulu.hlm.gui;
+package com.pinkulu.hlm.hud;
 
 import com.google.common.collect.Sets;
 import com.pinkulu.hlm.config.Config;
-import com.pinkulu.hlm.gui.util.ScreenPosition;
+import com.pinkulu.hlm.hud.util.ScreenPosition;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;

@@ -1,4 +1,4 @@
-package com.pinkulu.hlm.gui.util;
+package com.pinkulu.hlm.hud.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

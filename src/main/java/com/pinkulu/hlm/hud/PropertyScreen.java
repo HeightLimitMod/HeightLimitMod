@@ -1,7 +1,7 @@
-package com.pinkulu.hlm.gui;
+package com.pinkulu.hlm.hud;
 
 import com.pinkulu.hlm.HeightLimitMod;
-import com.pinkulu.hlm.gui.util.ScreenPosition;
+import com.pinkulu.hlm.hud.util.ScreenPosition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;

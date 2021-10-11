@@ -1,6 +1,6 @@
-package com.pinkulu.hlm.gui;
+package com.pinkulu.hlm.hud;
 
-import com.pinkulu.hlm.gui.util.ScreenPosition;
+import com.pinkulu.hlm.hud.util.ScreenPosition;
 
 public interface IConfigExchange {
 

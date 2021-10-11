@@ -6,11 +6,11 @@ import com.google.gson.stream.JsonWriter;
 import com.pinkulu.hlm.config.Config;
 import com.pinkulu.hlm.config.HLMCommand;
 import com.pinkulu.hlm.events.HeightLimitListener;
-import com.pinkulu.hlm.gui.HudPropertyApi;
-import com.pinkulu.hlm.gui.renderHightLimit.PositionConfig;
-import com.pinkulu.hlm.gui.renderHightLimit.guiTexts.BlocksTillMax;
-import com.pinkulu.hlm.gui.renderHightLimit.guiTexts.CurrentMap;
-import com.pinkulu.hlm.gui.renderHightLimit.guiTexts.MaxHeight;
+import com.pinkulu.hlm.hud.HudPropertyApi;
+import com.pinkulu.hlm.hud.util.PositionConfig;
+import com.pinkulu.hlm.hud.elements.BlocksTillMax;
+import com.pinkulu.hlm.hud.elements.CurrentMap;
+import com.pinkulu.hlm.hud.elements.MaxHeight;
 import com.pinkulu.hlm.util.APICaller;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -27,18 +27,17 @@ public class HeightLimitMod {
 
     public static final String VERSION = "3.0";
     public static final String NAME = "HeightLimitMod";
-    static final String MODID = "heightlimitmod";
-    @Mod.Instance("HeightLimitMod")
-    public static HeightLimitMod instance;
+    public static final String MODID = "heightlimitmod";
     public static Config config;
+    public static HudPropertyApi api;
 
     @Mod.EventHandler
     public void onInitialization(FMLInitializationEvent event) {
+        api = HudPropertyApi.newInstance();
         config = new Config();
         config.preload();
         MinecraftForge.EVENT_BUS.register(new HeightLimitListener());
-        HudPropertyApi api = HudPropertyApi.newInstance();
-        new HLMCommand(api).register();
+        new HLMCommand().register();
         api.register(new MaxHeight());
         api.register(new CurrentMap());
         api.register(new BlocksTillMax());
