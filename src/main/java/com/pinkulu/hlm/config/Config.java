@@ -13,7 +13,6 @@ import net.minecraftforge.client.ClientCommandHandler;
 import java.awt.*;
 import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class Config extends Vigilant {
     @Property(
@@ -111,7 +110,7 @@ public class Config extends Vigilant {
             type = PropertyType.SWITCH,
             name = "Spam The Sound",
             category = "Sound",
-            description = "WARNING: This Will Spam The Sound, Making It Supper Loud, And Play A lot Of Time."
+            description = "WARNING: This Will Spam The Sound, Making It Super Loud, And Play A lot Of Time."
     )
     public static boolean shouldSpamSound = false;
 
@@ -153,8 +152,8 @@ public class Config extends Vigilant {
             category = "Information",
             description = "The coolest website on the planet"
     )
-    public static void openWebsite() throws URISyntaxException {
-        UDesktop.browse(new URI("https://pinkulu.com"));
+    public static void openWebsite() {
+        UDesktop.browse(URI.create("https://pinkulu.com"));
     }
     @Property(
             type = PropertyType.BUTTON,
@@ -162,8 +161,8 @@ public class Config extends Vigilant {
             category = "Information",
             description = "Are you having any issues with the mod? Join the support discord server :)"
     )
-    public static void openDiscord() throws URISyntaxException {
-        UDesktop.browse(new URI("https://discord.gg/Fykpshg"));
+    public static void openDiscord() {
+        UDesktop.browse(URI.create("https://discord.gg/Fykpshg"));
     }
     @Property(
             type = PropertyType.BUTTON,
@@ -182,8 +181,8 @@ public class Config extends Vigilant {
             description = "Need to use height limit mod on a client like lunar or badlion? well fear no more, as HLW " +
                     "gots you, search all the bedwars maps in your browser"
     )
-    public static void openPinkuluHLW() throws URISyntaxException {
-        UDesktop.browse(new URI("https://pinkulu.com/HeightLimitWeb"));
+    public static void openPinkuluHLW() {
+        UDesktop.browse(URI.create("https://pinkulu.com/HeightLimitWeb"));
     }
 
     public Config() {

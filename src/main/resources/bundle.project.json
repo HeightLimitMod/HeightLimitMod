@@ -1,5 +1,5 @@
 {
-  "id": "heightlimitmod",
+  "id": "${modid}",
   "version": "${version}",
   "minecraft_version": "${mcversion}",
   "platform": "forge"

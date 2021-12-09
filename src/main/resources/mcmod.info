@@ -1,7 +1,7 @@
 [
 {
-  "modid": "heightlimitmod",
-  "name": "HeightLimitMod",
+  "modid": "${modid}",
+  "name": "${name}",
   "description": "Shows useful information about maps in Hypixel, such as the height limit.",
   "version": "${version}",
   "mcversion": "${mcversion}",

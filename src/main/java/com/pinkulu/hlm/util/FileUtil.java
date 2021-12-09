@@ -1,8 +1,8 @@
 package com.pinkulu.hlm.util;
 
-import com.pinkulu.hlm.HeightLimitMod;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.pinkulu.hlm.events.HeightLimitListener;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class FileUtil {
     public static boolean isInvalid;
     public static int limit;
+    private static final JsonParser PARSER = new JsonParser();
 
     public static void read(String gametype, String map) {
         try {
@@ -21,10 +22,10 @@ public class FileUtil {
                 String data = myReader.nextLine();
                 final_string.append(data);
             }
-            JSONObject obj = new JSONObject(String.valueOf(final_string));
+            JsonObject obj = PARSER.parse(String.valueOf(final_string)).getAsJsonObject();
             if (obj.has(gametype.toLowerCase())) {
-                if (obj.getJSONObject(gametype.toLowerCase()).has(map.toLowerCase())) {
-                    limit = obj.getJSONObject(gametype.toLowerCase()).getInt(map.toLowerCase());
+                if (obj.getAsJsonObject(gametype.toLowerCase()).has(map.toLowerCase())) {
+                    limit = obj.getAsJsonObject(gametype.toLowerCase()).get(map.toLowerCase()).getAsInt();
                     isInvalid = false;
                 } else isInvalid = true;
             } else isInvalid = true;

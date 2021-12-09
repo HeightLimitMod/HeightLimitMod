@@ -25,9 +25,9 @@ import java.io.IOException;
 @Mod(modid = HeightLimitMod.MODID, version = HeightLimitMod.VERSION, name = HeightLimitMod.NAME)
 public class HeightLimitMod {
 
-    public static final String VERSION = "3.0";
-    public static final String NAME = "HeightLimitMod";
-    public static final String MODID = "heightlimitmod";
+    public static final String VERSION = "@VER@";
+    public static final String NAME = "@NAME@";
+    public static final String MODID = "@ID@";
     public static Config config;
     public static HudPropertyApi api;
 
