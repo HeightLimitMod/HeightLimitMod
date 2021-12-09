@@ -44,6 +44,7 @@ dependencies {
     include ('gg.essential:loader-launchwrapper:1.1.2') {
         transitive = false
     }
+    include 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'gg.essential:essential-1.8.9-forge:1612+release-launch'
 
 }
