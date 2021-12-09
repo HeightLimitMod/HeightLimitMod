@@ -1,102 +1,127 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "jitpack"
-            url = "https://jitpack.io/"
-        }
-    }
-    dependencies {
-        classpath "com.github.asbyth:ForgeGradle:b13624b272"
-        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
-    }
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "net.minecraftforge.gradle.forge" version "ddb1eb0"
+    id 'org.spongepowered.mixin' version "d5f9873"
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "com.github.johnrengelman.shadow"
+version = modVersion
+group = modGroup
+archivesBaseName = modBaseName
 
-version = "3.0"
-group = "com.pinkulu"
-archivesBaseName = "HeightLimitMod"
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
-
-sourceSets {
-    main {
-        output.resourcesDir = java.outputDir
-    }
-}
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
+    replace('@NAME@', modBaseName)
+    replace('@VER@': modVersion)
+    replace('@ID@', modId)
     mappings = "stable_22"
     makeObfSourceJar = false
     clientRunArgs += '--tweakClass gg.essential.loader.stage0.EssentialSetupTweaker'
 }
 
 configurations {
-    embed
-    implementation.extendsFrom(embed)
+    // Creates an extra configuration that implements `implementation` to be used later as the configuration that shades libraries
+    include
+    implementation.extendsFrom(include)
 }
 
 repositories {
     mavenCentral()
-    maven { url = "https://repo.sk1er.club/repository/maven-public/" }
-    maven { url = "https://jitpack.io/" }
-    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+    maven { url 'https://jitpack.io/' }
+    maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
+    maven { url 'https://repo.sk1er.club/repository/maven-releases/' }
 }
 
 dependencies {
-    embed "gg.essential:loader-launchwrapper:1.1.1"
+    // How to normally add a dependency (If you don't want it to be added to the jar)
+    // implementation "com.example:example:1.0.0"
+    // If you would like to include it (have the library inside your jar) instead use
+    // include "com.example:example:1.0.0"
+    include ('gg.essential:loader-launchwrapper:1.1.2') {
+        transitive = false
+    }
+    //noinspection GradlePackageUpdate
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'gg.essential:essential-1.8.9-forge:1612+release-launch'
 
-    implementation 'gg.essential:essential-1.8.9-forge:1501+release-launch'
-    embed ('com.squareup.okhttp3:okhttp:3.9.1')
-    implementation group: 'org.json', name: 'json', version: '20210307'
 }
 
-
-shadowJar {
-    archiveClassifier.set("")
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    configurations = [project.configurations.embed]
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
+    inputs.property 'name', modBaseName
+    inputs.property 'modid', modId
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        include 'bundle.project.json'
+        expand (
+                'version':project.version,
+                'mcversion':project.minecraft.version,
+                'name':modBaseName,
+                'modid': modId
+        )
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'bundle.project.json'
+        exclude 'mcmod.info'
+    }
 }
+
 jar {
     manifest.attributes(
-            "ForceLoadAsMod": true,
             'ModSide': 'CLIENT',
-            "TweakClass": "gg.essential.loader.stage0.EssentialSetupTweaker"
+            'ForceLoadAsMod': true,
+            'TweakClass': 'gg.essential.loader.stage0.EssentialSetupTweaker',
     )
+    enabled = false
 }
-reobfJar.dependsOn tasks.shadowJar
+/**
+ * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
+ */
+task moveResources {
+    doLast {
+        ant.move file: "${buildDir}/resources/main",
+                todir: "${buildDir}/classes/java"
+    }
+}
 
+moveResources.dependsOn processResources
+classes.dependsOn moveResources
+// This adds support to ("embed", "shade", "include") libraries into our JAR
+shadowJar {
+    archiveClassifier.set('')
+    configurations = [project.configurations.include]
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    relocate('okhttp3', 'gg.essential.lib.okhttp3')
 
-processResources
-        {
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
+    exclude 'LICENSE.md'
+    exclude 'pack.mcmeta'
+    exclude 'dummyThing'
+    exclude '**/module-info.class'
+    exclude '*.so'
+    exclude '*.dylib'
+    exclude '*.dll'
+    exclude '*.jnilib'
+    exclude 'ibxm/**'
+    exclude 'com/jcraft/**'
+    exclude 'org/lwjgl/**'
+    exclude 'net/java/**'
 
-            from(sourceSets.main.resources.srcDirs) {
-                include "mcmod.info"
-                include "bundle.project.json"
+    exclude 'META-INF/proguard/**'
+    exclude 'META-INF/maven/**'
+    exclude 'META-INF/versions/**'
+    exclude 'META-INF/com.android.tools/**'
 
-                expand(
-                        "version": project.version,
-                        "mcversion": project.minecraft.version
-                )
-            }
+    exclude 'fabric.mod.json'
+}
 
-            from(sourceSets.main.resources.srcDirs) {
-                exclude "mcmod.info"
-                exclude "bundle.project.json"
-            }
-        }
+reobf {
+    shadowJar {
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+tasks.reobfJar.dependsOn tasks.shadowJar

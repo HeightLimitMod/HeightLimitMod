@@ -20,13 +20,14 @@ public class HeightLimitListener {
     public static String map = null;
     private int ticks;
     private boolean shouldPlaySound;
+    private static final Gson GSON = new Gson();
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void chat(ClientChatReceivedEvent event) {
         if (shouldCheck) {
             final String msg = event.message.getUnformattedText();
             if (msg.startsWith("{")) {
-                JsonResponse Jresponse = new Gson().fromJson(msg, JsonResponse.class);
+                JsonResponse Jresponse = GSON.fromJson(msg, JsonResponse.class);
                 shouldRender = false;
                 try {
                     if (Jresponse.map != null && !Jresponse.map.equals("?")) {
@@ -48,7 +49,7 @@ public class HeightLimitListener {
 
     @SubscribeEvent
     public void loadWorld(WorldEvent.Load event) {
-        if (!Minecraft.getMinecraft().isSingleplayer() && EssentialAPI.getMinecraftUtil().isHypixel()) {
+        if (EssentialAPI.getMinecraftUtil().isHypixel()) {
             ticks = 20;
             checked = false;
             shouldPlaySound = false;
@@ -58,6 +59,7 @@ public class HeightLimitListener {
     @SubscribeEvent
     public void frame(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
+            if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) return;
             if (shouldRender && Config.shouldPlaySound &&
                     (FileUtil.limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                             == Config.blocksWhenPlay && shouldPlaySound && !FileUtil.isInvalid) {
