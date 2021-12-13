@@ -176,13 +176,13 @@ public class Config extends Vigilant {
     }
     @Property(
             type = PropertyType.BUTTON,
-            name = "Height Limit Web",
+            name = "Block Overlay for HLM",
             category = "Information",
-            description = "Need to use height limit mod on a client like lunar or badlion? well fear no more, as HLW " +
-                    "gots you, search all the bedwars maps in your browser"
+            description = "If you want a block overlay for HLM, join wyvests discord server and download Hytilities Reborn" +
+                    "this mod includes the block overlay + alot more hypixel features."
     )
-    public static void openPinkuluHLW() {
-        UDesktop.browse(URI.create("https://pinkulu.com/HeightLimitWeb"));
+    public static void openWyvestThing() {
+        UDesktop.browse(URI.create("https://discord.gg/hct3McnKrj"));
     }
 
     public Config() {
