@@ -24,7 +24,7 @@ public class APICaller {
         OkHttpClient client = new OkHttpClient();
         Multithreading.runAsync(() -> {
             Request request = new Request.Builder()
-                    .url("https://api.pinkulu.com/HeightLimitMod/Limits")
+                    .url("https://maps.pinkulu.com/")
                     .build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
@@ -51,7 +51,7 @@ public class APICaller {
         OkHttpClient client = new OkHttpClient();
         Multithreading.runAsync(() -> {
             Request request = new Request.Builder()
-                    .url("https://api.pinkulu.com/HeightLimitMod/version")
+                    .url("https://maps.pinkulu.com/version")
                     .build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
