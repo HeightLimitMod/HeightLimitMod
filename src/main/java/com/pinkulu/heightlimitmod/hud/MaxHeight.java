@@ -4,6 +4,7 @@ import cc.polyfrost.oneconfig.config.annotations.Text;
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
 import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
+import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.util.APICaller;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,7 @@ public class MaxHeight extends SingleTextHud {
 
     @Override
     protected String getText() {
+        HeightLimitListener.limit = 0;
         if (!APICaller.cacheReady) return notSupportedText;
         if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
@@ -33,6 +35,7 @@ public class MaxHeight extends SingleTextHud {
         if (mapNames == null) return notSupportedText;
         final Integer height = mapNames.get(mapName.replace(" ", "_").toLowerCase(Locale.ENGLISH));
         if (height == null) return notSupportedText;
+        HeightLimitListener.limit = height;
         return height.toString();
     }
 

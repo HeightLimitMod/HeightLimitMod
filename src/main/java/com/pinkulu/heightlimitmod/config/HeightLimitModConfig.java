@@ -1,7 +1,7 @@
 package com.pinkulu.heightlimitmod.config;
 
 import cc.polyfrost.oneconfig.config.Config;
-import cc.polyfrost.oneconfig.config.annotations.HUD;
+import cc.polyfrost.oneconfig.config.annotations.*;
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
 import com.pinkulu.heightlimitmod.HeightLimitMod;
@@ -29,6 +29,19 @@ public class HeightLimitModConfig extends Config {
     )
     public static MaxHeight mh = new MaxHeight();
 
+
+    @Switch(name = "Should Play Sound", category = "Sound")
+    public static boolean shouldPlaySound = false;
+
+    @Slider(name = "Blocks Left To Play", min = 0, max = 5, category = "Sound")
+    public static int blocksWhenPlay = 0;
+
+    @Dropdown(name = "Sound To Play", options = {"Ding!", "Iron Golem Abuse","Blaze Abuse", "Anvil Land",
+            "Horse Dies :(", "Ghast Yells", "Guardian Abuse", "Cat Meows","Dog Barks"},  category = "Sound")
+    public static int soundToPlay = 0;
+
+    @Checkbox(name = "Should Spam Sound", category = "Sound")
+    public static boolean shouldSpamSound = false;
 
 
     public HeightLimitModConfig() {
