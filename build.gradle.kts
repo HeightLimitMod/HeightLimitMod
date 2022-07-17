@@ -40,12 +40,6 @@ loom {
             property("mixin.debug.export", "true")
         }
     }
-    if (project.platform.isForge) {
-        forge {
-            mixinConfig("mixins.${mod_id}.json")
-        }
-    }
-    mixin.defaultRefmapName.set("mixins.${mod_id}.refmap.json")
 }
 
 val shade: Configuration by configurations.creating {
@@ -63,9 +57,17 @@ repositories {
 }
 
 dependencies {
-    compileOnly("cc.polyfrost:oneconfig-1.8.9-forge:0.1.0-alpha53")
-    shade("cc.polyfrost:oneconfig-wrapper-1.8.9-forge:1.0.0-alpha6")
-    implementation("com.squareup.okhttp3:okhttp:3.9.1")
+    modCompileOnly("cc.polyfrost:oneconfig-$platform:0.1.0-alpha+") {
+        exclude(group = "null")
+    }
+
+    val loader = when {
+        platform.isLegacyForge -> "launchwrapper"
+        platform.isModLauncher -> "modlauncher"
+        platform.isFabric -> "prelaunch"
+        else -> throw IllegalStateException("Unknown platform: $platform")
+    }
+    shade("cc.polyfrost:oneconfig-wrapper-$loader:1.0.0-alpha+")
 }
 
 tasks.processResources {
@@ -136,7 +138,6 @@ tasks {
                     "ModSide" to "CLIENT",
                     "ForceLoadAsMod" to true,
                     "TweakOrder" to "0",
-                    "MixinConfigs" to "mixins.${mod_id}.json",
                     "TweakClass" to "cc.polyfrost.oneconfigwrapper.OneConfigWrapper"
                 )
             )
