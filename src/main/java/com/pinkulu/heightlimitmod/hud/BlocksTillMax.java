@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class BlocksTillMax extends SingleTextHud {
     @Text(
@@ -39,5 +40,12 @@ public class BlocksTillMax extends SingleTextHud {
         final Integer height = mapNames.get(mapName.replace(" ", "_").toLowerCase(Locale.ENGLISH));
         if (height == null) return notSupportedText;
         return height - Minecraft.getMinecraft().thePlayer.getPosition().getY() + "";
+    }
+    /*
+    TODO: improve this, as this wont let you edit the HUD outside of a game + will stop rendering if you reach the limit
+     */
+    @Override
+    public boolean isEnabled() {
+        return super.isEnabled() && !Objects.equals(getText(), notSupportedText);
     }
 }

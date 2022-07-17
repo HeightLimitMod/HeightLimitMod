@@ -14,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+
 public class CurrentMap extends SingleTextHud {
     @Text(
             name = "Not Supported Text"
@@ -38,6 +40,11 @@ public class CurrentMap extends SingleTextHud {
         if (height == null) return notSupportedText;
         return mapName;
     }
-
-
+    /*
+    TODO: improve this, as this wont let you edit the HUD outside of a game
+     */
+    @Override
+    public boolean isEnabled() {
+        return super.isEnabled() && !Objects.equals(getText(), notSupportedText);
+    }
 }
