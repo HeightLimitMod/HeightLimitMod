@@ -54,9 +54,11 @@ sourceSets {
 
 repositories {
     maven("https://repo.polyfrost.cc/releases")
+    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
 dependencies {
+    modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.0")
     modCompileOnly("cc.polyfrost:oneconfig-$platform:0.1.0-alpha+") {
         exclude(group = "null")
         exclude(module = "mixin")
