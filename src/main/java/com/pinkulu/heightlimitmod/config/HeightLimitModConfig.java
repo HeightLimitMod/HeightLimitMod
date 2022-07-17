@@ -7,6 +7,7 @@ import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
 import cc.polyfrost.oneconfig.libs.universal.UDesktop;
 import com.pinkulu.heightlimitmod.HeightLimitMod;
+import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.hud.BlocksTillMax;
 import com.pinkulu.heightlimitmod.hud.CurrentMap;
 import com.pinkulu.heightlimitmod.hud.MaxHeight;
@@ -43,6 +44,13 @@ public class HeightLimitModConfig extends Config {
     @Dropdown(name = "Sound To Play", options = {"Ding!", "Iron Golem Abuse","Blaze Abuse", "Anvil Land",
             "Horse Dies :(", "Ghast Yells", "Guardian Abuse", "Cat Meows","Dog Barks", "BOOOM!"},  category = "Sound")
     public static int soundToPlay = 0;
+
+    @Button(
+            name = "Test Sound",
+            text = "Click Here",
+            category = "Sound"
+    )
+    Runnable testSound = HeightLimitListener::PlaySound;
 
     @Checkbox(name = "Should Spam Sound", category = "Sound")
     public static boolean shouldSpamSound = false;
