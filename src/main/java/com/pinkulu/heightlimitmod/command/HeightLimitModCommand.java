@@ -11,6 +11,7 @@ import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.common.API;
 
 @Command(value = HeightLimitMod.MODID, description = "Access the " + HeightLimitMod.NAME + " GUI.", aliases = {"hlm"})
 public class HeightLimitModCommand {
@@ -25,6 +26,16 @@ public class HeightLimitModCommand {
         private static void main(){
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             IChatComponent text = new ChatComponentText( "Api version:" + APICaller.latest_version);
+            player.addChatMessage(text);
+        }
+    }
+    @SubCommand(value = "refreshlimits", description = "Pulls the height limit maps api, pulling the latest limits")
+    private static class refreshLimits{
+        @Main
+        private static void main() {
+            APICaller.GetVersion();
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            IChatComponent text = new ChatComponentText( "The limits have been refreshed!");
             player.addChatMessage(text);
         }
     }

@@ -16,6 +16,7 @@ public class APICaller {
     public static boolean cacheReady = false;
     public static double latest_version = 0.0;
     public static void GetLimits() {
+        heightCache.clear();
         Multithreading.runAsync(() -> {
             try {
                 final JsonElement json = NetworkUtils.getJsonElement("https://maps.pinkulu.com/");
