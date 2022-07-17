@@ -1,8 +1,10 @@
 package com.pinkulu.heightlimitmod;
 
+import cc.polyfrost.oneconfig.events.EventManager;
 import com.pinkulu.heightlimitmod.command.HeightLimitModCommand;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
+import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 
 @net.minecraftforge.fml.common.Mod(modid = HeightLimitMod.MODID, name = HeightLimitMod.NAME, version = HeightLimitMod.VERSION)
 public class HeightLimitMod {
@@ -16,7 +18,7 @@ public class HeightLimitMod {
     @net.minecraftforge.fml.common.Mod.EventHandler
     public void onFMLInitialization(net.minecraftforge.fml.common.event.FMLInitializationEvent event) {
         config = new HeightLimitModConfig();
-        config.initialize();
         CommandManager.INSTANCE.registerCommand(HeightLimitModCommand.class);
+        EventManager.INSTANCE.register(new HeightLimitListener());
     }
 }
