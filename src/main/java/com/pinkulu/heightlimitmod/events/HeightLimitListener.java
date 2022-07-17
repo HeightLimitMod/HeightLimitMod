@@ -54,6 +54,9 @@ public class HeightLimitListener {
                     case 8:
                         Minecraft.getMinecraft().thePlayer.playSound("mob.wolf.bark", 1f, 1f);
                         shouldPlaySound = false;
+                    case 9:
+                        Minecraft.getMinecraft().thePlayer.playSound("random.explode", 1f, 1f);
+                        shouldPlaySound = false;
                 }
             }
             if (limit != 0 && HeightLimitModConfig.shouldPlaySound) {
