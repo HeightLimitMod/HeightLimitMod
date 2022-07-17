@@ -59,6 +59,7 @@ repositories {
 dependencies {
     modCompileOnly("cc.polyfrost:oneconfig-$platform:0.1.0-alpha+") {
         exclude(group = "null")
+        exclude(module = "mixin")
     }
 
     val loader = when {
@@ -83,7 +84,7 @@ tasks.processResources {
     inputs.property("java_level", compatLevel)
     inputs.property("version", mod_version)
     inputs.property("mcVersionStr", project.platform.mcVersionStr)
-    filesMatching(listOf("mcmod.info", "mixins.${mod_id}.json", "mods.toml")) {
+    filesMatching(listOf("mcmod.info", "mods.toml")) {
         expand(
             mapOf(
                 "id" to mod_id,
