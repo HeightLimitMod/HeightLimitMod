@@ -55,6 +55,19 @@ public class HeightLimitModConfig extends Config {
     @Checkbox(name = "Should Spam Sound", category = "Sound")
     public static boolean shouldSpamSound = false;
 
+    @Info(text = "For custom sounds, go to \"Sound List\" in Information tab", type = InfoType.INFO,  category = "Sound")
+    public static String info;
+    @Checkbox(name = "Use A Custom Sound(Advanced)", category = "Sound")
+    public static boolean customSound = false;
+
+    @Info(text = "Always check the \"Test Sound\" button, after setting a custom sound", type = InfoType.WARNING, category = "Sound")
+    public static String info2;
+    @Text(
+            name = "Custom Sound",
+            category = "Sound",
+            placeholder = "example: dig.glass"
+    )
+    public static String soundName;
 
     @Button(
             name = "Pinkulus Webiste",
@@ -82,6 +95,16 @@ public class HeightLimitModConfig extends Config {
     Runnable hytils_reborn = () -> {
         UDesktop.browse(URI.create("https://github.com/Polyfrost/Hytils-Reborn/releases/tag/v1.5.0"));
     };
+
+    @Button(
+            name = "Sound List",
+            text = "Click Here",
+            category = "Information"
+    )
+    Runnable soundlist = () -> {
+        UDesktop.browse(URI.create("https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments"));
+    };
+
     public HeightLimitModConfig() {
         super(new Mod(HeightLimitMod.NAME, ModType.HYPIXEL), HeightLimitMod.MODID + ".json");
         initialize();
