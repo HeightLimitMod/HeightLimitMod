@@ -20,9 +20,9 @@ public class HeightLimitMod {
     @net.minecraftforge.fml.common.Mod.EventHandler
     public void onFMLInitialization(net.minecraftforge.fml.common.event.FMLInitializationEvent event) {
         config = new HeightLimitModConfig();
-        APICaller.GetLimits();
-        APICaller.GetVersion();
         CommandManager.INSTANCE.registerCommand(HeightLimitModCommand.class);
         EventManager.INSTANCE.register(new HeightLimitListener());
+        APICaller.GetLimits();
+        APICaller.GetVersion();
     }
 }
