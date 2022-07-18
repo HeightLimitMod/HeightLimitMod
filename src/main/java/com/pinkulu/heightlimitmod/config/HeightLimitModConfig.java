@@ -42,7 +42,7 @@ public class HeightLimitModConfig extends Config {
     public static int blocksWhenPlay = 0;
 
     @Dropdown(name = "Sound To Play", options = {"Ding!", "Iron Golem Abuse","Blaze Abuse", "Anvil Land",
-            "Horse Dies :(", "Ghast Yells", "Guardian Abuse", "Cat Meows","Dog Barks", "BOOOM!"},  category = "Sound")
+            "Horse Dies :(", "Ghast Yells", "Guardian Abuse", "Cat Meows","Dog Barks", "BOOOM!", "Custom Sound(Advanced)"},  category = "Sound")
     public static int soundToPlay = 0;
 
     @Button(
@@ -57,8 +57,6 @@ public class HeightLimitModConfig extends Config {
 
     @Info(text = "For custom sounds, go to \"Sound List\" in Information tab", type = InfoType.INFO,  category = "Sound")
     public static String info;
-    @Checkbox(name = "Use A Custom Sound(Advanced)", category = "Sound")
-    public static boolean customSound = false;
 
     @Info(text = "Always check the \"Test Sound\" button, after setting a custom sound", type = InfoType.WARNING, category = "Sound")
     public static String info2;

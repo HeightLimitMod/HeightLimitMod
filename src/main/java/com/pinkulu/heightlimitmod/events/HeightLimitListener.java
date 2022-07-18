@@ -54,10 +54,6 @@ public class HeightLimitListener {
     //List of sounds https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments
     public static void PlaySound(){
         if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) return;
-        if(HeightLimitModConfig.customSound){
-            Minecraft.getMinecraft().thePlayer.playSound(HeightLimitModConfig.soundName, 1f, 1f);
-            return;
-        }
         switch (HeightLimitModConfig.soundToPlay) {
             case 0:
                 Minecraft.getMinecraft().thePlayer.playSound("random.orb", 1f, 1f);
@@ -97,6 +93,10 @@ public class HeightLimitListener {
                 break;
             case 9:
                 Minecraft.getMinecraft().thePlayer.playSound("random.explode", 1f, 1f);
+                shouldPlaySound = false;
+                break;
+            case 10:
+                Minecraft.getMinecraft().thePlayer.playSound(HeightLimitModConfig.soundName, 1f, 1f);
                 shouldPlaySound = false;
                 break;
         }
