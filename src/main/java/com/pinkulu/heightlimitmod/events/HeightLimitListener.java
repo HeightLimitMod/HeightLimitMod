@@ -1,14 +1,19 @@
 package com.pinkulu.heightlimitmod.events;
 
+import cc.polyfrost.oneconfig.events.event.ScreenOpenEvent;
 import cc.polyfrost.oneconfig.events.event.Stage;
 import cc.polyfrost.oneconfig.events.event.TickEvent;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.oneconfig.utils.gui.GuiUtils;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class HeightLimitListener {
     public static boolean shouldPlaySound;
     public static int limit = 0;
+    public static boolean editingHUD = false;
 
     @Subscribe
     private void onTick(TickEvent event) {
@@ -35,7 +40,14 @@ public class HeightLimitListener {
             }
         }
     }
-
+    @Subscribe
+    private void screenOpen(ScreenOpenEvent event){
+        System.out.println(event.screen);
+        if(event.screen == null) {editingHUD = false; return;}
+        if(event.screen.toString().contains("HudGui")) editingHUD = true;
+        if(event.screen.toString().contains("OneConfigGui")) editingHUD = true;
+    }
+    
     //List of sounds https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments
     public static void PlaySound(){
         if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) return;

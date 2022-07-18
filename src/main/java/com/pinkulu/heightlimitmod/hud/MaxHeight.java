@@ -14,10 +14,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class MaxHeight extends SingleTextHud {
-    @Text(
-            name = "Not Supported Text"
-    )
-    public String notSupportedText = "0";
+
+    private final String notSupportedText = "000";
 
     public MaxHeight() {
         super("Max Height", true);
@@ -39,12 +37,10 @@ public class MaxHeight extends SingleTextHud {
         HeightLimitListener.limit = height;
         return height.toString();
     }
-    /*
-    TODO: improve this, as this wont let you edit the HUD outside of a game
-     */
+
     @Override
     public boolean isEnabled() {
-        return super.isEnabled() && !Objects.equals(getText(), notSupportedText);
+        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText)) || (super.isEnabled() && HeightLimitListener.editingHUD);
     }
 
 }

@@ -8,6 +8,7 @@ import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.util.APICaller;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,10 +18,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CurrentMap extends SingleTextHud {
-    @Text(
-            name = "Not Supported Text"
-    )
-    public String notSupportedText = "None";
+
+    private final String notSupportedText = "None";
 
     public CurrentMap() {
         super("Map", true);
@@ -40,11 +39,9 @@ public class CurrentMap extends SingleTextHud {
         if (height == null) return notSupportedText;
         return mapName;
     }
-    /*
-    TODO: improve this, as this wont let you edit the HUD outside of a game
-     */
+
     @Override
     public boolean isEnabled() {
-        return super.isEnabled() && !Objects.equals(getText(), notSupportedText);
+        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText)) || (super.isEnabled() && HeightLimitListener.editingHUD);
     }
 }
