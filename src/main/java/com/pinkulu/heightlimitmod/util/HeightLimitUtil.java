@@ -44,23 +44,15 @@ public class HeightLimitUtil {
         return 1;
     }
     public static String getMapName(){
-        /*
+        if (!APICaller.cacheReady) return "";
+        if (!HypixelUtils.INSTANCE.isHypixel())  return "";
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
-        try {
-            if(APICaller.heightCache.get(location.getGameType().getServerName().toLowerCase(Locale.ENGLISH)).getAsInt() != 0)
-            return "";
-        }catch (Exception ignored){}
+        if (location == null)  return "";
         final String mapName = location.getMapName();
-        if (StringUtils.isBlank(mapName)) return "";
-        final JsonObject mapNames = (JsonObject) APICaller.heightCache.get(location.getGameType().getServerName().toLowerCase(Locale.ENGLISH));
-        if (mapNames == null) return "";
-        final JsonElement height = mapNames.get(mapName.replace(" ", "_").toLowerCase(Locale.ENGLISH));
-        if (height == null) return "";
-        return location.getMapName();
-         */
-        return "a";
+        if (StringUtils.isBlank(mapName))  return "";
+        return mapName;
     }
-    
+
     public static void getMapInfo(String mapName, String gameType){
         AtomicReference<JsonObject> mapInfo = new AtomicReference<>(new JsonObject());
         System.out.println("Now doing this");
