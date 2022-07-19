@@ -1,25 +1,32 @@
 package com.pinkulu.heightlimitmod.util;
 
+import cc.polyfrost.oneconfig.utils.Multithreading;
 import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.pinkulu.heightlimitmod.hud.GameMode;
-import net.minecraftforge.fml.common.API;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HeightLimitUtil {
+    public static JsonObject mapCache;
+
     public static boolean shouldRender(){
         if (!APICaller.cacheReady) return false;
         if (!HypixelUtils.INSTANCE.isHypixel()) return false;
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
         if (location == null) return false;
-        return APICaller.heightCache.has(location.getGameType().getServerName().toLowerCase(Locale.ENGLISH));
+        final String mapName = location.getMapName();
+        if (StringUtils.isBlank(mapName)) return false;
+        if(!Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"" )) {
+            getMapInfo(mapName, location.getGameType().toString());
+        }
+        return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"" );
     }
     public static int getLimit(){
+        /*
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
         try {
             return APICaller.heightCache.get(location.getGameType().getServerName().toLowerCase(Locale.ENGLISH)).getAsInt();
@@ -33,8 +40,11 @@ public class HeightLimitUtil {
        final JsonElement height = mapNames.get(mapName.replace(" ", "_").toLowerCase(Locale.ENGLISH));
        if (height == null) return 0;
        return height.getAsInt();
+         */
+        return 1;
     }
     public static String getMapName(){
+        /*
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
         try {
             if(APICaller.heightCache.get(location.getGameType().getServerName().toLowerCase(Locale.ENGLISH)).getAsInt() != 0)
@@ -47,5 +57,23 @@ public class HeightLimitUtil {
         final JsonElement height = mapNames.get(mapName.replace(" ", "_").toLowerCase(Locale.ENGLISH));
         if (height == null) return "";
         return location.getMapName();
+         */
+        return "a";
+    }
+    
+    public static void getMapInfo(String mapName, String gameType){
+        AtomicReference<JsonObject> mapInfo = new AtomicReference<>(new JsonObject());
+        System.out.println("Now doing this");
+
+        Multithreading.runAsync(() -> {
+            for (JsonElement map : APICaller.heightCache) {
+                JsonObject mapObj = map.getAsJsonObject();
+                if(mapObj.get("name").toString().contains(mapName) && mapObj.get("gameType").toString().contains(gameType)) {
+                    mapInfo.set(mapObj);
+                    System.out.println("found a map");
+                    mapCache = mapInfo.get();
+                }
+            }
+            });
     }
 }
