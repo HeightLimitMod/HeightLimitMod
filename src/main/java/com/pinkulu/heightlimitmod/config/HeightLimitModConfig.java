@@ -8,9 +8,7 @@ import cc.polyfrost.oneconfig.config.data.ModType;
 import cc.polyfrost.oneconfig.libs.universal.UDesktop;
 import com.pinkulu.heightlimitmod.HeightLimitMod;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
-import com.pinkulu.heightlimitmod.hud.BlocksTillMax;
-import com.pinkulu.heightlimitmod.hud.CurrentMap;
-import com.pinkulu.heightlimitmod.hud.MaxHeight;
+import com.pinkulu.heightlimitmod.hud.*;
 
 import java.net.URI;
 
@@ -34,6 +32,17 @@ public class HeightLimitModConfig extends Config {
     )
     public static MaxHeight mh = new MaxHeight();
 
+    @HUD(
+            name = "GameMode",
+            category = "General"
+    )
+    public static GameMode gt = new GameMode();
+
+    @HUD(
+            name = "GameType",
+            category = "General"
+    )
+    public static GameType gm = new GameType();
 
     @Switch(name = "Should Play Sound", category = "Sound")
     public static boolean shouldPlaySound = false;

@@ -45,7 +45,6 @@ public class HeightLimitListener {
     }
     @Subscribe
     private void screenOpen(ScreenOpenEvent event){
-        System.out.println(event.screen);
         if(event.screen == null) {editingHUD = false; return;}
         if(event.screen.toString().contains("HudGui")) editingHUD = true;
         if(event.screen.toString().contains("OneConfigGui")) editingHUD = true;

@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.util.APICaller;
+import com.pinkulu.heightlimitmod.util.HeightLimitUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -27,21 +28,12 @@ public class CurrentMap extends SingleTextHud {
 
     @Override
     protected String getText() {
-        if (!APICaller.cacheReady) return notSupportedText;
-        if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
-        final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
-        if (location == null) return notSupportedText;
-        final String mapName = location.getMapName();
-        if (StringUtils.isBlank(mapName)) return notSupportedText;
-        final HashMap<String, Integer> mapNames = APICaller.heightCache.get(location.getGameType().getServerName().toLowerCase(Locale.ENGLISH));
-        if (mapNames == null) return notSupportedText;
-        final Integer height = mapNames.get(mapName.replace(" ", "_").toLowerCase(Locale.ENGLISH));
-        if (height == null) return notSupportedText;
-        return mapName;
+        return HeightLimitUtil.shouldRender() ? HeightLimitUtil.getMapName() : notSupportedText;
+
     }
 
     @Override
     public boolean isEnabled() {
-        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText)) || (super.isEnabled() && HeightLimitListener.editingHUD);
+        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText) && !HeightLimitUtil.getMapName().equals("")) || (super.isEnabled() && HeightLimitListener.editingHUD) ;
     }
 }
