@@ -15,32 +15,26 @@ import java.net.URI;
 public class HeightLimitModConfig extends Config {
 
     @HUD(
-            name = "Blocks Till Max Limit",
-            category = "General"
-    )
+            name = "Blocks Till Max Limit")
     public static BlocksTillMax btm = new BlocksTillMax();
 
     @HUD(
-            name = "Map Name",
-            category = "General"
+            name = "Map Name"
     )
     public static CurrentMap cm = new CurrentMap();
 
     @HUD(
-            name = "Max Map Height",
-            category = "General"
+            name = "Max Map Height"
     )
     public static MaxHeight mh = new MaxHeight();
 
     @HUD(
-            name = "GameMode",
-            category = "General"
+            name = "GameMode"
     )
     public static GameMode gt = new GameMode();
 
     @HUD(
-            name = "GameType",
-            category = "General"
+            name = "GameType"
     )
     public static GameType gm = new GameType();
 

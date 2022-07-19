@@ -26,8 +26,7 @@ public class GameMode extends SingleTextHud {
         if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
         if (location == null) return notSupportedText;
-        final String gamemode = location.getGameMode();
-        return gamemode;
+        return location.getGameMode();
     }
 
     @Override

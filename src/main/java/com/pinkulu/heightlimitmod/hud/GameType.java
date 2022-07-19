@@ -26,8 +26,7 @@ public class GameType extends SingleTextHud {
         if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
         if (location == null) return notSupportedText;
-        final String gameType = location.getGameType().toString();
-        return gameType;
+        return location.getGameType().toString();
     }
 
     @Override

@@ -24,7 +24,6 @@ public class APICaller {
 
                 if (json != null) {
                     heightCache = (JsonObject) json;
-                    heightCache.addProperty("uhc", 256);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
