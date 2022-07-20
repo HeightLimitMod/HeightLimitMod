@@ -31,6 +31,8 @@ public class HeightLimitUtil {
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"" );
     }
     public static int getLimit(){
+        return mapCache.get("maxBuild").getAsInt();
+        /*
         if(mapCache.get("buildRadius").getAsInt() == -1){
             return mapCache.get("maxBuild").getAsInt();
         }
@@ -39,7 +41,8 @@ public class HeightLimitUtil {
         int x = Minecraft.getMinecraft().thePlayer.getPosition().getX();
         int z = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
         int y = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-        return (int) getAngle(buildRadius, x, y);
+        return (int) (buildRadius - (Math.abs(Math.sqrt(x * x + z * z)) * 0.25f));
+         */
     }
     public static String getMapName(){
         if (!APICaller.cacheReady) return "";

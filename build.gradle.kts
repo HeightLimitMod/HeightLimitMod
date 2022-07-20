@@ -63,7 +63,6 @@ dependencies {
         exclude(group = "null")
         exclude(module = "mixin")
     }
-
     val loader = when {
         platform.isLegacyForge -> "launchwrapper"
         platform.isModLauncher -> "modlauncher"
