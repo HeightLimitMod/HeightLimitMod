@@ -20,7 +20,7 @@ public class GameMode extends SingleTextHud {
     }
 
     @Override
-    protected String getText() {
+    protected String getText(boolean example) {
         if(!HeightLimitUtil.shouldRender()) return notSupportedText;
         if (!APICaller.cacheReady) return notSupportedText;
         if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
@@ -31,6 +31,6 @@ public class GameMode extends SingleTextHud {
 
     @Override
     public boolean isEnabled() {
-        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText) && HeightLimitUtil.getLimit() != 0) || (super.isEnabled() && HeightLimitListener.editingHUD) ;
+        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && HeightLimitUtil.getLimit() != 0) || (super.isEnabled() && HeightLimitListener.editingHUD) ;
     }
 }

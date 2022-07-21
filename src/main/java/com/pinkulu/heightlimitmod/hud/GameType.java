@@ -6,10 +6,7 @@ import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.util.APICaller;
 import com.pinkulu.heightlimitmod.util.HeightLimitUtil;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Objects;
 
 public class GameType extends SingleTextHud {
@@ -20,8 +17,8 @@ public class GameType extends SingleTextHud {
     }
 
     @Override
-    protected String getText() {
-        if(!HeightLimitUtil.shouldRender()) return notSupportedText;
+    protected String getText(boolean example) {
+        if (!HeightLimitUtil.shouldRender()) return notSupportedText;
         if (!APICaller.cacheReady) return notSupportedText;
         if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
         final LocrawInfo location = HypixelUtils.INSTANCE.getLocrawInfo();
@@ -31,6 +28,6 @@ public class GameType extends SingleTextHud {
 
     @Override
     public boolean isEnabled() {
-        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText) && HeightLimitUtil.getLimit() != 0) || (super.isEnabled() && HeightLimitListener.editingHUD) ;
+        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && HeightLimitUtil.getLimit() != 0) || (super.isEnabled() && HeightLimitListener.editingHUD);
     }
 }
