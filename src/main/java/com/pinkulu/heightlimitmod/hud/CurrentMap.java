@@ -27,13 +27,12 @@ public class CurrentMap extends SingleTextHud {
     }
 
     @Override
-    protected String getText() {
+    protected String getText(boolean example) {
         return HeightLimitUtil.shouldRender() ? HeightLimitUtil.getMapName() : notSupportedText;
-
     }
 
     @Override
     public boolean isEnabled() {
-        return (super.isEnabled() && !Objects.equals(getText(), notSupportedText) && !HeightLimitUtil.getMapName().equals("")) || (super.isEnabled() && HeightLimitListener.editingHUD) ;
+        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && !HeightLimitUtil.getMapName().equals("")) || (super.isEnabled() && HeightLimitListener.editingHUD);
     }
 }

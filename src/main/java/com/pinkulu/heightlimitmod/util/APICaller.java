@@ -5,12 +5,6 @@ import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.lwjgl.Sys;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class APICaller {
     @SuppressWarnings("UnnecessaryModifier")

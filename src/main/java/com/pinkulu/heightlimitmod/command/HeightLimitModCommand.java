@@ -13,7 +13,8 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fml.common.API;
 
-@Command(value = HeightLimitMod.MODID, description = "Access the " + HeightLimitMod.NAME + " GUI.", aliases = {"hlm", "heightlimitmod"})
+@Command(value = HeightLimitMod.MODID,
+        description = "Access the " + HeightLimitMod.NAME + " GUI.", aliases = {"hlm", "heightlimitmod"})
 public class HeightLimitModCommand {
 
     @Main

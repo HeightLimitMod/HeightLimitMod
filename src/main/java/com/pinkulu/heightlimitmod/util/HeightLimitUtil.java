@@ -7,13 +7,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.Sys;
 
 import java.util.Objects;
-import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static sun.awt.geom.Curve.next;
 
 public class HeightLimitUtil {
     public static JsonObject mapCache;
@@ -31,18 +28,12 @@ public class HeightLimitUtil {
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"" );
     }
     public static int getLimit(){
-        return mapCache.get("maxBuild").getAsInt();
-        /*
         if(mapCache.get("buildRadius").getAsInt() == -1){
             return mapCache.get("maxBuild").getAsInt();
         }
         int maxBuild = mapCache.get("maxBuild").getAsInt();
         int buildRadius = mapCache.get("buildRadius").getAsInt();
-        int x = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-        int z = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-        int y = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-        return (int) (buildRadius - (Math.abs(Math.sqrt(x * x + z * z)) * 0.25f));
-         */
+        return maxBuild;
     }
     public static String getMapName(){
         if (!APICaller.cacheReady) return "";
@@ -69,35 +60,25 @@ public class HeightLimitUtil {
             }
             });
     }
-
-    public static double calculateAngle(double dx, double dy) {
-        double alpha;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            double tg = dy / dx;
-            alpha = Math.atan(tg);
-
-            if (dx < 0) {
-                alpha += Math.PI;
-            }
-        } else {
-            double ctg = dx / dy;
-            alpha = Math.PI / 2. - Math.atan(ctg);
-
-            if (dy < 0) {
-                alpha += Math.PI;
-            }
+    public static String getMapType(){
+        String pool = mapCache.get("pool").getAsString();
+        switch (pool){
+            case "BEDWARS_4TEAMS_FAST":
+                return "Fast 4 Teams";
+            case "BEDWARS_4TEAMS_SLOW":
+                return "Slow 4 Teams";
+            case "BEDWARS_8TEAMS_FAST":
+                return "Fast 8 Teams";
+            case "BEDWARS_8TEAMS_SLOW":
+                return "Slow 8 Teams";
+            case "SKYWARS_MEGA":
+                return "Mega Skywars";
+            case "SKYWARS_RANKED":
+                return "Ranked Skywars";
+            case "SKYWARS_STANDARD":
+                return "Normal Skywars";
+            default:
+                return "Unknown";
         }
-
-        return alpha;
     }
-
-    // calculates the distnace to the top of the sphear, using players x, y and z positions, assuming the player is inside the sphere, where the center of the sphere is x = 0, z = 0 and y = 70
-    public static double getAngle(double radius, double x, double y) {
-        double angle = calculateAngle(x, y);
-        double distance = Math.sqrt(x * x + y * y);
-        double height = 70;
-        double angle2 = Math.acos((radius * radius + distance * distance - height * height) / (2 * radius * distance));
-        return angle + angle2;
-    }
-
 }

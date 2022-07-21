@@ -15,7 +15,8 @@ import java.net.URI;
 public class HeightLimitModConfig extends Config {
 
     @HUD(
-            name = "Blocks Till Max Limit")
+            name = "Blocks Till Max Limit"
+    )
     public static BlocksTillMax btm = new BlocksTillMax();
 
     @HUD(
@@ -27,6 +28,11 @@ public class HeightLimitModConfig extends Config {
             name = "Max Map Height"
     )
     public static MaxHeight mh = new MaxHeight();
+
+    @HUD(
+            name = "MapType"
+    )
+    public static MapType mt = new MapType();
 
     @HUD(
             name = "GameMode"
@@ -75,36 +81,33 @@ public class HeightLimitModConfig extends Config {
             text = "Click Here",
             category = "Information"
     )
-    Runnable pinkulu = () -> {
-        UDesktop.browse(URI.create("https://pinkulu.com"));
-    };
+    Runnable pinkulu  = () -> UDesktop.browse(URI.create("https://pinkulu.com"));
+
 
     @Button(
             name = "Support Discord Server",
             text = "Click Here",
             category = "Information"
     )
-    Runnable discord = () -> {
-        UDesktop.browse(URI.create("https://inv.wtf/pink"));
-    };
+    Runnable discord = () -> UDesktop.browse(URI.create("https://inv.wtf/pink"));
 
     @Button(
             name = "Block Height Overlay (hytils reborn by wyvest)",
             text = "Click Here",
             category = "Information"
     )
-    Runnable hytils_reborn = () -> {
+    Runnable hytils_reborn = () ->
         UDesktop.browse(URI.create("https://github.com/Polyfrost/Hytils-Reborn/releases/tag/v1.5.0"));
-    };
+
 
     @Button(
             name = "Sound List",
             text = "Click Here",
             category = "Information"
     )
-    Runnable soundlist = () -> {
+    Runnable soundlist = () ->
         UDesktop.browse(URI.create("https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments"));
-    };
+
 
     public HeightLimitModConfig() {
         super(new Mod(HeightLimitMod.NAME, ModType.HYPIXEL), HeightLimitMod.MODID + ".json");
