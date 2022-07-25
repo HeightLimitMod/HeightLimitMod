@@ -16,11 +16,11 @@ public class BlocksTillMax extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
-        return HeightLimitUtil.shouldRender() ? String.valueOf(HeightLimitUtil.getLimit() - Minecraft.getMinecraft().thePlayer.getPosition().getY()) : notSupportedText;
+        return String.valueOf(HeightLimitUtil.getLimit());
     }
 
     @Override
     public boolean isEnabled() {
-        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && HeightLimitUtil.getLimit() != 0) || (super.isEnabled() && HeightLimitListener.editingHUD);
+        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && !String.valueOf(HeightLimitUtil.getLimit()).equals(notSupportedText)) || (super.isEnabled() && HeightLimitListener.editingHUD);
     }
 }
