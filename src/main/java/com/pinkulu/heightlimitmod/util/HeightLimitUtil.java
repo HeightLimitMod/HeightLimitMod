@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 public class HeightLimitUtil {
-    public static int distance = 0;
     public static JsonObject mapCache;
     public static boolean shouldRender(){
         if (!APICaller.cacheReady) return false;
@@ -28,11 +27,7 @@ public class HeightLimitUtil {
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"" );
     }
     public static int getLimit(){
-        distance = 0;
-        if(mapCache.get("buildRadius").getAsInt() == -1){
             return mapCache.get("maxBuild").getAsInt();
-        }
-        return findLimit(Minecraft.getMinecraft().thePlayer.getPosition().getY());
     }
     public static String getMapName(){
         if (!APICaller.cacheReady) return "";
@@ -46,14 +41,12 @@ public class HeightLimitUtil {
 
     public static void getMapInfo(String mapName, String gameType){
         AtomicReference<JsonObject> mapInfo = new AtomicReference<>(new JsonObject());
-        System.out.println("Now doing this");
 
         Multithreading.runAsync(() -> {
             for (JsonElement map : APICaller.heightCache) {
                 JsonObject mapObj = map.getAsJsonObject();
                 if(mapObj.get("name").toString().contains(mapName) && mapObj.get("gameType").toString().contains(gameType)) {
                     mapInfo.set(mapObj);
-                    System.out.println("found a map");
                     mapCache = mapInfo.get();
                 }
             }
@@ -79,22 +72,6 @@ public class HeightLimitUtil {
             default:
                 return "Unknown";
         }
-    }
-
-    public static boolean limit(int py) {
-        double px = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-        double pz = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-        double distance = Math.ceil(Math.sqrt( Math.pow(0 - px, 2) + Math.pow(71 - py, 2) + Math.pow(0 - pz, 2)));
-        return mapCache.get("buildRadius").getAsInt() > distance;
-
-    }
-
-    public static int findLimit(int y) {
-        if (!limit(y) && y <= mapCache.get("maxBuild").getAsInt()) {
-            distance++;
-            findLimit(y+1);
-        }
-        return distance;
     }
 
 }

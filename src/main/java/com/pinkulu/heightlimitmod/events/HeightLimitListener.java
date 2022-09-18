@@ -3,15 +3,29 @@ package com.pinkulu.heightlimitmod.events;
 import cc.polyfrost.oneconfig.events.event.ScreenOpenEvent;
 import cc.polyfrost.oneconfig.events.event.Stage;
 import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.events.event.WorldLoadEvent;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.oneconfig.utils.Notifications;
+import com.pinkulu.heightlimitmod.HeightLimitMod;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
+import com.pinkulu.heightlimitmod.util.APICaller;
 import net.minecraft.client.Minecraft;
+
+import static java.lang.Double.parseDouble;
 
 public class HeightLimitListener {
     public static boolean shouldPlaySound;
     public static int limit = 0;
     public static boolean editingHUD = false;
+    public static boolean joinedOnce = false;
 
+    @Subscribe
+    private void onWorldLoad(WorldLoadEvent event){
+        if(joinedOnce) return;
+        joinedOnce = true;
+        if(parseDouble(HeightLimitMod.VERSION) < APICaller.latest_version)
+        Notifications.INSTANCE.send("Height Limit Mod", "version " + APICaller.latest_version + " available \nInfo: "+ APICaller.info, 15000);
+    }
     @Subscribe
     private void onTick(TickEvent event) {
         if (event.stage == Stage.START) {

@@ -12,6 +12,7 @@ public class APICaller {
 
     public static boolean cacheReady = false;
     public static double latest_version = 0.0;
+    public static String info = "";
     public static void GetLimits() {
         heightCache = null;
         Multithreading.runAsync(() -> {
@@ -24,7 +25,6 @@ public class APICaller {
                 e.printStackTrace();
             } finally {
                 cacheReady = true;
-                System.out.println(heightCache);
                 HeightLimitUtil.getMapInfo("Waterfall", "BEDWARS");
             }
         });
@@ -36,6 +36,7 @@ public class APICaller {
                 if (json != null) {
                     final JsonObject object = json.getAsJsonObject();
                     latest_version = object.get("Version").getAsDouble();
+                    info = object.get("Info").getAsString();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
