@@ -21,24 +21,18 @@ public class HeightLimitModCommand {
     private static void main() {
         HeightLimitMod.INSTANCE.config.openGui();
     }
-    @SubCommand(value = "update", description = "check if theres an update")
-    private static class update {
-        @Main
-        private static void main(){
+    @SubCommand(aliases = "update", description = "check if theres an update")
+    public static class update {
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             IChatComponent text = new ChatComponentText( "Api version:" + APICaller.latest_version);
             player.addChatMessage(text);
         }
     }
-    @SubCommand(value = "refreshlimits", description = "Pulls the height limit maps api, pulling the latest limits")
+    @SubCommand(aliases = "refreshlimits", description = "Pulls the height limit maps api, pulling the latest limits")
     private static class refreshLimits{
-        @Main
-        private static void main() {
             APICaller.GetVersion();
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             IChatComponent text = new ChatComponentText( "The limits have been refreshed!");
             player.addChatMessage(text);
         }
     }
-
-}
