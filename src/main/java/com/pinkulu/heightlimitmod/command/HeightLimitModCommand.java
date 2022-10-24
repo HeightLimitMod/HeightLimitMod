@@ -26,7 +26,6 @@ public class HeightLimitModCommand {
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             IChatComponent text = new ChatComponentText( "Api version:" + APICaller.latest_version);
             player.addChatMessage(text);
-        }
     }
     @SubCommand(aliases = "refreshlimits", description = "Pulls the height limit maps api, pulling the latest limits")
     private static class refreshLimits{
