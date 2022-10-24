@@ -59,7 +59,7 @@ repositories {
 
 dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.0")
-    compileOnly("cc.polyfrost:oneconfig-$platform:0.1.0+")
+    compileOnly('cc.polyfrost:oneconfig-1.8.9-forge:0.1.0-alpha108')
     val loader = when {
         platform.isLegacyForge -> "launchwrapper"
         platform.isModLauncher -> "modlauncher"
