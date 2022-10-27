@@ -16,7 +16,7 @@ public class BlocksTillMax extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
-        return String.valueOf(HeightLimitUtil.getLimit() - Minecraft.getMinecraft().thePlayer.getPosition().getY());
+        return String.valueOf(HeightLimitUtil.getLimit() - HeightLimitUtil.getPlayerY());
     }
 
     @Override

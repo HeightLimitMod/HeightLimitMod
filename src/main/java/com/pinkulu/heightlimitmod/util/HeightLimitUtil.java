@@ -27,7 +27,11 @@ public class HeightLimitUtil {
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"" );
     }
     public static int getLimit(){
+        try {
             return mapCache.get("maxBuild").getAsInt();
+        }catch (Exception e){
+            return -1;
+        }
     }
     public static String getMapName(){
         if (!APICaller.cacheReady) return "";
@@ -72,6 +76,11 @@ public class HeightLimitUtil {
             default:
                 return "Unknown";
         }
+    }
+
+    public static int getPlayerY(){
+        if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) return 0;
+        return Minecraft.getMinecraft().thePlayer.getPosition().getY();
     }
 
 }
