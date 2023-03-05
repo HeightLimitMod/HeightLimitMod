@@ -19,12 +19,7 @@ public class GameMode extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
-        if (!HeightLimitUtil.shouldRender()) return notSupportedText;
-        if (!APICaller.cacheReady) return notSupportedText;
-        if (!HypixelUtils.INSTANCE.isHypixel()) return notSupportedText;
-        final LocrawInfo location = LocrawUtil.INSTANCE.getLocrawInfo();
-        if (location == null) return notSupportedText;
-        return location.getGameMode();
+        return HeightLimitUtil.shouldRender() && LocrawUtil.INSTANCE.getLocrawInfo() != null ? LocrawUtil.INSTANCE.getLocrawInfo().getGameMode() : notSupportedText;
     }
 
     @Override
