@@ -1,14 +1,13 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import gg.essential.gradle.util.noServerRunConfigs
+import cc.polyfrost.gradle.util.noServerRunConfigs
 
 plugins {
-    id("gg.essential.multi-version")
-    id("gg.essential.defaults.repo")
-    id("gg.essential.defaults.java")
-    id("gg.essential.defaults.loom")
+    id("cc.polyfrost.multi-version")
+    id("cc.polyfrost.defaults.repo")
+    id("cc.polyfrost.defaults.java")
+    id("cc.polyfrost.defaults.loom")
     id("com.github.johnrengelman.shadow")
     id("net.kyori.blossom") version "1.3.0"
-    id("io.github.juuxel.loom-quiltflower-mini")
     id("signing")
     java
 }
@@ -32,11 +31,12 @@ group = "com.pinkulu"
 base {
     archivesName.set("$mod_id-$platform")
 }
+
 loom {
     noServerRunConfigs()
     if (project.platform.isLegacyForge) {
         launchConfigs.named("client") {
-            arg("--tweakClass", "cc.polyfrost.oneconfigwrapper.OneConfigWrapper")
+            arg("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
             property("mixin.debug.export", "true")
         }
     }
@@ -54,19 +54,15 @@ sourceSets {
 
 repositories {
     maven("https://repo.polyfrost.cc/releases")
-    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
 dependencies {
-    //modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.0")
-    compileOnly("cc.polyfrost:oneconfig-1.8.9-forge:0.1.0-alpha108")
-    val loader = when {
-        platform.isLegacyForge -> "launchwrapper"
-        platform.isModLauncher -> "modlauncher"
-        platform.isFabric -> "prelaunch"
-        else -> throw IllegalStateException("Unknown platform: $platform")
+    modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.0")
+    modCompileOnly("cc.polyfrost:oneconfig-$platform:0.2.0-alpha+")
+
+    if (platform.isLegacyForge) {
+        shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+")
     }
-    shade("cc.polyfrost:oneconfig-wrapper-$loader:1.0.0-alpha+")
 }
 
 tasks.processResources {
@@ -137,7 +133,7 @@ tasks {
                     "ModSide" to "CLIENT",
                     "ForceLoadAsMod" to true,
                     "TweakOrder" to "0",
-                    "TweakClass" to "cc.polyfrost.oneconfigwrapper.OneConfigWrapper"
+                    "TweakClass" to "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker"
                 )
             )
         }

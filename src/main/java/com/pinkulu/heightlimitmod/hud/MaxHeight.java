@@ -1,17 +1,9 @@
 package com.pinkulu.heightlimitmod.hud;
 
-import cc.polyfrost.oneconfig.config.annotations.Text;
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
-import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
-import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
-import com.pinkulu.heightlimitmod.util.APICaller;
 import com.pinkulu.heightlimitmod.util.HeightLimitUtil;
-import net.minecraft.client.Minecraft;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Objects;
 
 public class MaxHeight extends SingleTextHud {
@@ -29,6 +21,6 @@ public class MaxHeight extends SingleTextHud {
 
     @Override
     public boolean isEnabled() {
-        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && !String.valueOf(HeightLimitUtil.getLimit()).equals(notSupportedText)) || (super.isEnabled() && HeightLimitListener.editingHUD) ;
+        return (super.isEnabled() && !Objects.equals(getText(false), notSupportedText) && !String.valueOf(HeightLimitUtil.getLimit()).equals(notSupportedText)) || (super.isEnabled() && HeightLimitListener.editingHUD);
     }
 }

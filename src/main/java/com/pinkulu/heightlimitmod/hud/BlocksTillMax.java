@@ -3,7 +3,6 @@ package com.pinkulu.heightlimitmod.hud;
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.util.HeightLimitUtil;
-import net.minecraft.client.Minecraft;
 
 import java.util.Objects;
 

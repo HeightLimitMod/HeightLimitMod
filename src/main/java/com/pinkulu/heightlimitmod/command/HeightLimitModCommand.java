@@ -1,37 +1,30 @@
 package com.pinkulu.heightlimitmod.command;
 
-import cc.polyfrost.oneconfig.utils.commands.annotations.SubCommand;
-import com.pinkulu.heightlimitmod.HeightLimitMod;
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import cc.polyfrost.oneconfig.libs.universal.UChat;
 import cc.polyfrost.oneconfig.utils.commands.annotations.Command;
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main;
+import cc.polyfrost.oneconfig.utils.commands.annotations.SubCommand;
+import com.pinkulu.heightlimitmod.HeightLimitMod;
 import com.pinkulu.heightlimitmod.util.APICaller;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.IChatComponent;
-import net.minecraftforge.fml.common.API;
 
 @Command(value = HeightLimitMod.MODID,
         description = "Access the " + HeightLimitMod.NAME + " GUI.", aliases = {"hlm", "heightlimitmod"})
 public class HeightLimitModCommand {
 
     @Main
-    private static void main() {
+    private void main() {
         HeightLimitMod.INSTANCE.config.openGui();
     }
-    @SubCommand(aliases = "update", description = "check if theres an update")
-    public static void update() {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            IChatComponent text = new ChatComponentText( "Api version:" + APICaller.latest_version);
-            player.addChatMessage(text);
+
+    @SubCommand(aliases = "update", description = "Check if theres an update")
+    public void update() {
+        UChat.chat(ChatColor.GREEN + "API version: " + APICaller.latest_version);
     }
-    @SubCommand(aliases = "refreshlimits", description = "Pulls the height limit maps api, pulling the latest limits")
-    private static void refreshLimits(){
-            APICaller.GetVersion();
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            IChatComponent text = new ChatComponentText( "The limits have been refreshed!");
-            player.addChatMessage(text);
-        }
+
+    @SubCommand(aliases = "refreshlimits", description = "Pulls the height limit maps API, pulling the latest limits")
+    private void refreshLimits() {
+        APICaller.getLimits();
+        UChat.chat(ChatColor.GREEN + "The limits have been refreshed!");
     }
+}
