@@ -1,9 +1,9 @@
 package com.pinkulu.heightlimitmod.hud;
 
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
+import cc.polyfrost.oneconfig.utils.hypixel.LocrawUtil;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.util.HeightLimitUtil;
-import net.minecraft.client.Minecraft;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class BlocksTillMax extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
-        return String.valueOf(HeightLimitUtil.getLimit() - HeightLimitUtil.getPlayerY());
+        return HeightLimitUtil.shouldRender() && LocrawUtil.INSTANCE.getLocrawInfo() != null ? String.valueOf(HeightLimitUtil.getLimit() - HeightLimitUtil.getPlayerY()) : notSupportedText;
     }
 
     @Override

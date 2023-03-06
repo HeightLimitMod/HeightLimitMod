@@ -15,32 +15,38 @@ import java.net.URI;
 public class HeightLimitModConfig extends Config {
 
     @HUD(
-            name = "Blocks Till Max Limit"
+            name = "Blocks Left",
+            category = "Blocks Left"
     )
     public static BlocksTillMax btm = new BlocksTillMax();
 
     @HUD(
-            name = "Map Name"
+            name = "Map Name",
+            category = "Map Name"
     )
     public static CurrentMap cm = new CurrentMap();
 
     @HUD(
-            name = "Max Map Height"
+            name = "Max Map Height",
+            category = "Max Map Height"
     )
     public static MaxHeight mh = new MaxHeight();
 
     @HUD(
-            name = "MapType"
+            name = "Map Type",
+            category = "Map Type"
     )
     public static MapType mt = new MapType();
 
     @HUD(
-            name = "GameMode"
+            name = "Game Mode",
+            category = "Game Mode"
     )
     public static GameMode gt = new GameMode();
 
     @HUD(
-            name = "GameType"
+            name = "Game Type",
+            category = "Game Type"
     )
     public static GameType gm = new GameType();
 
@@ -50,23 +56,13 @@ public class HeightLimitModConfig extends Config {
     @Slider(name = "Blocks Left To Play", min = 0, max = 5, category = "Sound")
     public static int blocksWhenPlay = 0;
 
-    @Dropdown(name = "Sound To Play", options = {"Ding!", "Iron Golem Abuse","Blaze Abuse", "Anvil Land",
-            "Horse Dies :(", "Ghast Yells", "Guardian Abuse", "Cat Meows","Dog Barks", "BOOOM!", "Custom Sound(Advanced)"},  category = "Sound")
+    @Dropdown(name = "Sound To Play", options = {"Ding!", "Iron Golem Abuse", "Blaze Abuse", "Anvil Land",
+            "Horse Dies :(", "Ghast Yells", "Guardian Abuse", "Cat Meows", "Dog Barks", "BOOOM!", "Custom Sound(Advanced)"}, category = "Sound")
     public static int soundToPlay = 0;
-
-    @Button(
-            name = "Test Sound",
-            text = "Click Here",
-            category = "Sound"
-    )
-    Runnable testSound = HeightLimitListener::PlaySound;
-
     @Checkbox(name = "Should Spam Sound", category = "Sound")
     public static boolean shouldSpamSound = false;
-
-    @Info(text = "For custom sounds, go to \"Sound List\" in Information tab", type = InfoType.INFO,  category = "Sound")
+    @Info(text = "For custom sounds, go to \"Sound List\" in Information tab", type = InfoType.INFO, category = "Sound")
     public static String info;
-
     @Info(text = "Always check the \"Test Sound\" button, after setting a custom sound", type = InfoType.WARNING, category = "Sound")
     public static String info2;
     @Text(
@@ -75,13 +71,18 @@ public class HeightLimitModConfig extends Config {
             placeholder = "example: dig.glass"
     )
     public static String soundName;
-
     @Button(
-            name = "Pinkulus Webiste",
+            name = "Test Sound",
+            text = "Click Here",
+            category = "Sound"
+    )
+    Runnable testSound = HeightLimitListener::PlaySound;
+    @Button(
+            name = "Pinkulu's Webiste",
             text = "Click Here",
             category = "Information"
     )
-    Runnable pinkulu  = () -> UDesktop.browse(URI.create("https://pinkulu.com"));
+    Runnable pinkulu = () -> UDesktop.browse(URI.create("https://pinkulu.com"));
 
 
     @Button(
@@ -92,12 +93,12 @@ public class HeightLimitModConfig extends Config {
     Runnable discord = () -> UDesktop.browse(URI.create("https://inv.wtf/pink"));
 
     @Button(
-            name = "Block Height Overlay (hytils reborn by wyvest)",
+            name = "Block Height Overlay (Hytils Reborn by Polyfrost)",
             text = "Click Here",
             category = "Information"
     )
     Runnable hytils_reborn = () ->
-        UDesktop.browse(URI.create("https://github.com/Polyfrost/Hytils-Reborn/releases/tag/v1.5.0"));
+            UDesktop.browse(URI.create("https://github.com/Polyfrost/Hytils-Reborn/releases/"));
 
 
     @Button(
@@ -106,7 +107,7 @@ public class HeightLimitModConfig extends Config {
             category = "Information"
     )
     Runnable soundlist = () ->
-        UDesktop.browse(URI.create("https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments"));
+            UDesktop.browse(URI.create("https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments"));
 
 
     public HeightLimitModConfig() {

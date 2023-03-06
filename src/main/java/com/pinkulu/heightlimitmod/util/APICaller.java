@@ -13,7 +13,8 @@ public class APICaller {
     public static boolean cacheReady = false;
     public static double latest_version = 0.0;
     public static String info = "";
-    public static void GetLimits() {
+
+    public static void getLimits() {
         heightCache = null;
         Multithreading.runAsync(() -> {
             try {
@@ -29,7 +30,8 @@ public class APICaller {
             }
         });
     }
-    public static void GetVersion() {
+
+    public static void getVersion() {
         Multithreading.runAsync(() -> {
             try {
                 final JsonElement json = NetworkUtils.getJsonElement("https://maps.pinkulu.com/version.json");
