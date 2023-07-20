@@ -78,7 +78,7 @@ public class HeightLimitModConfig extends Config {
     )
     Runnable testSound = HeightLimitListener::PlaySound;
     @Button(
-            name = "Pinkulu's Webiste",
+            name = "Pinkulu's Website",
             text = "Click Here",
             category = "Information"
     )
