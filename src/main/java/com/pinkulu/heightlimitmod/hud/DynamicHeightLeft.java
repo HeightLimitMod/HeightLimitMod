@@ -21,7 +21,7 @@ public class DynamicHeightLeft extends SingleTextHud {
                 Math.floor(Minecraft.getMinecraft().thePlayer.posX),
                 Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
                 HeightLimitUtil.getBuildRadius()
-        )) - Minecraft.getMinecraft().thePlayer.posY) : notSupportedText;
+        ) - Minecraft.getMinecraft().thePlayer.posY)) : notSupportedText;
     }
 
     @Override
