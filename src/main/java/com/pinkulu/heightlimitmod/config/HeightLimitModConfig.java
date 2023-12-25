@@ -39,6 +39,12 @@ public class HeightLimitModConfig extends Config {
     public static DynamicHeight dh = new DynamicHeight();
 
     @HUD(
+            name = "Dynamic Height Left",
+            category = "Dynamic Height Left"
+    )
+    public static DynamicHeightLeft dhl = new DynamicHeightLeft();
+
+    @HUD(
             name = "Map Type",
             category = "Map Type"
     )
