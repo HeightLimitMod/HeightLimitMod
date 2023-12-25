@@ -33,6 +33,12 @@ public class HeightLimitModConfig extends Config {
     public static MaxHeight mh = new MaxHeight();
 
     @HUD(
+            name = "Dynamic Max Height",
+            category = "Dynamic Max Height"
+    )
+    public static DynamicHeight dh = new DynamicHeight();
+
+    @HUD(
             name = "Map Type",
             category = "Map Type"
     )
@@ -115,4 +121,3 @@ public class HeightLimitModConfig extends Config {
         initialize();
     }
 }
-

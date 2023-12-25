@@ -3,7 +3,7 @@ package com.pinkulu.heightlimitmod.hud;
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawUtil;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
-import com.pinkulu.heightlimitmod.util.HeightLimitUtil;
+import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
 
 import java.util.Objects;
 

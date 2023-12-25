@@ -7,7 +7,7 @@ import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import cc.polyfrost.oneconfig.utils.Notifications;
 import com.pinkulu.heightlimitmod.HeightLimitMod;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
-import com.pinkulu.heightlimitmod.util.APICaller;
+import com.pinkulu.heightlimitmod.utils.APICaller;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.world.WorldEvent;
 

@@ -1,4 +1,4 @@
-package com.pinkulu.heightlimitmod.util;
+package com.pinkulu.heightlimitmod.utils;
 
 import cc.polyfrost.oneconfig.utils.Multithreading;
 import cc.polyfrost.oneconfig.utils.NetworkUtils;

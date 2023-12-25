@@ -6,7 +6,7 @@ import cc.polyfrost.oneconfig.utils.commands.annotations.Command;
 import cc.polyfrost.oneconfig.utils.commands.annotations.Main;
 import cc.polyfrost.oneconfig.utils.commands.annotations.SubCommand;
 import com.pinkulu.heightlimitmod.HeightLimitMod;
-import com.pinkulu.heightlimitmod.util.APICaller;
+import com.pinkulu.heightlimitmod.utils.APICaller;
 
 @Command(value = HeightLimitMod.MODID,
         description = "Access the " + HeightLimitMod.NAME + " GUI.", aliases = {"hlm", "heightlimitmod"})

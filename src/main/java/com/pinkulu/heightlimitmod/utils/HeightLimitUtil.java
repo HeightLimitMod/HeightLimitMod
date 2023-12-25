@@ -1,4 +1,4 @@
-package com.pinkulu.heightlimitmod.util;
+package com.pinkulu.heightlimitmod.utils;
 
 import cc.polyfrost.oneconfig.utils.Multithreading;
 import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
@@ -6,6 +6,7 @@ import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.geometry.Point3D;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,6 +33,22 @@ public class HeightLimitUtil {
     public static int getLimit() {
         try {
             return mapCache.get("maxBuild").getAsInt();
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int getMinLimit() {
+        try {
+            return mapCache.get("minBuild").getAsInt();
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int getBuildRadius() {
+        try {
+            return mapCache.get("buildRadius").getAsInt();
         } catch (Exception e) {
             return -1;
         }
@@ -87,5 +104,18 @@ public class HeightLimitUtil {
         if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) return 0;
         return Minecraft.getMinecraft().thePlayer.getPosition().getY();
     }
+
+
+    public static double heightLimit(double x, double z, double radius) {
+        double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
+        double underRoot = Math.pow(radius, 2) - Math.pow(distance, 2);
+        if (underRoot < 0) {
+            return Double.NaN; // Not a Number
+        }
+        return 70 + Math.sqrt(underRoot) > getLimit() ? getLimit() : 70 + Math.sqrt(underRoot);
+    }
+
+
+
 
 }

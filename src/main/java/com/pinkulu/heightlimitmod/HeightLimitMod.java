@@ -5,7 +5,7 @@ import cc.polyfrost.oneconfig.utils.commands.CommandManager;
 import com.pinkulu.heightlimitmod.command.HeightLimitModCommand;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
-import com.pinkulu.heightlimitmod.util.APICaller;
+import com.pinkulu.heightlimitmod.utils.APICaller;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(modid = HeightLimitMod.MODID, name = HeightLimitMod.NAME, version = HeightLimitMod.VERSION)
