@@ -81,6 +81,7 @@ public class HeightLimitListener {
 
     @Subscribe
     private void onWorldLoad(WorldEvent.Load event) {
+        ForgeEventListener.placedBlocks.clear();
         if (joinedOnce) return;
         joinedOnce = true;
         if (parseDouble(HeightLimitMod.VERSION) < APICaller.latest_version)
