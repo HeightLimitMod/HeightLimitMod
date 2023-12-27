@@ -18,31 +18,43 @@ public class HeightLimitModConfig extends Config {
     @Switch(
             name = "Enable Height Overlay",
             category = "General",
-            description = "show an overlay if a block is placed at the height limit"
+            description = "show an overlay if a block is placed at the height limit",
+            subcategory = "Height Overlay"
     )
     public static boolean enableHeightOverlay = true;
 
     @Color(
             name = "Height Overlay Color",
-            category = "General"
+            category = "General",
+            subcategory = "Height Overlay"
     )
     public static OneColor heightOverlayColor = new OneColor(255, 0, 128, 144);
-
     @Dropdown(
             name = "Height Overlay Style",
             category = "General",
-            options = {"Solid", "Outline"}
+            options = {"Solid", "Outline"},
+            subcategory = "Height Overlay"
+
     )
     public static int heightOverlayStyle = 0;
-
-
 
     @Switch(
             name = "Dynamic Limit Calculation",
             category = "General",
-            description = "Calculate the actual height limit of the map, as its a sphere, and not always static"
+            description = "Calculate the actual height limit of the map, as its a sphere, and not always static",
+            subcategory = "Dynamic Limit Calculation"
+
     )
     public static boolean dynamicLimit = true;
+
+    @Info(
+            type = InfoType.WARNING,
+            text = "Dynamic limit calculation may not always be accurate, and is completely disabled in skywars",
+            category = "General",
+            subcategory = "Dynamic Limit Calculation",
+            size = 2
+    )
+    public static String info3;
 
     @HUD(
             name = "Max Map Height",
