@@ -2,6 +2,7 @@ package com.pinkulu.heightlimitmod.config;
 
 import cc.polyfrost.oneconfig.config.Config;
 import cc.polyfrost.oneconfig.config.annotations.*;
+import cc.polyfrost.oneconfig.config.core.OneColor;
 import cc.polyfrost.oneconfig.config.data.InfoType;
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
@@ -13,6 +14,32 @@ import com.pinkulu.heightlimitmod.hud.*;
 import java.net.URI;
 
 public class HeightLimitModConfig extends Config {
+
+    @Switch(
+            name = "Enable Height Overlay",
+            category = "General",
+            description = "show an overlay if a block is placed at the height limit"
+    )
+    public static boolean enableHeightOverlay = true;
+
+    @Color(
+            name = "Height Overlay Color",
+            category = "General"
+    )
+    public static OneColor heightOverlayColor = new OneColor(255, 0, 128, 144);
+
+    @Switch(
+            name = "Dynamic Limit Calculation",
+            category = "General",
+            description = "Calculate the actual height limit of the map, as its a sphere, and not always static"
+    )
+    public static boolean dynamicLimit = true;
+
+    @HUD(
+            name = "Max Map Height",
+            category = "Max Map Height"
+    )
+    public static MaxHeight mh = new MaxHeight();
 
     @HUD(
             name = "Blocks Left",
@@ -26,23 +53,6 @@ public class HeightLimitModConfig extends Config {
     )
     public static CurrentMap cm = new CurrentMap();
 
-    @HUD(
-            name = "Max Map Height",
-            category = "Max Map Height"
-    )
-    public static MaxHeight mh = new MaxHeight();
-
-    @HUD(
-            name = "Dynamic Max Height",
-            category = "Dynamic Max Height"
-    )
-    public static DynamicHeight dh = new DynamicHeight();
-
-    @HUD(
-            name = "Dynamic Height Left",
-            category = "Dynamic Height Left"
-    )
-    public static DynamicHeightLeft dhl = new DynamicHeightLeft();
 
     @HUD(
             name = "Map Type",

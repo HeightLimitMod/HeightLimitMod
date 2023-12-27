@@ -1,0 +1,97 @@
+package com.pinkulu.heightlimitmod.events;
+
+import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
+import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
+import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.pinkulu.heightlimitmod.config.HeightLimitModConfig.enableHeightOverlay;
+import static com.pinkulu.heightlimitmod.config.HeightLimitModConfig.heightOverlayColor;
+
+public class ForgeEventListener {
+    public static Map<BlockPos, Boolean> placedBlocks = new HashMap<>();
+    @SubscribeEvent
+    public void onRenderWorldLast(RenderWorldLastEvent event) {
+        if(!enableHeightOverlay) return;
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        for (BlockPos pos : placedBlocks.keySet()) {
+            double x = pos.getX() - Minecraft.getMinecraft().getRenderManager().viewerPosX;
+            double y = pos.getY() - Minecraft.getMinecraft().getRenderManager().viewerPosY;
+            double z = pos.getZ() - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
+
+            GL11.glColor4f(
+                    (float) heightOverlayColor.getRed() / 255,
+                    (float) heightOverlayColor.getGreen() / 255,
+                    (float) heightOverlayColor.getBlue() / 255,
+                    (float) heightOverlayColor.getAlpha() / 255);
+
+            // top
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glVertex3d(x, y + 1 + 0.02, z + 1);
+            GL11.glVertex3d(x + 1, y + 1 + 0.02, z + 1);
+            GL11.glVertex3d(x + 1, y + 1 + 0.02, z);
+            GL11.glVertex3d(x, y + 1 + 0.02, z);
+            GL11.glEnd();
+
+            // bottom
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glVertex3d(x, y - 0.02, z);
+            GL11.glVertex3d(x + 1 - 0.02, y, z);
+            GL11.glVertex3d(x + 1 - 0.02, y, z + 1);
+            GL11.glVertex3d(x, y - 0.02, z + 1);
+            GL11.glEnd();
+
+            // front
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glVertex3d(x, y, z - 0.02);
+            GL11.glVertex3d(x, y + 1, z - 0.02);
+            GL11.glVertex3d(x + 1, y + 1, z - 0.02);
+            GL11.glVertex3d(x + 1, y, z - 0.02);
+            GL11.glEnd();
+
+
+            //  back
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glVertex3d(x, y, z + 1 + 0.02);
+            GL11.glVertex3d(x + 1, y, z + 1 + 0.02);
+            GL11.glVertex3d(x + 1, y + 1, z + 1 + 0.02);
+            GL11.glVertex3d(x, y + 1, z + 1 + 0.02);
+            GL11.glEnd();
+
+            // left
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glVertex3d(x - 0.02, y, z);
+            GL11.glVertex3d(x - 0.02 , y, z + 1);
+            GL11.glVertex3d(x - 0.02, y + 1, z + 1);
+            GL11.glVertex3d(x - 0.02, y + 1, z);
+            GL11.glEnd();
+
+            // right
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glVertex3d(x + 1 + 0.02, y, z);
+            GL11.glVertex3d(x + 1 + 0.02, y + 1 + 0.02, z);
+            GL11.glVertex3d(x + 1 + 0.02, y + 1 + 0.02, z + 1);
+            GL11.glVertex3d(x + 1 + 0.02, y, z + 1);
+            GL11.glEnd();
+        }
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
+
+
+}

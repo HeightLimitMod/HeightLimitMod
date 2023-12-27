@@ -6,7 +6,6 @@ import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import javafx.geometry.Point3D;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.StringUtils;
 
@@ -46,7 +45,7 @@ public class HeightLimitUtil {
         }
     }
 
-    public static int getBuildRadius() {
+    public static double getBuildRadius() {
         try {
             return mapCache.get("buildRadius").getAsInt();
         } catch (Exception e) {
@@ -114,6 +113,7 @@ public class HeightLimitUtil {
         }
         return 70 + Math.sqrt(underRoot) > getLimit() ? getLimit() : 70 + Math.sqrt(underRoot);
     }
+
 
 
 

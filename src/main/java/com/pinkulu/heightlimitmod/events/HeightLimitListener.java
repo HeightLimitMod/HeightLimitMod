@@ -1,5 +1,6 @@
 package com.pinkulu.heightlimitmod.events;
 
+import cc.polyfrost.oneconfig.events.event.ReceivePacketEvent;
 import cc.polyfrost.oneconfig.events.event.ScreenOpenEvent;
 import cc.polyfrost.oneconfig.events.event.Stage;
 import cc.polyfrost.oneconfig.events.event.TickEvent;
@@ -8,9 +9,15 @@ import cc.polyfrost.oneconfig.utils.Notifications;
 import com.pinkulu.heightlimitmod.HeightLimitMod;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import com.pinkulu.heightlimitmod.utils.APICaller;
+import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.Packet;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraftforge.event.world.WorldEvent;
 
+import static com.pinkulu.heightlimitmod.events.ForgeEventListener.placedBlocks;
 import static java.lang.Double.parseDouble;
 
 public class HeightLimitListener {
@@ -18,6 +25,7 @@ public class HeightLimitListener {
     public static int limit = 0;
     public static boolean editingHUD = false;
     public static boolean joinedOnce = false;
+
 
     //List of sounds https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments
     public static void PlaySound() {
@@ -80,6 +88,29 @@ public class HeightLimitListener {
     }
 
     @Subscribe
+    private void placeBlockPacket(ReceivePacketEvent event){
+        if (event.packet.toString().contains("S23PacketBlockChange")) {
+            S23PacketBlockChange packetBlockChange = (S23PacketBlockChange) event.packet;
+            if(!HeightLimitUtil.shouldRender()) return;
+            if(packetBlockChange.getBlockState().getBlock().getLocalizedName().toLowerCase().contains("air")){
+                placedBlocks.remove(packetBlockChange.getBlockPosition());
+                return;
+            };
+            if (!packetBlockChange.getBlockState().getBlock().getLocalizedName().toLowerCase().contains("wool")) return;
+            if(HeightLimitModConfig.dynamicLimit){
+                if(Math.ceil(HeightLimitUtil.heightLimit(
+                        packetBlockChange.getBlockPosition().getX(),
+                        packetBlockChange.getBlockPosition().getZ(),
+                        HeightLimitUtil.getBuildRadius()
+                ) - 1) > packetBlockChange.getBlockPosition().getY()) return;
+            }else{
+                if((HeightLimitUtil.getLimit() - 1) > packetBlockChange.getBlockPosition().getY()) return;
+            }
+            placedBlocks.put(packetBlockChange.getBlockPosition(), true);
+        }
+    }
+
+    @Subscribe
     private void onTick(TickEvent event) {
         if (event.stage == Stage.START) {
             if (limit == 0) return;
@@ -114,4 +145,9 @@ public class HeightLimitListener {
         if (event.screen.toString().contains("HudGui")) editingHUD = true;
         if (event.screen.toString().contains("OneConfigGui")) editingHUD = true;
     }
+
+
+
+
+
 }

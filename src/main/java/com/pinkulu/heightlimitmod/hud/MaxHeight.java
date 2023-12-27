@@ -1,8 +1,10 @@
 package com.pinkulu.heightlimitmod.hud;
 
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
+import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
+import net.minecraft.client.Minecraft;
 
 import java.util.Objects;
 
@@ -16,6 +18,13 @@ public class MaxHeight extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
+        if(HeightLimitModConfig.dynamicLimit){
+            return HeightLimitUtil.shouldRender() ? String.valueOf((int) Math.ceil(HeightLimitUtil.heightLimit(
+                    Math.floor(Minecraft.getMinecraft().thePlayer.posX),
+                    Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
+                    HeightLimitUtil.getBuildRadius()
+            ) - Minecraft.getMinecraft().thePlayer.posY)) : notSupportedText;
+        }
         return HeightLimitUtil.shouldRender() ? String.valueOf(HeightLimitUtil.getLimit()) : notSupportedText;
     }
 
