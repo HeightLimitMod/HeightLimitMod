@@ -28,6 +28,15 @@ public class HeightLimitModConfig extends Config {
     )
     public static OneColor heightOverlayColor = new OneColor(255, 0, 128, 144);
 
+    @Dropdown(
+            name = "Height Overlay Style",
+            category = "General",
+            options = {"Solid", "Outline"}
+    )
+    public static int heightOverlayStyle = 0;
+
+
+
     @Switch(
             name = "Dynamic Limit Calculation",
             category = "General",

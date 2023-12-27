@@ -36,61 +36,96 @@ public class ForgeEventListener {
                     (float) heightOverlayColor.getRed() / 255,
                     (float) heightOverlayColor.getGreen() / 255,
                     (float) heightOverlayColor.getBlue() / 255,
-                    (float) heightOverlayColor.getAlpha() / 255);
+                    (float) heightOverlayColor.getAlpha() / 255
+            );
 
-            // top
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3d(x, y + 1 + 0.02, z + 1);
-            GL11.glVertex3d(x + 1, y + 1 + 0.02, z + 1);
-            GL11.glVertex3d(x + 1, y + 1 + 0.02, z);
-            GL11.glVertex3d(x, y + 1 + 0.02, z);
-            GL11.glEnd();
+            if (HeightLimitModConfig.heightOverlayStyle == 1) {
+                renderOutline(x, y, z);
+            } else {
+                renderSolid(x, y, z);
+            }
 
-            // bottom
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3d(x, y - 0.02, z);
-            GL11.glVertex3d(x + 1 - 0.02, y, z);
-            GL11.glVertex3d(x + 1 - 0.02, y, z + 1);
-            GL11.glVertex3d(x, y - 0.02, z + 1);
-            GL11.glEnd();
-
-            // front
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3d(x, y, z - 0.02);
-            GL11.glVertex3d(x, y + 1, z - 0.02);
-            GL11.glVertex3d(x + 1, y + 1, z - 0.02);
-            GL11.glVertex3d(x + 1, y, z - 0.02);
-            GL11.glEnd();
-
-
-            //  back
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3d(x, y, z + 1 + 0.02);
-            GL11.glVertex3d(x + 1, y, z + 1 + 0.02);
-            GL11.glVertex3d(x + 1, y + 1, z + 1 + 0.02);
-            GL11.glVertex3d(x, y + 1, z + 1 + 0.02);
-            GL11.glEnd();
-
-            // left
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3d(x - 0.02, y, z);
-            GL11.glVertex3d(x - 0.02 , y, z + 1);
-            GL11.glVertex3d(x - 0.02, y + 1, z + 1);
-            GL11.glVertex3d(x - 0.02, y + 1, z);
-            GL11.glEnd();
-
-            // right
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3d(x + 1 + 0.02, y, z);
-            GL11.glVertex3d(x + 1 + 0.02, y + 1 + 0.02, z);
-            GL11.glVertex3d(x + 1 + 0.02, y + 1 + 0.02, z + 1);
-            GL11.glVertex3d(x + 1 + 0.02, y, z + 1);
-            GL11.glEnd();
         }
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
+
+    public void renderSolid(double x, double y, double z){
+        // top
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex3d(x, y + 1 + 0.01, z + 1);
+        GL11.glVertex3d(x + 1, y + 1 + 0.01, z + 1);
+        GL11.glVertex3d(x + 1, y + 1 + 0.01, z);
+        GL11.glVertex3d(x, y + 1 + 0.01, z);
+        GL11.glEnd();
+
+        // bottom
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex3d(x, y - 0.01, z);
+        GL11.glVertex3d(x + 1 - 0.01, y, z);
+        GL11.glVertex3d(x + 1 - 0.01, y, z + 1);
+        GL11.glVertex3d(x, y - 0.01, z + 1);
+        GL11.glEnd();
+
+        // front
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex3d(x, y, z - 0.01);
+        GL11.glVertex3d(x, y + 1, z - 0.01);
+        GL11.glVertex3d(x + 1, y + 1, z - 0.01);
+        GL11.glVertex3d(x + 1, y, z - 0.01);
+        GL11.glEnd();
+
+
+        //  back
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex3d(x, y, z + 1 + 0.01);
+        GL11.glVertex3d(x + 1, y, z + 1 + 0.01);
+        GL11.glVertex3d(x + 1, y + 1, z + 1 + 0.01);
+        GL11.glVertex3d(x, y + 1, z + 1 + 0.01);
+        GL11.glEnd();
+
+        // left
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex3d(x - 0.01, y, z);
+        GL11.glVertex3d(x - 0.01 , y, z + 1);
+        GL11.glVertex3d(x - 0.01, y + 1, z + 1);
+        GL11.glVertex3d(x - 0.01, y + 1, z);
+        GL11.glEnd();
+
+        // right
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex3d(x + 1 + 0.01, y, z);
+        GL11.glVertex3d(x + 1 + 0.01, y + 1 + 0.01, z);
+        GL11.glVertex3d(x + 1 + 0.01, y + 1 + 0.01, z + 1);
+        GL11.glVertex3d(x + 1 + 0.01, y, z + 1);
+        GL11.glEnd();
+    }
+
+    public void renderOutline(double x, double y, double z){
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        GL11.glVertex3d(x, y, z);
+        GL11.glVertex3d(x, y, z + 1 + 0.01);
+        GL11.glVertex3d(x + 1 , y, z + 1 + 0.01);
+        GL11.glVertex3d(x + 1, y, z);
+        GL11.glEnd();
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        GL11.glVertex3d(x, y + 1, z);
+        GL11.glVertex3d(x, y + 1, z + 1);
+        GL11.glVertex3d(x + 1, y + 1, z + 1);
+        GL11.glVertex3d(x + 1, y + 1, z);
+        GL11.glEnd();
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x, y, z);
+        GL11.glVertex3d(x, y + 1, z);
+        GL11.glVertex3d(x, y, z + 1);
+        GL11.glVertex3d(x, y + 1, z + 1);
+        GL11.glVertex3d(x + 1, y, z + 1);
+        GL11.glVertex3d(x + 1, y + 1, z + 1);
+        GL11.glVertex3d(x + 1, y, z);
+        GL11.glVertex3d(x + 1, y + 1, z);
+        GL11.glEnd();
     }
 
 
