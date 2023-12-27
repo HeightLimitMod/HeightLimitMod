@@ -84,7 +84,7 @@ public class HeightLimitListener {
         ForgeEventListener.placedBlocks.clear();
         if (joinedOnce) return;
         joinedOnce = true;
-        if (parseDouble(HeightLimitMod.VERSION) < APICaller.latest_version)
+        if (HeightLimitUtil.shouldUpdate(APICaller.latest_version, HeightLimitMod.VERSION))
             Notifications.INSTANCE.send("Height Limit Mod", "version " + APICaller.latest_version + " available \nInfo: " + APICaller.info, 15000);
     }
 

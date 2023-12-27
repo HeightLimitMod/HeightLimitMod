@@ -11,7 +11,7 @@ public class APICaller {
     public static transient JsonArray heightCache = new JsonArray();
 
     public static boolean cacheReady = false;
-    public static double latest_version = 0.0;
+    public static String latest_version = "";
     public static String info = "";
 
     public static void getLimits() {
@@ -37,7 +37,7 @@ public class APICaller {
                 final JsonElement json = NetworkUtils.getJsonElement("https://maps.pinkulu.com/version.json");
                 if (json != null) {
                     final JsonObject object = json.getAsJsonObject();
-                    latest_version = object.get("Version").getAsDouble();
+                    latest_version = object.get("Version").getAsString();
                     info = object.get("Info").getAsString();
                 }
             } catch (Exception e) {

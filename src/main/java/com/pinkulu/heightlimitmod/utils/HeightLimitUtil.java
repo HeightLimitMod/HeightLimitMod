@@ -77,6 +77,23 @@ public class HeightLimitUtil {
         });
     }
 
+    public static boolean shouldUpdate(String latestVersion, String currentVersion){
+        if(latestVersion.contains("-")){
+            latestVersion = latestVersion.substring(0, latestVersion.indexOf("-"));
+        }
+        if(currentVersion.contains("-")){
+            currentVersion = currentVersion.substring(0, currentVersion.indexOf("-"));
+        }
+        String[] latestVersionArray = latestVersion.split("\\.");
+        String[] currentVersionArray = currentVersion.split("\\.");
+        for(int i = 0; i < latestVersionArray.length; i++){
+            if(Integer.parseInt(currentVersionArray[i]) < Integer.parseInt(latestVersionArray[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String getMapType() {
         String pool = mapCache.get("pool").getAsString();
         switch (pool) {
@@ -106,6 +123,10 @@ public class HeightLimitUtil {
 
 
     public static double heightLimit(double x, double z, double radius) {
+        if(getMapType().toLowerCase().contains("skywars") || getBuildRadius() == -1 || getLimit() == 0)
+        {
+            return getLimit();
+        }
         double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
         double underRoot = Math.pow(radius, 2) - Math.pow(distance, 2);
         if (underRoot < 0) {
