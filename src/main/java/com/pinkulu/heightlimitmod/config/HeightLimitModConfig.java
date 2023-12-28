@@ -34,7 +34,7 @@ public class HeightLimitModConfig extends Config {
     @Dropdown(
             name = "Height Overlay Style",
             category = "General",
-            options = {"Solid", "Outline"},
+            options = {"Solid", "Outline", "X"},
             subcategory = "Height Overlay"
 
     )

@@ -92,17 +92,17 @@ public class HeightLimitListener {
     private void placeBlockPacket(ReceivePacketEvent event) {
         if (event.packet.toString().contains("S23PacketBlockChange")) {
             S23PacketBlockChange packetBlockChange = (S23PacketBlockChange) event.packet;
-            if (!HeightLimitUtil.shouldRender()) return;
+            // if (!HeightLimitUtil.shouldRender()) return;
             if (!packetBlockChange.getBlockState().getBlock().getLocalizedName().toLowerCase().contains("wool")) {
                 placedBlocks.remove(packetBlockChange.getBlockPosition());
                 return;
             }
 
-            if (Math.ceil(HeightLimitUtil.heightLimit(
-                    packetBlockChange.getBlockPosition().getX(),
-                    packetBlockChange.getBlockPosition().getZ(),
-                    HeightLimitUtil.getBuildRadius()
-            ) - 1) > packetBlockChange.getBlockPosition().getY()) return;
+//            if (Math.ceil(HeightLimitUtil.heightLimit(
+//                    packetBlockChange.getBlockPosition().getX(),
+//                    packetBlockChange.getBlockPosition().getZ(),
+//                    HeightLimitUtil.getBuildRadius()
+//            ) - 1) > packetBlockChange.getBlockPosition().getY()) return;
 
             placedBlocks.put(packetBlockChange.getBlockPosition(), true);
         }

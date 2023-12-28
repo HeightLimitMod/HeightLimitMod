@@ -39,10 +39,17 @@ public class ForgeEventListener {
                     (float) heightOverlayColor.getAlpha() / 255
             );
 
-            if (HeightLimitModConfig.heightOverlayStyle == 1) {
-                renderOutline(x, y, z);
-            } else {
-                renderSolid(x, y, z);
+
+            switch (HeightLimitModConfig.heightOverlayStyle) {
+                case 1:
+                    renderOutline(x, y, z);
+                    break;
+                case 2:
+                    renderX(x, y, z);
+                    break;
+                default:
+                    renderSolid(x, y, z);
+                    break;
             }
 
         }
@@ -128,5 +135,63 @@ public class ForgeEventListener {
         GL11.glEnd();
     }
 
+    public void renderX(double x, double y, double z){
+        // render x on all sides
+
+        // top
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x, y + 1 + 0.01, z + 1);
+        GL11.glVertex3d(x + 1, y + 1 + 0.01, z);
+
+        GL11.glVertex3d(x, y + 1 + 0.01, z);
+        GL11.glVertex3d(x + 1, y + 1 + 0.01, z + 1);
+        GL11.glEnd();
+
+        // bottom
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x, y - 0.01, z);
+        GL11.glVertex3d(x + 1 - 0.01, y, z + 1);
+
+        GL11.glVertex3d(x, y - 0.01, z + 1);
+        GL11.glVertex3d(x + 1 - 0.01, y, z);
+        GL11.glEnd();
+
+        // front
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x, y, z - 0.01);
+        GL11.glVertex3d(x + 1, y + 1, z - 0.01);
+
+        GL11.glVertex3d(x, y + 1, z - 0.01);
+        GL11.glVertex3d(x + 1, y, z - 0.01);
+        GL11.glEnd();
+
+        //  back
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x, y, z + 1 + 0.01);
+        GL11.glVertex3d(x + 1, y + 1, z + 1 + 0.01);
+
+        GL11.glVertex3d(x, y + 1, z + 1 + 0.01);
+        GL11.glVertex3d(x + 1, y, z + 1 + 0.01);
+        GL11.glEnd();
+
+        // left
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x - 0.01, y, z);
+        GL11.glVertex3d(x - 0.01, y + 1, z + 1);
+
+        GL11.glVertex3d(x - 0.01, y + 1, z);
+        GL11.glVertex3d(x - 0.01, y, z + 1);
+        GL11.glEnd();
+
+        // right
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(x + 1 + 0.01, y, z);
+        GL11.glVertex3d(x + 1 + 0.01, y + 1 + 0.01, z + 1);
+
+        GL11.glVertex3d(x + 1 + 0.01, y + 1 + 0.01, z);
+        GL11.glVertex3d(x + 1 + 0.01, y, z + 1);
+        GL11.glEnd();
+
+    }
 
 }
