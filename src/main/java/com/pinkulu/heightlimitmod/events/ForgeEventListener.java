@@ -23,35 +23,42 @@ public class ForgeEventListener {
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         if(!enableHeightOverlay) return;
+        if (placedBlocks.isEmpty()) return;
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         for (BlockPos pos : placedBlocks.keySet()) {
-            double x = pos.getX() - Minecraft.getMinecraft().getRenderManager().viewerPosX;
-            double y = pos.getY() - Minecraft.getMinecraft().getRenderManager().viewerPosY;
-            double z = pos.getZ() - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
+            System.out.println("Rendering block: " + pos.toString() + " " + placedBlocks.get(pos).toString());
+            try {
+                double x = pos.getX() - Minecraft.getMinecraft().getRenderManager().viewerPosX;
+                double y = pos.getY() - Minecraft.getMinecraft().getRenderManager().viewerPosY;
+                double z = pos.getZ() - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
 
-            GL11.glColor4f(
-                    (float) heightOverlayColor.getRed() / 255,
-                    (float) heightOverlayColor.getGreen() / 255,
-                    (float) heightOverlayColor.getBlue() / 255,
-                    (float) heightOverlayColor.getAlpha() / 255
-            );
+                GL11.glColor4f(
+                        (float) heightOverlayColor.getRed() / 255,
+                        (float) heightOverlayColor.getGreen() / 255,
+                        (float) heightOverlayColor.getBlue() / 255,
+                        (float) heightOverlayColor.getAlpha() / 255
+                );
 
 
-            switch (HeightLimitModConfig.heightOverlayStyle) {
-                case 1:
-                    renderOutline(x, y, z);
-                    break;
-                case 2:
-                    renderX(x, y, z);
-                    break;
-                default:
-                    renderSolid(x, y, z);
-                    break;
+                switch (HeightLimitModConfig.heightOverlayStyle) {
+                    case 1:
+                        renderOutline(x, y, z);
+                        break;
+                    case 2:
+                        renderX(x, y, z);
+                        break;
+                    default:
+                        renderSolid(x, y, z);
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error rendering block");
+                e.printStackTrace();
+                placedBlocks.remove(pos);
             }
-
         }
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -83,7 +90,6 @@ public class ForgeEventListener {
         GL11.glVertex3d(x + 1, y + 1, z - 0.01);
         GL11.glVertex3d(x + 1, y, z - 0.01);
         GL11.glEnd();
-
 
         //  back
         GL11.glBegin(GL11.GL_QUADS);
