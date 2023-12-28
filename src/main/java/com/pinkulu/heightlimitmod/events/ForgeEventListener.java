@@ -1,14 +1,9 @@
 package com.pinkulu.heightlimitmod.events;
 
-import cc.polyfrost.oneconfig.utils.hypixel.HypixelUtils;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
-import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 

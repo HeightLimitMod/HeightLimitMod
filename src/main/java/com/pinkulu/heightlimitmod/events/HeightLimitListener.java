@@ -10,15 +10,11 @@ import com.pinkulu.heightlimitmod.HeightLimitMod;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import com.pinkulu.heightlimitmod.utils.APICaller;
 import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraftforge.event.world.WorldEvent;
 
 import static com.pinkulu.heightlimitmod.events.ForgeEventListener.placedBlocks;
-import static java.lang.Double.parseDouble;
 
 public class HeightLimitListener {
     public static boolean shouldPlaySound;

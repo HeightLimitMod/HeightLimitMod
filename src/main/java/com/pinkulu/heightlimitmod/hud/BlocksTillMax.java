@@ -1,8 +1,6 @@
 package com.pinkulu.heightlimitmod.hud;
 
 import cc.polyfrost.oneconfig.hud.SingleTextHud;
-import cc.polyfrost.oneconfig.utils.hypixel.LocrawUtil;
-import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import com.pinkulu.heightlimitmod.events.HeightLimitListener;
 import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
 import net.minecraft.client.Minecraft;
