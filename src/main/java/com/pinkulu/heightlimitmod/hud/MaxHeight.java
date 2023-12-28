@@ -18,14 +18,12 @@ public class MaxHeight extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
-        if(HeightLimitModConfig.dynamicLimit){
-            return HeightLimitUtil.shouldRender() ? String.valueOf((int) Math.ceil(HeightLimitUtil.heightLimit(
-                    Math.floor(Minecraft.getMinecraft().thePlayer.posX),
-                    Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
-                    HeightLimitUtil.getBuildRadius()
-            ) - Minecraft.getMinecraft().thePlayer.posY)) : notSupportedText;
-        }
-        return HeightLimitUtil.shouldRender() ? String.valueOf(HeightLimitUtil.getLimit()) : notSupportedText;
+        return HeightLimitUtil.shouldRender() ? String.valueOf((int) Math.ceil(HeightLimitUtil.heightLimit(
+                Math.floor(Minecraft.getMinecraft().thePlayer.posX),
+                Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
+                HeightLimitUtil.getBuildRadius()
+        ) - Minecraft.getMinecraft().thePlayer.posY)) : notSupportedText;
+
     }
 
     @Override

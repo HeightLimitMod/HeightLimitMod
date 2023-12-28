@@ -18,14 +18,11 @@ public class BlocksTillMax extends SingleTextHud {
 
     @Override
     protected String getText(boolean example) {
-        if(HeightLimitModConfig.dynamicLimit){
-            return HeightLimitUtil.shouldRender() ? String.valueOf((int) Math.ceil(HeightLimitUtil.heightLimit(
-                    Math.floor(Minecraft.getMinecraft().thePlayer.posX),
-                    Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
-                    HeightLimitUtil.getBuildRadius()
-            ))) : notSupportedText;
-        }
-        return HeightLimitUtil.shouldRender() && LocrawUtil.INSTANCE.getLocrawInfo() != null ? String.valueOf(HeightLimitUtil.getLimit() - HeightLimitUtil.getPlayerY()) : notSupportedText;
+       return HeightLimitUtil.shouldRender() ? String.valueOf((int) Math.ceil(HeightLimitUtil.heightLimit(
+               Math.floor(Minecraft.getMinecraft().thePlayer.posX),
+               Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
+               HeightLimitUtil.getBuildRadius()
+       ))) : notSupportedText;
     }
 
     @Override

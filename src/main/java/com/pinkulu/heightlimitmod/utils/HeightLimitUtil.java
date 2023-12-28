@@ -6,6 +6,8 @@ import cc.polyfrost.oneconfig.utils.hypixel.LocrawInfo;
 import cc.polyfrost.oneconfig.utils.hypixel.LocrawUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
+import com.pinkulu.heightlimitmod.events.ForgeEventListener;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,6 +27,7 @@ public class HeightLimitUtil {
         if (StringUtils.isBlank(mapName)) return false;
         if (!Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"")) {
             getMapInfo(mapName, location.getGameType().toString());
+            ForgeEventListener.placedBlocks.clear();
         }
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"");
     }
@@ -123,7 +126,7 @@ public class HeightLimitUtil {
 
 
     public static double heightLimit(double x, double z, double radius) {
-        if(getMapType().toLowerCase().contains("skywars") || getBuildRadius() == -1 || getLimit() == 0)
+        if(getMapType().toLowerCase().contains("skywars") || getBuildRadius() == -1 || getLimit() == 0 || !HeightLimitModConfig.dynamicLimit)
         {
             return getLimit();
         }
