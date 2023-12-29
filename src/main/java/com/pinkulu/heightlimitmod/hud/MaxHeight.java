@@ -21,7 +21,7 @@ public class MaxHeight extends SingleTextHud {
                 Math.floor(Minecraft.getMinecraft().thePlayer.posX),
                 Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
                 HeightLimitUtil.getBuildRadius()
-        ) - Minecraft.getMinecraft().thePlayer.posY)) : notSupportedText;
+        ))) : notSupportedText;
 
     }
 

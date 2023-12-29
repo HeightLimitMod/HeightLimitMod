@@ -1,10 +1,12 @@
 package com.pinkulu.heightlimitmod.events;
 
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
+import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -14,17 +16,19 @@ import static com.pinkulu.heightlimitmod.config.HeightLimitModConfig.enableHeigh
 import static com.pinkulu.heightlimitmod.config.HeightLimitModConfig.heightOverlayColor;
 
 public class ForgeEventListener {
-    public static Map<BlockPos, Boolean> placedBlocks = new HashMap<>();
+    public static BlockPos[] placedBlocks = new BlockPos[0];
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
         if(!enableHeightOverlay) return;
-        if (placedBlocks.isEmpty()) return;
+        if (placedBlocks == null) return;
+        if (placedBlocks.length == 0) return;
+        if(!HeightLimitUtil.shouldRender()) return;
+
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        for (BlockPos pos : placedBlocks.keySet()) {
-            System.out.println("Rendering block: " + pos.toString() + " " + placedBlocks.get(pos).toString());
+        for (BlockPos pos : placedBlocks) {
             try {
                 double x = pos.getX() - Minecraft.getMinecraft().getRenderManager().viewerPosX;
                 double y = pos.getY() - Minecraft.getMinecraft().getRenderManager().viewerPosY;
@@ -52,7 +56,7 @@ public class ForgeEventListener {
             } catch (Exception e) {
                 System.out.println("Error rendering block");
                 e.printStackTrace();
-                placedBlocks.remove(pos);
+                placedBlocks = ArrayUtils.removeElement(placedBlocks, pos);
             }
         }
         GL11.glEnable(GL11.GL_DEPTH_TEST);

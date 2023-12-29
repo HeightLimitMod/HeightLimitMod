@@ -12,7 +12,9 @@ import com.pinkulu.heightlimitmod.utils.APICaller;
 import com.pinkulu.heightlimitmod.utils.HeightLimitUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.server.S23PacketBlockChange;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.event.world.WorldEvent;
+import org.apache.commons.lang3.ArrayUtils;
 
 import static com.pinkulu.heightlimitmod.events.ForgeEventListener.placedBlocks;
 
@@ -77,7 +79,7 @@ public class HeightLimitListener {
 
     @Subscribe
     private void onWorldLoad(WorldEvent.Load event) {
-        ForgeEventListener.placedBlocks.clear();
+        ForgeEventListener.placedBlocks = new BlockPos[0];
         if (joinedOnce) return;
         joinedOnce = true;
         if (HeightLimitUtil.shouldUpdate(APICaller.latest_version, HeightLimitMod.VERSION))
@@ -90,7 +92,7 @@ public class HeightLimitListener {
             S23PacketBlockChange packetBlockChange = (S23PacketBlockChange) event.packet;
              if (!HeightLimitUtil.shouldRender()) return;
             if (!packetBlockChange.getBlockState().getBlock().getLocalizedName().toLowerCase().contains("wool")) {
-                placedBlocks.remove(packetBlockChange.getBlockPosition());
+                ForgeEventListener.placedBlocks = ArrayUtils.removeElement(ForgeEventListener.placedBlocks, packetBlockChange.getBlockPosition());
                 return;
             }
 
@@ -100,7 +102,15 @@ public class HeightLimitListener {
                     HeightLimitUtil.getBuildRadius()
             ) - 1) > packetBlockChange.getBlockPosition().getY()) return;
 
-            placedBlocks.put(packetBlockChange.getBlockPosition(), true);
+            for (BlockPos pos : ForgeEventListener.placedBlocks) {
+                if (pos.getX() == packetBlockChange.getBlockPosition().getX() &&
+                        pos.getY() == packetBlockChange.getBlockPosition().getY() &&
+                        pos.getZ() == packetBlockChange.getBlockPosition().getZ()) {
+                    return;
+                }
+            }
+
+            ForgeEventListener.placedBlocks = ArrayUtils.add(ForgeEventListener.placedBlocks, packetBlockChange.getBlockPosition());
         }
     }
 

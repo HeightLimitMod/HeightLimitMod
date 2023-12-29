@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.pinkulu.heightlimitmod.config.HeightLimitModConfig;
 import com.pinkulu.heightlimitmod.events.ForgeEventListener;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.BlockPos;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class HeightLimitUtil {
         if (StringUtils.isBlank(mapName)) return false;
         if (!Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"")) {
             getMapInfo(mapName, location.getGameType().toString());
-            ForgeEventListener.placedBlocks.clear();
+            ForgeEventListener.placedBlocks = new BlockPos[0];
         }
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"");
     }
