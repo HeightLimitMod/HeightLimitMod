@@ -20,7 +20,6 @@ import static com.pinkulu.heightlimitmod.events.ForgeEventListener.placedBlocks;
 
 public class HeightLimitListener {
     public static boolean shouldPlaySound;
-    public static int limit = 0;
     public static boolean editingHUD = false;
     public static boolean joinedOnce = false;
 
@@ -79,7 +78,6 @@ public class HeightLimitListener {
 
     @Subscribe
     private void onWorldLoad(WorldEvent.Load event) {
-        ForgeEventListener.placedBlocks = new BlockPos[0];
         if (joinedOnce) return;
         joinedOnce = true;
         if (HeightLimitUtil.shouldUpdate(APICaller.latest_version, HeightLimitMod.VERSION))
@@ -112,13 +110,22 @@ public class HeightLimitListener {
 
             ForgeEventListener.placedBlocks = ArrayUtils.add(ForgeEventListener.placedBlocks, packetBlockChange.getBlockPosition());
         }
-    }
+        if (event.packet.toString().contains("S01PacketJoinGame")) {
+            ForgeEventListener.placedBlocks = new BlockPos[0];
+        }
+
+        }
 
     @Subscribe
     private void onTick(TickEvent event) {
         if (event.stage == Stage.START) {
-            if (limit == 0) return;
             if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) return;
+            if(!HeightLimitUtil.shouldRender()) return;
+            int limit = (int) Math.ceil(HeightLimitUtil.heightLimit(
+                    Math.floor(Minecraft.getMinecraft().thePlayer.posX),
+                    Math.floor(Minecraft.getMinecraft().thePlayer.posZ),
+                    HeightLimitUtil.getBuildRadius()
+            ));
             if (HeightLimitModConfig.shouldPlaySound &&
                     (limit - Minecraft.getMinecraft().thePlayer.getPosition().getY())
                             == HeightLimitModConfig.blocksWhenPlay && shouldPlaySound) {

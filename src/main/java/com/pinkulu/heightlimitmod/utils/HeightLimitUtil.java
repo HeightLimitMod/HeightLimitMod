@@ -28,7 +28,6 @@ public class HeightLimitUtil {
         if (StringUtils.isBlank(mapName)) return false;
         if (!Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"")) {
             getMapInfo(mapName, location.getGameType().toString());
-            ForgeEventListener.placedBlocks = new BlockPos[0];
         }
         return Objects.equals(mapCache.get("name").toString(), "\"" + mapName + "\"");
     }

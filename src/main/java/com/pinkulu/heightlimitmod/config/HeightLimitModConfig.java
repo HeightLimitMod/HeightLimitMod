@@ -135,14 +135,6 @@ public class HeightLimitModConfig extends Config {
     )
     Runnable discord = () -> UDesktop.browse(URI.create("https://inv.wtf/pink"));
 
-    @Button(
-            name = "Block Height Overlay (Hytils Reborn by Polyfrost)",
-            text = "Click Here",
-            category = "Information"
-    )
-    Runnable hytils_reborn = () ->
-            UDesktop.browse(URI.create("https://github.com/Polyfrost/Hytils-Reborn/releases/"));
-
 
     @Button(
             name = "Sound List",
